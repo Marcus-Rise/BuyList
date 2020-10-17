@@ -3,7 +3,6 @@ import { ProductListItem } from "./product-list-item.component";
 import { IProductList } from "./product-list.interface";
 import { FaPlus } from "react-icons/fa";
 import styles from "./product-list.module.scss";
-import { IconContext } from "react-icons";
 import { IProduct } from "../product/product.interface";
 
 interface IProps extends IProductList {
@@ -26,12 +25,10 @@ export const ProductList: React.FC<IProps> = (props) => {
         <div className="row">
           <div className="col">{props.title}</div>
           <div className="col-auto">
-            <IconContext.Provider value={{ size: "1rem" }}>
-              <button type="button" className={"btn btn-primary"}>
-                <span className={"mr-3 " + styles.buttonAddLabel}>Добавить продукт</span>
-                <FaPlus />
-              </button>
-            </IconContext.Provider>
+            <button type="button" className={"btn btn-primary"}>
+              <span className={"mr-3 " + styles.buttonAddLabel}>Добавить продукт</span>
+              <FaPlus />
+            </button>
           </div>
         </div>
       </h3>
