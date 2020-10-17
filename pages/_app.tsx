@@ -1,7 +1,7 @@
 import "./globals.scss";
 import React from "react";
-import { Header } from "../components/header.component";
-import { AppProvider } from "../store";
+import { Header } from "../src/components/header.component";
+import { AppProvider } from "../src/store";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

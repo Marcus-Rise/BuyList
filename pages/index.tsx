@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { ProductList } from "../product-list/product-list.component";
-import { IProductList } from "../product-list/product-list.interface";
-import { IProduct } from "../product/product.interface";
-import { useInject } from "../ioc/use-inject.decorator";
-import { IProductListService, PRODUCT_LIST_SERVICE_PROVIDER } from "../product-list/product-list.service-interface";
+import { ProductList } from "../src/product-list/product-list.component";
+import { IProductList } from "../src/product-list/product-list.interface";
+import { IProduct } from "../src/product/product.interface";
+import { useInject } from "../src/ioc/use-inject.decorator";
+import { IProductListService, PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
 
 const Home: React.FC = () => {
   const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
