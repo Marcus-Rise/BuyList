@@ -1,0 +1,21 @@
+@use "~bootstrap/scss/bootstrap" as * with (
+  $primary: #445768,
+  $secondary: #6c757d,
+);
+
+#__next {
+  height: 100% !important;
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: var(--light);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--dark);
+    color: var(--light);
+  }
+}
