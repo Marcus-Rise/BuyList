@@ -3,6 +3,7 @@ import { IProduct } from "../product/product.interface";
 import styles from "./product-list-item.module.scss";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { ColorEnum } from "../bootstrap/types";
+import { FaCheck } from "react-icons/fa";
 
 interface IProps extends IProduct {
   onToggle: () => void;
@@ -28,28 +29,28 @@ export const ProductListItem: React.FC<IProps> = (props) => {
     return res;
   }, [props.priority]);
 
-  const key: string = props.uuid;
-
   return (
     <li className={`list-group-item`}>
-      <div className="d-flex w-100 justify-content-between mb-1">
-        <div className="custom-control custom-checkbox">
-          <input
-            type="checkbox"
-            className="custom-control-input"
-            id={key}
-            checked={!props.active}
-            onChange={props.onToggle}
-          />
-          <label className={`custom-control-label  ${!props.active ? styles.inActive : ""}`} htmlFor={key}>
+      <div className="row">
+        <div className="col">
+          <p className={`mb-0 ${!props.active ? styles.inActive : ""}`}>
             {props.index + 1}. {props.title}
-          </label>
+          </p>
+          <p className="mb-0">
+            <span className="badge badge-primary badge-pill mr-1">&#8381; {props.price}</span>
+            <span className={`badge badge-${getPriorityBadgeClass()} badge-pill`}>{props.priority} приоритет</span>
+          </p>
+        </div>
+        <div className={`col-auto d-flex align-items-center`}>
+          <button
+            type="button"
+            className={`btn btn-sm btn-${props.active ? "outline-primary" : "success"} ${styles.toggleButton}`}
+            onClick={props.onToggle}
+          >
+            <FaCheck style={props.active ? { color: "white" } : {}} />
+          </button>
         </div>
       </div>
-      <p className="mb-1">
-        <span className="badge badge-primary badge-pill mr-1">&#8381; {props.price}</span>
-        <span className={`badge badge-${getPriorityBadgeClass()} badge-pill`}>{props.priority} приоритет</span>
-      </p>
     </li>
   );
 };
