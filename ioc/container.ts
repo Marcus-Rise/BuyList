@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Container } from "inversify";
 import { IProductListService, PRODUCT_LIST_SERVICE_PROVIDER } from "../product-list/product-list.service-interface";
 import { ProductListService } from "../product-list/product-list.service";
