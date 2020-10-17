@@ -1,39 +1,33 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProductList } from "../product-list/product-list.component";
 import { IProductList } from "../product-list/product-list.interface";
 import { IProduct } from "../product/product.interface";
+import { useInject } from "../ioc/use-inject.decorator";
+import { IProductListService, PRODUCT_LIST_SERVICE_PROVIDER } from "../product-list/product-list.service-interface";
 
 const Home: React.FC = () => {
-  const [list, setList] = useState<IProductList>({
-    title: "test",
-    items: [
-      {
-        title: "test",
-        active: false,
-      },
-      {
-        title: "test2",
-        active: true,
-      },
-    ],
-  });
+  const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
+  const [list, setList] = useState<IProductList | null>(null);
 
-  const onItemsChange = useCallback(
-    (items: IProduct[]): void => {
+  useEffect(() => {
+    service.getLatest().then((data) => {
+      setList(data);
+    });
+  }, []);
+
+  const onItemsChange = (items: IProduct[]): void => {
+    if (list) {
       setList({
         ...list,
         items,
       });
-    },
-    [list],
-  );
+    }
+  };
 
   return (
     <div className="container pt-3">
       <div className="row align-items-center">
-        <div className="col">
-          <ProductList {...list} onItemsChange={onItemsChange} />
-        </div>
+        <div className="col">{list && <ProductList {...list} onItemsChange={onItemsChange} />}</div>
       </div>
     </div>
   );

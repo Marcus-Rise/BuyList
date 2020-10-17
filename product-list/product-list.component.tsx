@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { ProductListItem } from "./product-list-item.component";
 import { IProductList } from "./product-list.interface";
 import { FaPlus } from "react-icons/fa";
@@ -11,20 +11,14 @@ interface IProps extends IProductList {
 }
 
 export const ProductList: React.FC<IProps> = (props) => {
-  const onItemToggle = useCallback(
-    (item: IProduct): void => {
-      const newArr: IProduct[] = [
-        ...props.items.filter((i) => i.title !== item.title),
-        {
-          ...item,
-          active: !item.active,
-        },
-      ];
+  const onItemToggle = (item: IProduct): void => {
+    const newArr: IProduct[] = [...props.items];
+    const index = props.items.findIndex((i) => i.uuid === item.uuid);
 
-      props.onItemsChange(newArr);
-    },
-    [props.items],
-  );
+    newArr[index].active = !item.active;
+
+    props.onItemsChange(newArr);
+  };
 
   return (
     <div className="card">
@@ -43,8 +37,8 @@ export const ProductList: React.FC<IProps> = (props) => {
       </h3>
       <div className="card-body">
         <ul className="list-group">
-          {props.items.map((i) => (
-            <ProductListItem key={i.title} {...i} onToggle={() => onItemToggle(i)} />
+          {props.items.map((i, index) => (
+            <ProductListItem key={i.uuid} {...i} index={index} onToggle={() => onItemToggle(i)} />
           ))}
         </ul>
       </div>
