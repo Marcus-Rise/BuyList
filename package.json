@@ -1,5 +1,6 @@
 {
   "name": "buylist",
+  "homepage": "https://buylist.marcus-rise.dev/",
   "version": "0.1.0",
   "private": true,
   "scripts": {
