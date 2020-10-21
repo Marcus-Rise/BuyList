@@ -11,10 +11,10 @@ export const BudgetCalculateForm: React.FC<IProps> = (props) => {
   const [value, setValue] = useState<number | undefined>(props.value);
 
   const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
     const number = Number(value);
 
     if (number > 0) {
-      e.preventDefault();
       props.onSubmit(number);
     }
   };
