@@ -1,8 +1,16 @@
 @use "../styles/variables";
+@use "../styles/typography";
 
 .button {
+  @include typography.light;
+
   border-radius: 100px;
   border: none;
+  padding: 1rem;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .primary {

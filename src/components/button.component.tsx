@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 import styles from "./button.module.scss";
 
 export enum Colors {
@@ -7,11 +7,12 @@ export enum Colors {
 }
 
 interface IProps {
-  onClick: () => void;
+  onClick?: () => void;
   color?: Colors;
   rounded?: boolean;
   className?: string;
   size?: string | number;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
 
 export const Button: React.FC<IProps> = (props) => {
@@ -30,7 +31,12 @@ export const Button: React.FC<IProps> = (props) => {
   }
 
   return (
-    <button className={classList.join(" ")} onClick={props.onClick} style={{ fontSize: props.size }}>
+    <button
+      type={props.type ?? "button"}
+      className={classList.join(" ")}
+      onClick={props.onClick}
+      style={{ fontSize: props.size }}
+    >
       {props.children}
     </button>
   );
