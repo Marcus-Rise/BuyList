@@ -1,4 +1,36 @@
+.li {
+  border-radius: 100px;
+  padding: 1rem 1.5rem;
+  font-size: 1.3rem;
+}
+
 .inActive {
   text-decoration: line-through;
   color: var(--secondary);
+}
+
+.danger {
+  background-color: var(--danger);
+}
+
+.secondary {
+  background-color: var(--secondary);
+}
+
+.primary {
+  background-color: var(--primary);
+}
+
+.price {
+  font-weight: 300;
+}
+
+.priceCount {
+  font-weight: 500;
+}
+
+.toggleButton {
+  border-radius: 100%;
+  background-color: white;
+  color: var(--accent);
 }

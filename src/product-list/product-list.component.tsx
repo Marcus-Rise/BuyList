@@ -21,7 +21,7 @@ export const ProductList: React.FC<IProps> = (props) => {
   return (
     <ul className={styles.ul}>
       {props.items.map((i, index) => (
-        <ProductListItem key={i.uuid} {...i} index={index} onToggle={() => onItemToggle(i)} />
+        <ProductListItem className="mb-4" key={i.uuid} {...i} index={index} onToggle={() => onItemToggle(i)} />
       ))}
     </ul>
   );
