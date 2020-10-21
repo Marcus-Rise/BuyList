@@ -7,14 +7,12 @@ export const Header: React.FC = () => {
   const title = "BuyList";
 
   return (
-    <header className={["py-3 px-2", styles.header].join(" ")}>
+    <header className={["py-3 px-1", styles.header].join(" ")}>
       <div className="container">
         <div className="row justify-content-between align-items-center">
-          <div className="col d-flex align-items-center justify-content-start">
-            <div className={`${styles.logo} d-inline-flex justify-content-center align-items-center mr-2`}>
-              <img src={logo} alt={title} />
-            </div>
-            <a className={styles.link} href={"/"}>
+          <div className="col">
+            <a className={`${styles.link} d-flex align-items-center justify-content-start`} href={"/"}>
+              <img className={`${styles.logo} mr-2`} src={logo} alt={title} />
               <h1 className={styles.title}>{title}</h1>
             </a>
           </div>
