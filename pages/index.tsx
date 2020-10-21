@@ -5,8 +5,8 @@ import { useInject } from "../src/ioc/use-inject.decorator";
 import { IProductListService, PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
 import { Button, Colors } from "../src/components/button.component";
 import { BsPlus } from "react-icons/bs";
-import { ProductListItem } from "../src/product-list/product-list-item.component";
 import { BudgetCalculateForm } from "../src/budget/budget-calculate-form.component";
+import { ProductList } from "../src/product-list/product-list.component";
 
 const Home: React.FC = () => {
   const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
@@ -24,17 +24,6 @@ const Home: React.FC = () => {
         ...list,
         items,
       });
-    }
-  };
-
-  const onItemToggle = (item: IProduct): void => {
-    if (list) {
-      const newArr: IProduct[] = [...list.items];
-      const index = list.items.findIndex((i) => i.uuid === item.uuid);
-
-      newArr[index].active = !item.active;
-
-      onItemsChange(newArr);
     }
   };
 
@@ -56,15 +45,7 @@ const Home: React.FC = () => {
             <BudgetCalculateForm onSubmit={onCalculationRequire} />
           </div>
           <div className="col">
-            <div className="row">
-              <div className="card-body">
-                <ul className="list-group">
-                  {list.items.map((i, index) => (
-                    <ProductListItem key={i.uuid} {...i} index={index} onToggle={() => onItemToggle(i)} />
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <ProductList {...list} onItemsChange={onItemsChange} />
           </div>
         </div>
       </div>
