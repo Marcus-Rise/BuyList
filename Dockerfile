@@ -29,6 +29,10 @@ COPY --from=build /app/out /app
 
 EXPOSE 80
 
+FROM nginx AS web-dev
+
+EXPOSE 80
+
 FROM scratch AS artifacts
 
 COPY --from=build /app/out /

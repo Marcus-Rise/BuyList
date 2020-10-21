@@ -1,9 +1,20 @@
 version: "3.4"
 
 services:
+  client:
+    build:
+      context: .
+      target: "dev"
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+
   web:
     build:
       context: .
-      target: "web"
+      target: "web-dev"
     ports:
-    - 8080:80
+      - 8080:80
+    volumes:
+      - ./dev.conf:/etc/nginx/conf.d/default.conf:ro
