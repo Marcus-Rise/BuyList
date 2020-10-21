@@ -7,7 +7,7 @@ export enum ButtonColors {
 }
 
 interface IProps {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   color?: ButtonColors;
   rounded?: boolean;
   className?: string;
