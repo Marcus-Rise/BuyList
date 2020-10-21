@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from "react";
 import { InputNumber } from "../components/input-number.component";
-import { Button, Colors } from "../components/button.component";
+import { Button, ButtonColors } from "../components/button.component";
 
 interface IProps {
   value?: number;
@@ -26,7 +26,7 @@ export const BudgetCalculateForm: React.FC<IProps> = (props) => {
           <InputNumber val={props.value} label={"Сумма бюджета"} size={"1.1rem"} onChange={setValue} />
         </div>
         <div className="col-auto">
-          <Button type={"submit"} color={Colors.accent} size={"1.1rem"}>
+          <Button type={"submit"} color={ButtonColors.accent} size={"1.1rem"}>
             Посчитать
           </Button>
         </div>

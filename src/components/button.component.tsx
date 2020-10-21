@@ -1,14 +1,14 @@
 import React, { ButtonHTMLAttributes } from "react";
 import styles from "./button.module.scss";
 
-export enum Colors {
+export enum ButtonColors {
   primary,
   accent,
 }
 
 interface IProps {
   onClick?: () => void;
-  color?: Colors;
+  color?: ButtonColors;
   rounded?: boolean;
   className?: string;
   size?: string | number;
@@ -19,10 +19,10 @@ export const Button: React.FC<IProps> = (props) => {
   const classList: string[] = [props.className ?? "", styles.button];
 
   switch (props.color) {
-    case Colors.primary:
+    case ButtonColors.primary:
       classList.push(styles.primary);
       break;
-    case Colors.accent:
+    case ButtonColors.accent:
       classList.push(styles.accent);
   }
 
