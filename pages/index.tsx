@@ -26,7 +26,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="container pt-3">
-      <div className="row align-items-center">
+      <div className="row">
         <div className="col">{list && <ProductList {...list} onItemsChange={onItemsChange} />}</div>
       </div>
     </div>

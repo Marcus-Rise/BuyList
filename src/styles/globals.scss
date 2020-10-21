@@ -1,9 +1,10 @@
 @use "~bootstrap/scss/bootstrap-grid" as * with (
-  $primary: #63809a,
-  $secondary: #6c757d,
+$primary: #63809a,
+$secondary: #6c757d,
 );
 @use "./typography";
 @use "./variables";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
 
 :root {
   --primary: #{variables.$primary};
@@ -13,7 +14,7 @@
 }
 
 html, body {
-  @include typography.regular();
+  @include typography.font-family;
 }
 
 body {

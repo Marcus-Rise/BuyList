@@ -20,7 +20,10 @@ export const ProductList: React.FC<IProps> = (props) => {
   };
 
   return (
-    <div className="card">
+    <div className="row">
+      <div className="col-12">
+        <h2 className={styles.title}>{props.title}</h2>
+      </div>
       <h3 className="card-header">
         <div className="row">
           <div className="col">{props.title}</div>
