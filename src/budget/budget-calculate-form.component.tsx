@@ -22,7 +22,7 @@ export const BudgetCalculateForm: React.FC<IProps> = (props) => {
   return (
     <form onSubmit={onSubmit}>
       <div className="row justify-content-between align-items-center">
-        <div className="col-6">
+        <div className="col-7">
           <InputNumber
             val={props.value}
             label={"Сумма бюджета"}
