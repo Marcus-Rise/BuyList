@@ -31,7 +31,7 @@ export class ProductListService implements IProductListService {
     }));
 
     return {
-      title: faker.commerce.department(),
+      title: "Ваш первый список",
       items,
     };
   }
