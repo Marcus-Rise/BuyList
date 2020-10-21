@@ -7,6 +7,7 @@ import { Button } from "../components/button.component";
 
 interface IProps extends IProduct {
   onToggle: () => void;
+  onClick?: () => void;
   index: number;
   className?: string;
 }
@@ -26,8 +27,14 @@ export const ProductListItem: React.FC<IProps> = (props) => {
       break;
   }
 
+  const onToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+
+    props.onToggle();
+  };
+
   return (
-    <li className={classList.join(" ")}>
+    <li className={classList.join(" ")} onClick={props.onClick}>
       <p className={`m-0 ${!props.active ? styles.inActive : ""}`}>
         {props.index + 1}. {props.title}
       </p>
@@ -40,7 +47,7 @@ export const ProductListItem: React.FC<IProps> = (props) => {
           size={"1.5rem"}
           styles={{ padding: "10px" }}
           rounded
-          onClick={props.onToggle}
+          onClick={onToggle}
         >
           <FaCheck style={props.active ? { color: "white" } : {}} />
         </Button>
