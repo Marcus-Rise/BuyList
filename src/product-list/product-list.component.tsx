@@ -1,9 +1,10 @@
 import React from "react";
 import { ProductListItem } from "./product-list-item.component";
 import { IProductList } from "./product-list.interface";
-import { FaPlus } from "react-icons/fa";
 import styles from "./product-list.module.scss";
 import { IProduct } from "../product/product.interface";
+import { Button, Colors } from "../components/button.component";
+import { BsPlus } from "react-icons/bs";
 
 interface IProps extends IProductList {
   onItemsChange: (items: IProduct[]) => void;
@@ -21,20 +22,13 @@ export const ProductList: React.FC<IProps> = (props) => {
 
   return (
     <div className="row">
-      <div className="col-12">
+      <div className="col-12 d-flex align-items-center justify-content-center">
         <h2 className={styles.title}>{props.title}</h2>
+        <Button className="ml-3 p-2" rounded color={Colors.accent} onClick={() => undefined}>
+          <BsPlus size={"2rem"} />
+        </Button>
       </div>
-      <h3 className="card-header">
-        <div className="row">
-          <div className="col">{props.title}</div>
-          <div className="col-auto">
-            <button type="button" className={"btn btn-primary"}>
-              <span className={"mr-3 " + styles.buttonAddLabel}>Добавить продукт</span>
-              <FaPlus />
-            </button>
-          </div>
-        </div>
-      </h3>
+
       <div className="card-body">
         <ul className="list-group">
           {props.items.map((i, index) => (

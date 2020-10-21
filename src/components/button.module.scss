@@ -1,0 +1,23 @@
+@use "../styles/variables";
+
+.button {
+  border-radius: 100px;
+  border: none;
+}
+
+.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.accent {
+  background-color: var(--accent);
+  color: white;
+}
+
+.rounded {
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
