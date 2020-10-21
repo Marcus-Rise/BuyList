@@ -1,6 +1,17 @@
+@use "../styles/typography";
+
 .header {
   background-color: var(--primary);
-  color: white;
+  color: #474747;
+}
+
+.logo {
+  border-radius: 100%;
+  background-color: var(--accent);
+  padding: 8px;
+  box-sizing: content-box;
+  width: 1rem;
+  height: 1rem;
 }
 
 .link {
@@ -9,7 +20,9 @@
 }
 
 .title {
-  font-size: 1.2em;
+  @include typography.black;
+
+  font-size: 1.1em;
   margin: 0;
   display: inline;
 
