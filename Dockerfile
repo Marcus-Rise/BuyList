@@ -22,6 +22,13 @@ RUN npm run build
 RUN npm run export
 RUN find out -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
 
+FROM nginx AS web
+
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/out /app
+
+EXPOSE 80
+
 FROM scratch AS artifacts
 
 COPY --from=build /app/out /
