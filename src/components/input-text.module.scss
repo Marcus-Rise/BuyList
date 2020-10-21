@@ -1,0 +1,16 @@
+@use "../styles/typography";
+
+.input {
+  @include typography.light;
+
+  border-radius: 100px;
+
+  border: 2px solid var(--accent);
+  padding: 1rem;
+  box-sizing: border-box;
+  max-width: 100%;
+
+  &:focus{
+    outline: none;
+  }
+}
