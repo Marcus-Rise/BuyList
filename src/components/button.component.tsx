@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes, CSSProperties } from "react";
 import styles from "./button.module.scss";
 
 export enum ButtonColors {
@@ -13,6 +13,7 @@ interface IProps {
   className?: string;
   size?: string | number;
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  styles?: CSSProperties;
 }
 
 export const Button: React.FC<IProps> = (props) => {
@@ -35,7 +36,7 @@ export const Button: React.FC<IProps> = (props) => {
       type={props.type ?? "button"}
       className={classList.join(" ")}
       onClick={props.onClick}
-      style={{ fontSize: props.size }}
+      style={{ ...props.styles, fontSize: props.size }}
     >
       {props.children}
     </button>

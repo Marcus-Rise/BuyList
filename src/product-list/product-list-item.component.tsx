@@ -35,7 +35,13 @@ export const ProductListItem: React.FC<IProps> = (props) => {
         <p className={`${styles.price} my-0`}>
           &#8381; <span className={`${styles.priceCount} mr-3`}>{props.price}</span>
         </p>
-        <Button className={`${styles.toggleButton}`} size={"1.2rem"} rounded onClick={props.onToggle}>
+        <Button
+          className={`${styles.toggleButton}`}
+          size={"1.5rem"}
+          styles={{ padding: "10px" }}
+          rounded
+          onClick={props.onToggle}
+        >
           <FaCheck style={props.active ? { color: "white" } : {}} />
         </Button>
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import styles from "./input-number.module.scss";
 
 interface IProps {
@@ -6,6 +6,7 @@ interface IProps {
   val?: number;
   label: string;
   size?: string | number;
+  style?: CSSProperties;
 }
 
 export const InputNumber: React.FC<IProps> = (props) => {
@@ -16,7 +17,7 @@ export const InputNumber: React.FC<IProps> = (props) => {
       value={props.val}
       onChange={(e) => props.onChange(Number(e.target.value))}
       placeholder={props.label}
-      style={{ fontSize: props.size }}
+      style={{ ...props.style, fontSize: props.size }}
     />
   );
 };
