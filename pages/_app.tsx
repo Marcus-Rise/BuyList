@@ -1,7 +1,8 @@
-import "./globals.scss";
+import "../src/styles/globals.scss";
 import React from "react";
 import { Header } from "../src/components/header.component";
 import { AppProvider } from "../src/store";
+import "typeface-montserrat";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

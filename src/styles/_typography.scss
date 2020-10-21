@@ -1,0 +1,29 @@
+@mixin font-family {
+  font-family: Montserrat, sans-serif;
+}
+
+@mixin black {
+  @include font-family;
+
+  font-style: normal;
+  font-weight: 900;
+}
+
+@mixin bold {
+  @include font-family;
+
+  font-weight: 700;
+}
+
+@mixin regular {
+  @include font-family;
+
+  font-weight: 400;
+}
+
+
+@mixin light {
+  @include font-family;
+
+  font-weight: 300;
+}

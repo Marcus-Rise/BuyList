@@ -1,0 +1,38 @@
+@use "~bootstrap/scss/bootstrap-grid" as * with (
+  $primary: #63809a,
+  $secondary: #6c757d,
+);
+@use "./typography";
+@use "./variables";
+
+:root {
+  --primary: #{variables.$primary};
+  --secondary: #{variables.$secondary};
+  --accent: #{variables.$accent};
+  --danger: #{variables.$danger};
+}
+
+html, body {
+  @include typography.regular();
+}
+
+body {
+  margin: 0;
+}
+
+#__next {
+  height: 100% !important;
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: var(--light);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--dark);
+    color: var(--light);
+  }
+}
