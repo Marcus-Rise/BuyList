@@ -8,6 +8,7 @@ interface IProps {
   size?: string | number;
   styles?: CSSProperties;
   required?: boolean;
+  min?: number;
 }
 
 export const InputText: React.FC<IProps> = (props) => {
@@ -22,6 +23,7 @@ export const InputText: React.FC<IProps> = (props) => {
         onChange={(e) => props.onChange(e.target.value)}
         placeholder={props.label}
         required={props.required}
+        minLength={props.min}
       />
     </div>
   );
