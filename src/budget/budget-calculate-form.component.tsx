@@ -31,6 +31,7 @@ export const BudgetCalculateForm: React.FC<IProps> = (props) => {
               textAlign: "center",
             }}
             noLabel
+            required
           />
         </div>
         <div className="col-auto">
