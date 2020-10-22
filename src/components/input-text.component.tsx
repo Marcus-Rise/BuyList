@@ -24,6 +24,7 @@ export const InputText: React.FC<IProps> = (props) => {
         placeholder={props.label}
         required={props.required}
         minLength={props.min}
+        autoComplete={"off"}
       />
     </div>
   );
