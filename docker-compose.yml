@@ -4,7 +4,7 @@ services:
   client:
     build:
       context: .
-      target: "dev"
+      target: dev
     volumes:
       - .:/app
     ports:
@@ -13,7 +13,7 @@ services:
   web:
     build:
       context: .
-      target: "web-dev"
+      target: web-dev
     ports:
       - 8080:80
     volumes:

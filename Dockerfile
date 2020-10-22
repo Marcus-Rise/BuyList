@@ -6,6 +6,10 @@ WORKDIR /app
 
 CMD npm install && npm run dev
 
+FROM nginx AS web-dev
+
+EXPOSE 80
+
 FROM base AS build
 WORKDIR /app
 
@@ -26,10 +30,6 @@ FROM nginx AS web
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/out /app
-
-EXPOSE 80
-
-FROM nginx AS web-dev
 
 EXPOSE 80
 
