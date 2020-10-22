@@ -40,7 +40,7 @@ export const ProductListItem: React.FC<IProps> = (props) => {
       </p>
       <div className="d-flex align-items-center justify-content-end">
         <p className={`${styles.price} my-0`}>
-          &#8381; <span className={`${styles.priceCount} mr-3`}>{props.price}</span>
+          <span className={`${styles.priceCount} mr-3`}>{props.price} &#8381;</span>
         </p>
         <Button className={`${styles.toggleButton}`} styles={{ padding: "10px" }} rounded onClick={onToggle}>
           <FaCheck style={props.active ? { color: "white" } : {}} />
