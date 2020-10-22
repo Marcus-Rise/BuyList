@@ -4,6 +4,7 @@ import styles from "./button.module.scss";
 export enum ButtonColors {
   primary,
   accent,
+  danger,
 }
 
 interface IProps {
@@ -25,6 +26,10 @@ export const Button: React.FC<IProps> = (props) => {
       break;
     case ButtonColors.accent:
       classList.push(styles.accent);
+      break;
+    case ButtonColors.danger:
+      classList.push(styles.danger);
+      break;
   }
 
   if (props.rounded) {

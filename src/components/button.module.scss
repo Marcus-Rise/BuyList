@@ -23,6 +23,11 @@
   color: white;
 }
 
+.danger {
+  background-color: var(--danger);
+  color: white;
+}
+
 .rounded {
   border-radius: 100%;
   display: flex;
