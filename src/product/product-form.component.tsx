@@ -4,6 +4,7 @@ import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
 import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
+import { Select, SelectOption } from "../components/select.component";
 
 interface IProps extends Partial<IProduct> {
   onSubmit: (val: Partial<IProduct>) => void;
@@ -12,12 +13,19 @@ interface IProps extends Partial<IProduct> {
 export const ProductForm: React.FC<IProps> = (props) => {
   const [title, setTitle] = useState<string | undefined>(props.title);
   const [price, setPrice] = useState<number | undefined>(props.price);
-  const [priority] = useState<ProductPriorityEnum | undefined>(props.priority);
+  const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
+
+  const priorityVariants: SelectOption<string>[] = Object.values(ProductPriorityEnum).map((i) => ({
+    title: i,
+    val: i,
+  }));
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    props.onSubmit({ uuid: props.uuid, active: props.active, title, priority, price });
+    if (title && Number(price) > 0) {
+      props.onSubmit({ uuid: props.uuid, active: props.active, title, priority, price });
+    }
   };
 
   return (
@@ -28,13 +36,22 @@ export const ProductForm: React.FC<IProps> = (props) => {
       <form onSubmit={onSubmit}>
         <div className="row">
           <div className="col-12 d-flex justify-content-center mb-3">
-            <InputText onChange={setTitle} val={title} label={"Название"} />
+            <InputText onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />
           </div>
           <div className="col-12 d-flex justify-content-center mb-3">
-            <InputNumber onChange={setPrice} label={"Цена"} val={price} />
+            <InputNumber onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
+          </div>
+          <div className="col-12 d-flex justify-content-center mb-3">
+            <Select
+              onChange={setPriority}
+              label={"Приоритет"}
+              val={priority}
+              items={priorityVariants}
+              styles={{ width: "100%" }}
+            />
           </div>
           <div className="col-12 d-flex justify-content-center">
-            <Button type={"submit"} color={ButtonColors.accent}>
+            <Button type={"submit"} color={ButtonColors.accent} styles={{ width: "100%" }}>
               Сохранить
             </Button>
           </div>

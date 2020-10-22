@@ -3,14 +3,26 @@
 .input {
   @include typography.light;
 
-  border-radius: 100px;
+  label {
+    @include typography.regular;
 
-  border: 2px solid var(--accent);
-  padding: 1rem;
-  box-sizing: border-box;
-  max-width: 100%;
+    display: block;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 
-  &:focus{
-    outline: none;
+  input {
+    @include typography.light;
+
+    border-radius: 100px;
+
+    border: 2px solid var(--accent);
+    padding: 1rem;
+    box-sizing: border-box;
+    max-width: 100%;
+
+    &:focus {
+      outline: none;
+    }
   }
 }

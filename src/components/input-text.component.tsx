@@ -6,18 +6,22 @@ interface IProps {
   val?: string;
   label: string;
   size?: string | number;
-  style?: CSSProperties;
+  styles?: CSSProperties;
 }
 
 export const InputText: React.FC<IProps> = (props) => {
   return (
-    <input
-      className={styles.input}
-      type="text"
-      value={props.val}
-      onChange={(e) => props.onChange(e.target.value)}
-      placeholder={props.label}
-      style={{ ...props.style, fontSize: props.size }}
-    />
+    <div className={styles.input}>
+      <label htmlFor={props.label}>{props.label}</label>
+      <input
+        id={props.label}
+        className={styles.input}
+        type="text"
+        value={props.val}
+        onChange={(e) => props.onChange(e.target.value)}
+        placeholder={props.label}
+        style={{ ...props.styles, fontSize: props.size }}
+      />
+    </div>
   );
 };

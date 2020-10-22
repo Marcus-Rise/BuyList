@@ -4,6 +4,6 @@ export interface IProduct {
   title: string;
   active: boolean;
   price: number;
-  priority: ProductPriorityEnum;
+  priority: ProductPriorityEnum | string;
   uuid: string;
 }

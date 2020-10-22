@@ -6,18 +6,22 @@ interface IProps {
   val?: number;
   label: string;
   size?: string | number;
-  style?: CSSProperties;
+  styles?: CSSProperties;
+  noLabel?: boolean;
 }
 
 export const InputNumber: React.FC<IProps> = (props) => {
   return (
-    <input
-      className={styles.input}
-      type="number"
-      value={props.val}
-      onChange={(e) => props.onChange(Number(e.target.value))}
-      placeholder={props.label}
-      style={{ ...props.style, fontSize: props.size }}
-    />
+    <div className={styles.input}>
+      {!props.noLabel && <label htmlFor={props.label}>{props.label}</label>}
+      <input
+        id={props.label}
+        type="number"
+        value={props.val}
+        onChange={(e) => props.onChange(Number(e.target.value))}
+        placeholder={props.label}
+        style={{ ...props.styles, fontSize: props.size }}
+      />
+    </div>
   );
 };

@@ -26,15 +26,15 @@ export const BudgetCalculateForm: React.FC<IProps> = (props) => {
           <InputNumber
             val={props.value}
             label={"Сумма бюджета"}
-            size={"1.1rem"}
             onChange={setValue}
-            style={{
+            styles={{
               textAlign: "center",
             }}
+            noLabel
           />
         </div>
         <div className="col-auto">
-          <Button type={"submit"} color={ButtonColors.accent} size={"1.1rem"}>
+          <Button type={"submit"} color={ButtonColors.accent}>
             Посчитать
           </Button>
         </div>
