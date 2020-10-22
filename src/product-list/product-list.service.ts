@@ -30,7 +30,7 @@ export class ProductListService implements IProductListService {
     } else {
       const newItem: IProduct = {
         uuid: faker.random.uuid(),
-        active: !!item.active,
+        active: true,
         title: item.title ?? "",
         price: item.price ?? 0,
         priority: item.priority ?? ProductPriorityEnum.middle,
@@ -39,10 +39,12 @@ export class ProductListService implements IProductListService {
       newArr = [newItem, ...list.items];
     }
 
-    return {
+    this.list = {
       ...list,
       items: newArr,
     };
+
+    return this.list;
   }
 
   async getLatest(): Promise<IProductList> {
@@ -66,5 +68,27 @@ export class ProductListService implements IProductListService {
       title: "Ваш первый список",
       items,
     };
+  }
+
+  async deleteItem(list: IProductList, uuid: string): Promise<IProductList> {
+    this.list = {
+      ...list,
+      items: list.items.filter((i) => i.uuid !== uuid),
+    };
+
+    return this.list;
+  }
+
+  async toggleItem(list: IProductList, uuid: string): Promise<IProductList> {
+    const item = list.items.find((i) => uuid === i.uuid);
+
+    if (!item) {
+      throw new Error();
+    }
+
+    return this.save(list, {
+      ...item,
+      active: !item.active,
+    });
   }
 }
