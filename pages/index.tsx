@@ -9,6 +9,7 @@ import { BudgetCalculateForm } from "../src/budget/budget-calculate-form.compone
 import { Modal } from "../src/components/modal.component";
 import { ProductForm } from "../src/product/product-form.component";
 import { ProductListItem } from "../src/product-list/product-list-item.component";
+import { ProductList } from "../src/product-list/product-list.component";
 
 const Home: React.FC = () => {
   const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
@@ -63,19 +64,40 @@ const Home: React.FC = () => {
             <div className="col-12 py-4">
               <BudgetCalculateForm onSubmit={onCalculationRequire} />
             </div>
-            <div className="col">
-              <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {list.items.map((i, index) => (
-                  <ProductListItem
-                    className="mb-4"
-                    key={i.uuid}
-                    {...i}
-                    index={index}
-                    onToggle={() => onItemToggle(i)}
-                    onClick={() => setEditableProduct(i)}
-                  />
-                ))}
-              </ul>
+            <div className="col-12">
+              <ProductList>
+                {list.items
+                  .filter((i) => i.active)
+                  .map((i, index) => (
+                    <ProductListItem
+                      className="mb-4"
+                      key={i.uuid}
+                      {...i}
+                      index={index}
+                      onToggle={() => onItemToggle(i)}
+                      onClick={() => setEditableProduct(i)}
+                    />
+                  ))}
+              </ProductList>
+            </div>
+            <div className="col-12">
+              <h2 style={{ textAlign: "center" }}>Купленные</h2>
+            </div>
+            <div className="col-12">
+              <ProductList>
+                {list.items
+                  .filter((i) => !i.active)
+                  .map((i, index) => (
+                    <ProductListItem
+                      className="mb-4"
+                      key={i.uuid}
+                      {...i}
+                      index={index}
+                      onToggle={() => onItemToggle(i)}
+                      onClick={() => setEditableProduct(i)}
+                    />
+                  ))}
+              </ProductList>
             </div>
           </div>
         </div>
