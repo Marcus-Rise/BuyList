@@ -8,6 +8,7 @@ import { Select, SelectOption } from "../components/select.component";
 
 interface IProps extends Partial<IProduct> {
   onSubmit: (val: Partial<IProduct>) => void;
+  onDelete: (uuid: string, title: string) => void;
 }
 
 export const ProductForm: React.FC<IProps> = (props) => {
@@ -55,6 +56,18 @@ export const ProductForm: React.FC<IProps> = (props) => {
               Сохранить
             </Button>
           </div>
+          {props.uuid && (
+            <div className="col-12 d-flex justify-content-center mt-3">
+              <Button
+                onClick={() => props.uuid && props.title && props.onDelete(props.uuid, props.title)}
+                type={"button"}
+                color={ButtonColors.danger}
+                styles={{ width: "100%" }}
+              >
+                Удалить
+              </Button>
+            </div>
+          )}
         </div>
       </form>
     </>

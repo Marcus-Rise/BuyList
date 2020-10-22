@@ -32,12 +32,7 @@ const Home: React.FC = () => {
 
   const onItemToggle = (item: IProduct): void => {
     if (list) {
-      service
-        .save(list, {
-          ...item,
-          active: !item.active,
-        })
-        .then(setList);
+      service.toggleItem(list, item.uuid).then(setList);
     }
   };
 
@@ -45,12 +40,21 @@ const Home: React.FC = () => {
     console.debug("budget: ", val);
   };
 
+  const onDelete = (uuid: string, title: string) => {
+    const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
+
+    if (list && isAllow) {
+      setEditableProduct(null);
+      service.deleteItem(list, uuid).then(setList);
+    }
+  };
+
   return (
     list && (
       <React.Fragment>
         {editableProduct && (
           <Modal onClose={() => setEditableProduct(null)}>
-            <ProductForm {...editableProduct} onSubmit={saveItem} />
+            <ProductForm {...editableProduct} onSubmit={saveItem} onDelete={onDelete} />
           </Modal>
         )}
         <div className="container pt-3">
