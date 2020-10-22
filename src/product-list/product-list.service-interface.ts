@@ -7,4 +7,8 @@ export interface IProductListService {
   getLatest(): Promise<IProductList>;
 
   save(list: IProductList, item: Partial<IProduct>): Promise<IProductList>;
+
+  toggleItem(list: IProductList, uuid: string): Promise<IProductList>;
+
+  deleteItem(list: IProductList, uuid: string): Promise<IProductList>;
 }
