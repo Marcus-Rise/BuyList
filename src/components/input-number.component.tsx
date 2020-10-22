@@ -9,6 +9,8 @@ interface IProps {
   styles?: CSSProperties;
   noLabel?: boolean;
   required?: boolean;
+  min?: number;
+  max?: number;
 }
 
 export const InputNumber: React.FC<IProps> = (props) => {
@@ -22,6 +24,8 @@ export const InputNumber: React.FC<IProps> = (props) => {
         onChange={(e) => props.onChange(Number(e.target.value))}
         placeholder={props.label}
         required={props.required}
+        min={props.min}
+        max={props.max}
       />
     </div>
   );

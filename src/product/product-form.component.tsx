@@ -39,7 +39,7 @@ export const ProductForm: React.FC<IProps> = (props) => {
             <InputText required onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />
           </div>
           <div className="col-12 d-flex justify-content-center mb-3">
-            <InputNumber required onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
+            <InputNumber required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
           </div>
           <div className="col-12 d-flex justify-content-center mb-3">
             <Select

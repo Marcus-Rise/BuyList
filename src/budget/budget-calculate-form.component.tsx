@@ -32,6 +32,7 @@ export const BudgetCalculateForm: React.FC<IProps> = (props) => {
             }}
             noLabel
             required
+            min={1}
           />
         </div>
         <div className="col-auto">
