@@ -7,6 +7,7 @@ interface IProps {
   label: string;
   size?: string | number;
   styles?: CSSProperties;
+  required?: boolean;
 }
 
 export const InputText: React.FC<IProps> = (props) => {
@@ -20,6 +21,7 @@ export const InputText: React.FC<IProps> = (props) => {
         value={props.val}
         onChange={(e) => props.onChange(e.target.value)}
         placeholder={props.label}
+        required={props.required}
       />
     </div>
   );

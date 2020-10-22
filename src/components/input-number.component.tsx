@@ -8,6 +8,7 @@ interface IProps {
   size?: string | number;
   styles?: CSSProperties;
   noLabel?: boolean;
+  required?: boolean;
 }
 
 export const InputNumber: React.FC<IProps> = (props) => {
@@ -20,6 +21,7 @@ export const InputNumber: React.FC<IProps> = (props) => {
         value={props.val}
         onChange={(e) => props.onChange(Number(e.target.value))}
         placeholder={props.label}
+        required={props.required}
       />
     </div>
   );
