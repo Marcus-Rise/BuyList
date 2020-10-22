@@ -12,7 +12,7 @@ interface IProps {
 
 export const InputNumber: React.FC<IProps> = (props) => {
   return (
-    <div className={styles.input}>
+    <div className={styles.input} style={{ ...props.styles, fontSize: props.size }}>
       {!props.noLabel && <label htmlFor={props.label}>{props.label}</label>}
       <input
         id={props.label}
@@ -20,7 +20,6 @@ export const InputNumber: React.FC<IProps> = (props) => {
         value={props.val}
         onChange={(e) => props.onChange(Number(e.target.value))}
         placeholder={props.label}
-        style={{ ...props.styles, fontSize: props.size }}
       />
     </div>
   );
