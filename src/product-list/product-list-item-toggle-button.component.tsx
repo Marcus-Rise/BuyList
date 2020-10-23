@@ -12,7 +12,7 @@ export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
   return (
     <Button
       className={`${styles.toggleButton}`}
-      styles={{ padding: "10px" }}
+      styles={{ padding: ".5rem" }}
       rounded
       onClick={(e) => {
         e.stopPropagation();
