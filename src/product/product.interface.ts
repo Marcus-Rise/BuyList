@@ -5,5 +5,4 @@ export interface IProduct {
   active: boolean;
   price: number;
   priority: ProductPriorityEnum | string;
-  uuid: string;
 }
