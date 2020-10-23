@@ -5,7 +5,7 @@ import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { injectable } from "inversify";
 
 @injectable()
-export class BudgetServiceMock implements IBudgetService {
+export class BudgetService implements IBudgetService {
   private bestChoice: IProduct[] | null = null;
   private bestPrioritySum = 0;
   private bestPriceSum = 0;
