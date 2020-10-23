@@ -2,7 +2,9 @@ import { IProductList } from "./product-list.interface";
 import { IProductListPostDto } from "./product-list-post.dto";
 import { FindParams, IProductListRepository } from "./product-list.repository-interface";
 import localForage from "localforage";
+import { injectable } from "inversify";
 
+@injectable()
 export class ProductListIndexedDbRepository implements IProductListRepository {
   private readonly db: LocalForage;
 

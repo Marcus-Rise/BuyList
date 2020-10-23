@@ -4,7 +4,9 @@ import { IProductListRepository } from "./product-list.repository-interface";
 import { IProduct } from "../product/product.interface";
 import faker from "faker";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
+import { injectable } from "inversify";
 
+@injectable()
 export class ProductListInMemoryRepository implements IProductListRepository {
   private list: IProductList;
 
