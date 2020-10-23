@@ -13,7 +13,6 @@
   max-width: 30ch;
   border: 2px solid var(--select-border);
   border-radius: 100px;
-  padding: 1rem;
   cursor: pointer;
   line-height: 1.1;
   background-color: #fff;
@@ -21,6 +20,10 @@
   grid-template-areas: "select";
   align-items: center;
   position: relative;
+
+  &::after {
+    margin-right: 1rem;
+  }
 
   select {
     @include typography.light;
@@ -30,13 +33,15 @@
     // Additional resets for further consistency
     background-color: transparent;
     border: none;
-    padding: 0 1em 0 0;
+    padding: 1rem;
     margin: 0;
     width: 100%;
 
     cursor: inherit;
     line-height: inherit;
     outline: none;
+
+
 
     &::-ms-expand {
       display: none;
