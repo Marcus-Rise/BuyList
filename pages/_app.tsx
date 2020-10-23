@@ -8,14 +8,12 @@ import "typeface-montserrat";
 // @ts-ignore
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const MyApp = ({ Component, pageProps }) => (
-  <div className="d-flex flex-column h-100">
-    <AppProvider>
-      <Header />
-      <main role="main" className="flex-shrink-0">
-        <Component {...pageProps} />
-      </main>
-    </AppProvider>
-  </div>
+  <AppProvider>
+    <Header />
+    <main>
+      <Component {...pageProps} />
+    </main>
+  </AppProvider>
 );
 
 export default MyApp;
