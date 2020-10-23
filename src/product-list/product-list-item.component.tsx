@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import { Button } from "../components/button.component";
 
 interface IProps extends IProduct {
-  onToggle: () => void;
+  onToggle?: () => void;
   onClick?: () => void;
   index: number;
   className?: string;
@@ -30,7 +30,9 @@ export const ProductListItem: React.FC<IProps> = (props) => {
   const onToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
 
-    props.onToggle();
+    if (!!props.onToggle) {
+      props.onToggle();
+    }
   };
 
   return (
