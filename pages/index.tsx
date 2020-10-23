@@ -5,23 +5,25 @@ import { useInject } from "../src/ioc/use-inject.decorator";
 import { IProductListService, PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
 import { Button, ButtonColors } from "../src/components/button.component";
 import { BsPlus } from "react-icons/bs";
-import { BudgetCalculateForm } from "../src/budget/budget-calculate-form.component";
 import { Modal } from "../src/components/modal.component";
 import { ProductForm } from "../src/product/product-form.component";
 import { ProductListItem } from "../src/product-list/product-list-item.component";
 import { ProductList } from "../src/product-list/product-list.component";
 import { BUDGET_SERVICE_PROVIDER, IBudgetService } from "../src/budget/budget.service-interface";
+import { IBudget } from "../src/budget/budget.interface";
+import { Budget } from "../src/budget/budget.component";
+import { ProductListItemToggleButton } from "../src/product-list/product-list-item-toggle-button.component";
+import { BudgetForm } from "../src/budget/budget-form.component";
 
 const Home: React.FC = () => {
   const productListService = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
   const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
   const [list, setList] = useState<IProductList | null>(null);
   const [editableProduct, setEditableProduct] = useState<Partial<IProduct> | null>(null);
+  const [budget, setBudget] = useState<IBudget | null>(null);
 
   useEffect(() => {
-    productListService.getLatest().then((data) => {
-      setList(data);
-    });
+    productListService.getLatest().then(setList);
   }, []);
 
   const saveItem = (item: Partial<IProduct>): void => {
@@ -38,16 +40,14 @@ const Home: React.FC = () => {
     }
   };
 
-  const onCalculationRequire = (val: number) => {
+  const calculateBudget = (val: number) => {
     if (list) {
       budgetService
         .calculate(
           list.items.filter((i) => i.active),
           val,
         )
-        .then((data) => {
-          console.debug(data);
-        });
+        .then(setBudget);
     }
   };
 
@@ -68,6 +68,11 @@ const Home: React.FC = () => {
             <ProductForm {...editableProduct} onSubmit={saveItem} onDelete={onDelete} />
           </Modal>
         )}
+        {budget && (
+          <Modal onClose={() => setBudget(null)}>
+            <Budget {...budget} />
+          </Modal>
+        )}
         <div className="container pt-3">
           <div className="row">
             <div className="col-12 d-flex align-items-center justify-content-center">
@@ -77,7 +82,7 @@ const Home: React.FC = () => {
               </Button>
             </div>
             <div className="col-12 py-4">
-              <BudgetCalculateForm onSubmit={onCalculationRequire} />
+              <BudgetForm onSubmit={calculateBudget} />
             </div>
             <div className="col-12">
               <ProductList>
@@ -89,9 +94,10 @@ const Home: React.FC = () => {
                       key={i.uuid}
                       {...i}
                       index={index}
-                      onToggle={() => onItemToggle(i)}
                       onClick={() => setEditableProduct(i)}
-                    />
+                    >
+                      <ProductListItemToggleButton onClick={() => onItemToggle(i)} active={i.active} />
+                    </ProductListItem>
                   ))}
               </ProductList>
             </div>
@@ -110,9 +116,10 @@ const Home: React.FC = () => {
                           key={i.uuid}
                           {...i}
                           index={index}
-                          onToggle={() => onItemToggle(i)}
                           onClick={() => setEditableProduct(i)}
-                        />
+                        >
+                          <ProductListItemToggleButton onClick={() => onItemToggle(i)} active={i.active} />
+                        </ProductListItem>
                       ))}
                   </ProductList>
                 </div>
