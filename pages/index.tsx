@@ -10,21 +10,23 @@ import { Modal } from "../src/components/modal.component";
 import { ProductForm } from "../src/product/product-form.component";
 import { ProductListItem } from "../src/product-list/product-list-item.component";
 import { ProductList } from "../src/product-list/product-list.component";
+import { BUDGET_SERVICE_PROVIDER, IBudgetService } from "../src/budget/budget.service-interface";
 
 const Home: React.FC = () => {
-  const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
+  const productListService = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
+  const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
   const [list, setList] = useState<IProductList | null>(null);
   const [editableProduct, setEditableProduct] = useState<Partial<IProduct> | null>(null);
 
   useEffect(() => {
-    service.getLatest().then((data) => {
+    productListService.getLatest().then((data) => {
       setList(data);
     });
   }, []);
 
   const saveItem = (item: Partial<IProduct>): void => {
     if (list) {
-      service.save(list, item).then(setList);
+      productListService.save(list, item).then(setList);
     }
 
     setEditableProduct(null);
@@ -32,12 +34,21 @@ const Home: React.FC = () => {
 
   const onItemToggle = (item: IProduct): void => {
     if (list) {
-      service.toggleItem(list, item.uuid).then(setList);
+      productListService.toggleItem(list, item.uuid).then(setList);
     }
   };
 
   const onCalculationRequire = (val: number) => {
-    console.debug("budget: ", val);
+    if (list) {
+      budgetService
+        .calculate(
+          list.items.filter((i) => i.active),
+          val,
+        )
+        .then((data) => {
+          console.debug(data);
+        });
+    }
   };
 
   const onDelete = (uuid: string, title: string) => {
@@ -45,7 +56,7 @@ const Home: React.FC = () => {
 
     if (list && isAllow) {
       setEditableProduct(null);
-      service.deleteItem(list, uuid).then(setList);
+      productListService.deleteItem(list, uuid).then(setList);
     }
   };
 

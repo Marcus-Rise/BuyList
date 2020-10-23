@@ -6,7 +6,7 @@ import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { injectable } from "inversify";
 
 @injectable()
-export class ProductListService implements IProductListService {
+export class ProductListServiceMock implements IProductListService {
   private list: IProductList | null = null;
 
   constructor() {
