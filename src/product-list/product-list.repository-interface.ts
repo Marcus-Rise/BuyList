@@ -9,7 +9,7 @@ export interface FindParams {
 }
 
 export interface IProductListRepository {
-  save(list: IProductListPostDto | IProductList): Promise<IProductList>;
+  save(dto: IProductListPostDto | IProductList): Promise<IProductList>;
 
   find(filter?: FindParams): Promise<IProductList | null>;
 
