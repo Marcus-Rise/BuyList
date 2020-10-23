@@ -9,6 +9,7 @@ export const Budget: React.FC<IProps> = (props) => {
   return (
     <>
       <h3 style={{ textAlign: "center", maxWidth: "100%" }}>Оптимальный список</h3>
+      <h4 style={{ textAlign: "center", maxWidth: "100%" }}>Сумма: {props.sum} &#8381;</h4>
       <div className="row">
         <div className="col-12">
           <ProductList>
