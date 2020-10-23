@@ -6,14 +6,14 @@ import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
 import { Select, SelectOption } from "../components/select.component";
 
-interface IProps extends Partial<IProduct> {
-  onSubmit: (val: Partial<IProduct>) => void;
-  onDelete: (uuid: string, title: string) => void;
+interface IProps extends IProduct {
+  onSubmit: (val: IProduct) => void;
+  onDelete: (title: string) => void;
 }
 
 export const ProductForm: React.FC<IProps> = (props) => {
-  const [title, setTitle] = useState<string | undefined>(props.title);
-  const [price, setPrice] = useState<number | undefined>(props.price);
+  const [title, setTitle] = useState<string>(props.title);
+  const [price, setPrice] = useState<number>(props.price);
   const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
 
   const priorityVariants: SelectOption<string>[] = Object.values(ProductPriorityEnum).map((i) => ({
@@ -25,14 +25,14 @@ export const ProductForm: React.FC<IProps> = (props) => {
     e.preventDefault();
 
     if (title && Number(price) > 0) {
-      props.onSubmit({ uuid: props.uuid, active: props.active, title, priority, price });
+      props.onSubmit({ active: props.active, title, priority, price });
     }
   };
 
   return (
     <>
       <h3 style={{ textAlign: "center", maxWidth: "100%" }}>
-        {props.uuid ? `Редактирование продукта` : "Добавление продукта"}
+        {props.title ? `Редактирование продукта` : "Добавление продукта"}
       </h3>
       <form onSubmit={onSubmit}>
         <div className="row">
@@ -56,10 +56,10 @@ export const ProductForm: React.FC<IProps> = (props) => {
               Сохранить
             </Button>
           </div>
-          {props.uuid && (
+          {props.title && (
             <div className="col-12 d-flex justify-content-center mt-3">
               <Button
-                onClick={() => props.uuid && props.title && props.onDelete(props.uuid, props.title)}
+                onClick={() => props.onDelete(props.title)}
                 type={"button"}
                 color={ButtonColors.danger}
                 styles={{ width: "100%" }}
