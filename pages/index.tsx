@@ -84,25 +84,29 @@ const Home: React.FC = () => {
                   ))}
               </ProductList>
             </div>
-            <div className="col-12">
-              <h2 style={{ textAlign: "center" }}>Купленные</h2>
-            </div>
-            <div className="col-12">
-              <ProductList>
-                {list.items
-                  .filter((i) => !i.active)
-                  .map((i, index) => (
-                    <ProductListItem
-                      className="mb-4"
-                      key={i.uuid}
-                      {...i}
-                      index={index}
-                      onToggle={() => onItemToggle(i)}
-                      onClick={() => setEditableProduct(i)}
-                    />
-                  ))}
-              </ProductList>
-            </div>
+            {!!list.items.filter((i) => !i.active).length && (
+              <>
+                <div className="col-12">
+                  <h2 style={{ textAlign: "center" }}>Купленные</h2>
+                </div>
+                <div className="col-12">
+                  <ProductList>
+                    {list.items
+                      .filter((i) => !i.active)
+                      .map((i, index) => (
+                        <ProductListItem
+                          className="mb-4"
+                          key={i.uuid}
+                          {...i}
+                          index={index}
+                          onToggle={() => onItemToggle(i)}
+                          onClick={() => setEditableProduct(i)}
+                        />
+                      ))}
+                  </ProductList>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </React.Fragment>
