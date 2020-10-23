@@ -2,11 +2,8 @@ import React from "react";
 import { IProduct } from "../product/product.interface";
 import styles from "./product-list-item.module.scss";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
-import { FaCheck } from "react-icons/fa";
-import { Button } from "../components/button.component";
 
 interface IProps extends IProduct {
-  onToggle?: () => void;
   onClick?: () => void;
   index: number;
   className?: string;
@@ -27,14 +24,6 @@ export const ProductListItem: React.FC<IProps> = (props) => {
       break;
   }
 
-  const onToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.stopPropagation();
-
-    if (!!props.onToggle) {
-      props.onToggle();
-    }
-  };
-
   return (
     <li className={classList.join(" ")} onClick={props.onClick}>
       <p className={`m-0 ${!props.active ? styles.inActive : ""}`}>
@@ -44,9 +33,7 @@ export const ProductListItem: React.FC<IProps> = (props) => {
         <p className={`${styles.price} my-0`}>
           <span className={`${styles.priceCount} mr-3`}>{props.price} &#8381;</span>
         </p>
-        <Button className={`${styles.toggleButton}`} styles={{ padding: "10px" }} rounded onClick={onToggle}>
-          <FaCheck style={props.active ? { color: "white" } : {}} />
-        </Button>
+        {props.children}
       </div>
     </li>
   );
