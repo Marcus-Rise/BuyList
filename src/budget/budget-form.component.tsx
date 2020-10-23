@@ -7,7 +7,7 @@ interface IProps {
   onSubmit: (val: number) => void;
 }
 
-export const BudgetCalculateForm: React.FC<IProps> = (props) => {
+export const BudgetForm: React.FC<IProps> = (props) => {
   const [value, setValue] = useState<number | undefined>(props.value);
 
   const onSubmit = (e: FormEvent) => {
