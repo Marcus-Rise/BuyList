@@ -15,7 +15,9 @@ export class BudgetServiceMock implements IBudgetService {
 
     return {
       items: bestItems,
-      sum: this.bestPriceSum,
+      sum: bestItems.reduce((previousValue, currentValue) => {
+        return previousValue + currentValue.price;
+      }, 0),
     };
   }
 
