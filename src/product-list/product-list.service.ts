@@ -4,8 +4,8 @@ import { IProductListService } from "./product-list.service-interface";
 import { inject, injectable } from "inversify";
 import faker from "faker";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
-import { IProductListRepository, PRODUCT_LIST_REPOSITORY_PROVIDER } from "./product-list.repository-interface";
 import { IProductListPostDto } from "./product-list-post.dto";
+import { IProductListRepository, PRODUCT_LIST_REPOSITORY_PROVIDER } from "./product-list.repository-interface";
 
 @injectable()
 export class ProductListService implements IProductListService {
