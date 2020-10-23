@@ -14,21 +14,22 @@ import { IBudget } from "../src/budget/budget.interface";
 import { Budget } from "../src/budget/budget.component";
 import { ProductListItemToggleButton } from "../src/product-list/product-list-item-toggle-button.component";
 import { BudgetForm } from "../src/budget/budget-form.component";
+import { ProductPriorityEnum } from "../src/product/product-priority.enum";
 
 const Home: React.FC = () => {
   const productListService = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
   const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
   const [list, setList] = useState<IProductList | null>(null);
-  const [editableProduct, setEditableProduct] = useState<Partial<IProduct> | null>(null);
+  const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
 
   useEffect(() => {
     productListService.getLatest().then(setList);
   }, []);
 
-  const saveItem = (item: Partial<IProduct>): void => {
+  const saveItem = (item: IProduct): void => {
     if (list) {
-      productListService.save(list, item).then(setList);
+      productListService.saveItem(list, item).then(setList);
     }
 
     setEditableProduct(null);
@@ -36,7 +37,7 @@ const Home: React.FC = () => {
 
   const onItemToggle = (item: IProduct): void => {
     if (list) {
-      productListService.toggleItem(list, item.uuid).then(setList);
+      productListService.toggleItem(list, item.title).then(setList);
     }
   };
 
@@ -51,12 +52,12 @@ const Home: React.FC = () => {
     }
   };
 
-  const onDelete = (uuid: string, title: string) => {
+  const onDelete = (title: string) => {
     const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
 
     if (list && isAllow) {
       setEditableProduct(null);
-      productListService.deleteItem(list, uuid).then(setList);
+      productListService.deleteItem(list, title).then(setList);
     }
   };
 
@@ -77,7 +78,19 @@ const Home: React.FC = () => {
           <div className="row">
             <div className="col-12 d-flex align-items-center justify-content-center">
               <h2>{list.title}</h2>
-              <Button className="ml-3 p-2" rounded color={ButtonColors.accent} onClick={() => setEditableProduct({})}>
+              <Button
+                className="ml-3 p-2"
+                rounded
+                color={ButtonColors.accent}
+                onClick={() =>
+                  setEditableProduct({
+                    title: "",
+                    priority: ProductPriorityEnum.middle,
+                    active: true,
+                    price: 0,
+                  })
+                }
+              >
                 <BsPlus size={"2rem"} />
               </Button>
             </div>
@@ -91,9 +104,9 @@ const Home: React.FC = () => {
                   .map((i, index) => (
                     <ProductListItem
                       className="mb-4"
-                      key={i.uuid}
-                      {...i}
+                      key={i.title}
                       index={index}
+                      {...i}
                       onClick={() => setEditableProduct(i)}
                     >
                       <ProductListItemToggleButton onClick={() => onItemToggle(i)} active={i.active} />
@@ -113,9 +126,9 @@ const Home: React.FC = () => {
                       .map((i, index) => (
                         <ProductListItem
                           className="mb-4"
-                          key={i.uuid}
-                          {...i}
+                          key={i.title}
                           index={index}
+                          {...i}
                           onClick={() => setEditableProduct(i)}
                         >
                           <ProductListItemToggleButton onClick={() => onItemToggle(i)} active={i.active} />
