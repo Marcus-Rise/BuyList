@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./product-list-item-toggle-button.module.scss";
-import { FaCheck } from "react-icons/fa";
+import InActiveIcon from "../assets/icons/in_active.svg";
 import { Button } from "../components/button.component";
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
 export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
   return (
     <Button
-      className={`${styles.toggleButton}`}
+      className={`${styles.toggleButton} ${!props.active ? styles.inActive : styles.active}`}
       styles={{ padding: ".5rem" }}
       rounded
       onClick={(e) => {
@@ -19,7 +19,7 @@ export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
         props.onClick();
       }}
     >
-      <FaCheck style={props.active ? { color: "white" } : {}} />
+      {props.active && <img alt={"in_active"} className={styles.img} src={InActiveIcon} />}
     </Button>
   );
 };

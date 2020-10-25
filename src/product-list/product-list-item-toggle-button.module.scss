@@ -2,4 +2,21 @@
   border-radius: 100%;
   background-color: white;
   color: var(--accent);
+
+  $size: 2.5rem;
+  width: $size;
+  height: $size;
+}
+
+.active {
+  background-color: var(--accent);
+}
+
+.inActive {
+  background: #F2F2F2;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.img {
+  margin-right: 0.15rem;
 }
