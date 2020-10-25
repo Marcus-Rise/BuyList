@@ -1,8 +1,8 @@
-import { IProductList } from "./product-list.interface";
-import { IProductListPostDto } from "./product-list-post.dto";
-import { IProductListRepository } from "./product-list.repository-interface";
-import { IProduct } from "../product/product.interface";
-import faker from "faker";
+import type { IProductList } from "./product-list.interface";
+import type { IProductListPostDto } from "./product-list-post.dto";
+import type { IProductListRepository } from "./product-list.repository-interface";
+import type { IProduct } from "../product/product.interface";
+import { commerce, random, setLocale } from "faker";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { injectable } from "inversify";
 
@@ -11,13 +11,13 @@ export class ProductListInMemoryRepository implements IProductListRepository {
   private list: IProductList;
 
   constructor() {
-    faker.locale = "ru";
+    setLocale("ru");
 
     const items = new Array(3).fill(1).map<IProduct>(() => ({
-      title: faker.commerce.product(),
-      price: Number(faker.commerce.price()),
-      priority: faker.random.arrayElement(Object.values(ProductPriorityEnum)),
-      active: faker.random.boolean(),
+      title: commerce.product(),
+      price: Number(commerce.price()),
+      priority: random.arrayElement(Object.values(ProductPriorityEnum)),
+      active: random.boolean(),
     }));
 
     this.list = {

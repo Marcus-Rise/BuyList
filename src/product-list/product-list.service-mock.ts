@@ -1,5 +1,5 @@
-import { IProductListService } from "./product-list.service-interface";
-import { IProductList } from "./product-list.interface";
+import type { IProductListService } from "./product-list.service-interface";
+import type { IProductList } from "./product-list.interface";
 import { injectable } from "inversify";
 
 @injectable()

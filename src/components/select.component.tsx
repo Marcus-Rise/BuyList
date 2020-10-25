@@ -1,4 +1,5 @@
-import React, { CSSProperties } from "react";
+import type { CSSProperties } from "react";
+import React from "react";
 import styles from "./select.module.scss";
 
 export interface SelectOption<T> {

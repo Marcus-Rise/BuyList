@@ -1,17 +1,20 @@
-import { IProductList } from "./product-list.interface";
+import type { IProductList } from "./product-list.interface";
 import { IProductListPostDto } from "./product-list-post.dto";
 
-export const PRODUCT_LIST_REPOSITORY_PROVIDER = Symbol("IProductListRepository");
+const PRODUCT_LIST_REPOSITORY_PROVIDER = Symbol("IProductListRepository");
 
-export interface FindParams {
+interface FindParams {
   title?: string;
   id?: number;
 }
 
-export interface IProductListRepository {
+interface IProductListRepository {
   save(dto: IProductListPostDto | IProductList): Promise<IProductList>;
 
   find(filter?: FindParams): Promise<IProductList | null>;
 
   get(filter?: FindParams): Promise<IProductList[]>;
 }
+
+export { PRODUCT_LIST_REPOSITORY_PROVIDER };
+export type { IProductListRepository, FindParams };

@@ -1,8 +1,11 @@
-import { IProduct } from "../product/product.interface";
-import { IBudget } from "./budget.interface";
+import type { IProduct } from "../product/product.interface";
+import type { IBudget } from "./budget.interface";
 
-export const BUDGET_SERVICE_PROVIDER = Symbol("IBudgetService");
+const BUDGET_SERVICE_PROVIDER = Symbol("IBudgetService");
 
-export interface IBudgetService {
+interface IBudgetService {
   calculate(items: IProduct[], limit: number): Promise<IBudget>;
 }
+
+export { BUDGET_SERVICE_PROVIDER };
+export type { IBudgetService };

@@ -1,7 +1,9 @@
-import { IProduct } from "../product/product.interface";
+import type { IProduct } from "../product/product.interface";
 
-export interface IProductList {
+interface IProductList {
   title: string;
   items: IProduct[];
   id: number;
 }
+
+export type { IProductList };

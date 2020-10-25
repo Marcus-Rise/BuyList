@@ -3,6 +3,7 @@ WORKDIR /app
 
 FROM base AS dev
 WORKDIR /app
+USER node
 
 CMD npm install && npm run dev
 
@@ -22,6 +23,7 @@ COPY public ./public
 COPY src ./src
 COPY ./*.js* ./
 
+RUN npm run test
 RUN npm run build
 RUN npm run export
 RUN find out -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;

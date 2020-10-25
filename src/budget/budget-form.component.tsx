@@ -1,4 +1,5 @@
-import React, { FormEvent, useState } from "react";
+import type { FormEvent } from "react";
+import React, { useState } from "react";
 import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
 

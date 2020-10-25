@@ -1,5 +1,5 @@
 import React from "react";
-import { IProduct } from "../product/product.interface";
+import type { IProduct } from "../product/product.interface";
 import styles from "./product-list-item.module.scss";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 
