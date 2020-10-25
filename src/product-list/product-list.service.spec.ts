@@ -31,4 +31,22 @@ describe("ProductListService", () => {
       expect(res.items.includes(item)).toBeTruthy();
     });
   });
+
+  describe("getLatest", () => {
+    test("first case", async () => {
+      service = new ProductListService(
+        mock<IProductListRepository>({
+          find: () => Promise.resolve(null),
+          save: (dto) => Promise.resolve({ ...dto, id: 1 }),
+        }),
+      );
+
+      const item = await service.getLatest();
+
+      expect(item).not.toBeUndefined();
+      expect(item.title.length).toBeGreaterThan(1);
+      expect(item.items).toHaveLength(4);
+      expect(item.id).toEqual(1);
+    });
+  });
 });

@@ -2,7 +2,6 @@ import type { IProductList } from "./product-list.interface";
 import type { IProduct } from "../product/product.interface";
 import type { IProductListService } from "./product-list.service-interface";
 import { inject, injectable } from "inversify";
-import faker from "faker";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import type { IProductListPostDto } from "./product-list-post.dto";
 import type { IProductListRepository } from "./product-list.repository-interface";
@@ -13,9 +12,7 @@ export class ProductListService implements IProductListService {
   constructor(
     @inject(PRODUCT_LIST_REPOSITORY_PROVIDER)
     private readonly repo: IProductListRepository,
-  ) {
-    faker.locale = "ru";
-  }
+  ) {}
 
   async saveItem(list: IProductList, item: IProduct): Promise<IProductList> {
     let newArr: IProduct[];
@@ -32,30 +29,48 @@ export class ProductListService implements IProductListService {
     return this.repo.save({ ...list, items: newArr });
   }
 
+  private static generateList(): IProductListPostDto {
+    return {
+      title: "Ваш первый список",
+      items: [
+        {
+          title: "Пальто",
+          price: 15000,
+          priority: ProductPriorityEnum.middle,
+          active: true,
+        },
+        {
+          title: "Обувь",
+          price: 8000,
+          priority: ProductPriorityEnum.high,
+          active: true,
+        },
+        {
+          title: "Скатерть",
+          price: 2000,
+          priority: ProductPriorityEnum.low,
+          active: false,
+        },
+        {
+          title: "Подгузники",
+          price: 1000,
+          priority: ProductPriorityEnum.middle,
+          active: false,
+        },
+      ],
+    };
+  }
+
   async getLatest(): Promise<IProductList> {
     let list: IProductList | null = await this.repo.find();
 
     if (!list) {
-      const generatedList = this.generateList(3);
+      const generatedList = ProductListService.generateList();
 
       list = await this.repo.save(generatedList);
     }
 
     return list;
-  }
-
-  private generateList(count: number): IProductListPostDto {
-    const items = new Array(count).fill(1).map<IProduct>(() => ({
-      title: faker.commerce.product(),
-      price: Number(faker.commerce.price()),
-      priority: faker.random.arrayElement(Object.values(ProductPriorityEnum)),
-      active: faker.random.boolean(),
-    }));
-
-    return {
-      title: "Ваш первый список",
-      items,
-    };
   }
 
   async deleteItem(list: IProductList, title: string): Promise<IProductList> {
