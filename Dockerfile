@@ -3,6 +3,7 @@ WORKDIR /app
 
 FROM base AS dev
 WORKDIR /app
+USER node
 
 CMD npm install && npm run dev
 
