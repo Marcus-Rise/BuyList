@@ -4,8 +4,6 @@ import type { IProduct } from "../src/product/product.interface";
 import { useInject } from "../src/ioc/use-inject.decorator";
 import type { IProductListService } from "../src/product-list/product-list.service-interface";
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
-import { Button, ButtonColors } from "../src/components/button.component";
-import { BsPlus } from "react-icons/bs";
 import { Modal } from "../src/components/modal.component";
 import { ProductForm } from "../src/product/product-form.component";
 import { ProductListItem } from "../src/product-list/product-list-item.component";
@@ -17,6 +15,7 @@ import { Budget } from "../src/budget/budget.component";
 import { ProductListItemToggleButton } from "../src/product-list/product-list-item-toggle-button.component";
 import { BudgetForm } from "../src/budget/budget-form.component";
 import { ProductPriorityEnum } from "../src/product/product-priority.enum";
+import { ButtonAdd } from "../src/components/button-add.component";
 
 const Home: React.FC = () => {
   const productListService = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
@@ -80,10 +79,8 @@ const Home: React.FC = () => {
           <div className="row">
             <div className="col-12 d-flex align-items-center justify-content-center">
               <h2>{list.title}</h2>
-              <Button
-                className="ml-3 p-2"
-                rounded
-                color={ButtonColors.accent}
+              <ButtonAdd
+                className="ml-3"
                 onClick={() =>
                   setEditableProduct({
                     title: "",
@@ -92,9 +89,7 @@ const Home: React.FC = () => {
                     price: 0,
                   })
                 }
-              >
-                <BsPlus size={"2rem"} />
-              </Button>
+              />
             </div>
             <div className="col-12 py-4">
               <BudgetForm value={0} onSubmit={calculateBudget} />
