@@ -1,7 +1,7 @@
-import { IProductList } from "./product-list.interface";
-import { IProductListPostDto } from "./product-list-post.dto";
-import { IProductListRepository } from "./product-list.repository-interface";
-import { IProduct } from "../product/product.interface";
+import type { IProductList } from "./product-list.interface";
+import type { IProductListPostDto } from "./product-list-post.dto";
+import type { IProductListRepository } from "./product-list.repository-interface";
+import type { IProduct } from "../product/product.interface";
 import { commerce, random, setLocale } from "faker";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { injectable } from "inversify";

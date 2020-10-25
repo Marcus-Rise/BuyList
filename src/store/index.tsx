@@ -1,4 +1,4 @@
-import { Container } from "inversify";
+import type { Container } from "inversify";
 import { container } from "../ioc/container";
 import React, { createContext, useReducer } from "react";
 

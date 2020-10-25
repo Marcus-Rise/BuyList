@@ -1,3 +1,5 @@
-import { IProductList } from "./product-list.interface";
+import type { IProductList } from "./product-list.interface";
 
-export type IProductListPostDto = Omit<IProductList, "id">;
+type IProductListPostDto = Omit<IProductList, "id">;
+
+export type { IProductListPostDto };

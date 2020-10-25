@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ProductListService } from "./product-list.service";
-import { IProductListRepository } from "./product-list.repository-interface";
+import type { IProductListRepository } from "./product-list.repository-interface";
 import { mock } from "jest-mock-extended";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { container } from "../ioc/container";

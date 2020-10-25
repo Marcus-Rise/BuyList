@@ -1,10 +1,12 @@
-import React, { FormEvent, useState } from "react";
-import { IProduct } from "./product.interface";
+import type { FormEvent } from "react";
+import React, { useState } from "react";
+import type { IProduct } from "./product.interface";
 import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
 import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
-import { Select, SelectOption } from "../components/select.component";
+import type { SelectOption } from "../components/select.component";
+import { Select } from "../components/select.component";
 
 interface IProps extends IProduct {
   onSubmit: (val: IProduct) => void;

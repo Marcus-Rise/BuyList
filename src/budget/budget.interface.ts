@@ -1,6 +1,8 @@
-import { IProduct } from "../product/product.interface";
+import type { IProduct } from "../product/product.interface";
 
-export interface IBudget {
+interface IBudget {
   items: IProduct[];
   sum: number;
 }
+
+export type { IBudget };

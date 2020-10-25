@@ -1,5 +1,5 @@
 import React from "react";
-import { IBudget } from "./budget.interface";
+import type { IBudget } from "./budget.interface";
 import { ProductList } from "../product-list/product-list.component";
 import { ProductListItem } from "../product-list/product-list-item.component";
 

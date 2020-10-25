@@ -1,4 +1,5 @@
-import React, { ButtonHTMLAttributes, CSSProperties } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, FC } from "react";
+import React from "react";
 import styles from "./button.module.scss";
 
 export enum ButtonColors {
@@ -17,7 +18,7 @@ interface IProps {
   styles?: CSSProperties;
 }
 
-export const Button: React.FC<IProps> = (props) => {
+export const Button: FC<IProps> = (props) => {
   const classList: string[] = [props.className ?? "", styles.button];
 
   switch (props.color) {

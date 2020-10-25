@@ -1,8 +1,10 @@
 import { ProductPriorityEnum } from "./product-priority.enum";
 
-export interface IProduct {
+interface IProduct {
   title: string;
   active: boolean;
   price: number;
   priority: ProductPriorityEnum | string;
 }
+
+export type { IProduct };
