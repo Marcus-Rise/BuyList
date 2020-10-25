@@ -25,6 +25,7 @@
     "typeface-montserrat": "^1.1.13"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^9.5.5",
     "@babel/plugin-proposal-decorators": "^7.10.5",
     "@svgr/webpack": "^5.4.0",
     "@types/faker": "^5.1.2",

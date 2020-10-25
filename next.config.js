@@ -1,6 +1,9 @@
 /* eslint-disable */
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: true,
+});
 
-module.exports = {
+module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
@@ -10,4 +13,4 @@ module.exports = {
 
     return config;
   },
-};
+});
