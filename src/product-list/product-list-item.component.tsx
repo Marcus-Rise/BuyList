@@ -1,8 +1,8 @@
 import React from "react";
 import type { IProduct } from "../product/product.interface";
 import styles from "./product-list-item.module.scss";
-import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { Price } from "../components/price.component";
+import { ProductPriorityIcon } from "../product/product-priority-icon.component";
 
 interface IProps extends IProduct {
   onClick?: () => void;
@@ -13,21 +13,10 @@ interface IProps extends IProduct {
 export const ProductListItem: React.FC<IProps> = (props) => {
   const classList: string[] = [props.className ?? "", styles.li, "d-flex align-items-center justify-content-between"];
 
-  switch (props.priority) {
-    case ProductPriorityEnum.high:
-      classList.push(styles.danger);
-      break;
-    case ProductPriorityEnum.low:
-      classList.push(styles.secondary);
-      break;
-    default:
-      classList.push(styles.primary);
-      break;
-  }
-
   return (
     <li className={classList.join(" ")} onClick={props.onClick}>
-      <p className={`m-0 ${!props.active ? styles.inActive : ""}`}>
+      <p className={`m-0 ${!props.active ? styles.inActive : ""} d-flex align-items-center `}>
+        <ProductPriorityIcon priority={props.priority} className={"mr-2"} />
         {props.index + 1}. {props.title}
       </p>
       <div className="d-flex align-items-center justify-content-end">
