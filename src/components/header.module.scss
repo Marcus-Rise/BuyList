@@ -1,7 +1,8 @@
 @use "../styles/typography";
 
 .header {
-  background-color: var(--primary);
+  background: url("../assets/img/background.png"), var(--primary);
+  background-blend-mode: overlay, normal;
   color: #474747;
 }
 
@@ -16,8 +17,14 @@
   font-size: 1.2rem;
   margin: 0;
   display: inline;
+  color: #333333;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
 
   &:hover {
     cursor: pointer;
   }
+}
+
+.menu {
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25));
 }

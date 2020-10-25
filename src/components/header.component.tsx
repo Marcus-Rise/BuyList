@@ -12,12 +12,12 @@ export const Header: React.FC = () => {
         <div className="row justify-content-between align-items-center">
           <div className="col">
             <a className={`${styles.link} d-flex align-items-center justify-content-start`} href={"/"}>
-              <img className={` mr-2`} src={logo} alt={title} />
+              <img className={`${styles.menu} mr-2`} src={logo} alt={title} />
               <h1 className={styles.title}>{title}</h1>
             </a>
           </div>
           <div className="col-auto">
-            <img src={humburger} alt={"menu"} />
+            <img className={styles.menu} src={humburger} alt={"menu"} />
           </div>
         </div>
       </div>
