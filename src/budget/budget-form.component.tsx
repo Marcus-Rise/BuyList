@@ -4,12 +4,12 @@ import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
 
 interface IProps {
-  value?: number;
+  value: number;
   onSubmit: (val: number) => void;
 }
 
 export const BudgetForm: React.FC<IProps> = (props) => {
-  const [value, setValue] = useState<number | undefined>(props.value);
+  const [value, setValue] = useState<number>(props.value);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ export const BudgetForm: React.FC<IProps> = (props) => {
       <div className="row justify-content-between align-items-center">
         <div className="col-7">
           <InputNumber
-            val={props.value}
+            val={value}
             label={"Сумма бюджета"}
             onChange={setValue}
             styles={{

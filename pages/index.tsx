@@ -97,7 +97,7 @@ const Home: React.FC = () => {
               </Button>
             </div>
             <div className="col-12 py-4">
-              <BudgetForm onSubmit={calculateBudget} />
+              <BudgetForm value={0} onSubmit={calculateBudget} />
             </div>
             <div className="col-12">
               <ProductList>
