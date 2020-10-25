@@ -3,9 +3,18 @@ import { ProductListService } from "./product-list.service";
 import { IProductListRepository } from "./product-list.repository-interface";
 import { mock } from "jest-mock-extended";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
+import { container } from "../ioc/container";
 
 describe("ProductListService", () => {
   let service: ProductListService;
+
+  describe("constructor", () => {
+    test("container", () => {
+      service = container.resolve(ProductListService);
+
+      expect(service).not.toBeUndefined();
+    });
+  });
 
   describe("saveItem", () => {
     test("ok", async () => {
