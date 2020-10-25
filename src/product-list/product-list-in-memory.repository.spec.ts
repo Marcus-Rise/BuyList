@@ -10,13 +10,7 @@ describe("ProductListInMemoryRepository", () => {
 
       const res = await service.get();
 
-      expect(res).toHaveLength(1);
-
-      const [item] = res;
-
-      expect(item.title.length).toBeGreaterThan(1);
-      expect(item.items).toHaveLength(3);
-      expect(item.id).toEqual(1);
+      expect(res).toHaveLength(0);
     });
   });
 });
