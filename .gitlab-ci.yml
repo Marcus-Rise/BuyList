@@ -2,15 +2,13 @@ stages:
   - build
   - deploy
 
-services:
-  - docker:dind
-
-before_script:
-  - export DOCKER_BUILDKIT=1
-
 build:
-  image: docker
   stage: build
+  image: docker
+  services:
+    - docker:dind
+  before_script:
+    - export DOCKER_BUILDKIT=1
   script:
     - docker build -o dist .
   artifacts:
