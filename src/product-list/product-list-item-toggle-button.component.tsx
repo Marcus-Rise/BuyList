@@ -11,7 +11,7 @@ interface IProps {
 export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
   return (
     <Button
-      className={`${styles.toggleButton} ${!props.active ? styles.inActive : styles.active}`}
+      className={`${styles.toggleButton} ${props.active ? styles.inActive : styles.active}`}
       styles={{ padding: ".5rem" }}
       rounded
       onClick={(e) => {
@@ -19,7 +19,7 @@ export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
         props.onClick();
       }}
     >
-      {props.active && <img alt={"in_active"} className={styles.img} src={InActiveIcon} />}
+      {!props.active && <img alt={"in_active"} className={styles.img} src={InActiveIcon} />}
     </Button>
   );
 };
