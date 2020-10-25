@@ -1,7 +1,7 @@
 import type { FormEvent } from "react";
 import React, { useState } from "react";
-import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
+import { InputPrice } from "../components/input-price.component";
 
 interface IProps {
   value: number;
@@ -24,7 +24,7 @@ export const BudgetForm: React.FC<IProps> = (props) => {
     <form onSubmit={onSubmit}>
       <div className="row justify-content-between align-items-center">
         <div className="col-7">
-          <InputNumber
+          <InputPrice
             val={value}
             label={"Сумма бюджета"}
             onChange={setValue}

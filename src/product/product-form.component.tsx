@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import type { IProduct } from "./product.interface";
 import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
-import { InputNumber } from "../components/input-number.component";
 import { Button, ButtonColors } from "../components/button.component";
 import type { SelectOption } from "../components/select.component";
 import { Select } from "../components/select.component";
+import { InputPrice } from "../components/input-price.component";
 
 interface IProps extends IProduct {
   onSubmit: (val: IProduct) => void;
@@ -42,7 +42,7 @@ export const ProductForm: React.FC<IProps> = (props) => {
             <InputText required onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />
           </div>
           <div className="col-12 d-flex justify-content-center mb-3">
-            <InputNumber required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
+            <InputPrice required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
           </div>
           <div className="col-12 d-flex justify-content-center mb-3">
             <Select
