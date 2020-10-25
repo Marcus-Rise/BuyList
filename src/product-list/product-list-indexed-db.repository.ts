@@ -1,7 +1,7 @@
 import type { IProductList } from "./product-list.interface";
 import type { IProductListPostDto } from "./product-list-post.dto";
 import type { FindParams, IProductListRepository } from "./product-list.repository-interface";
-import localForage from "localforage";
+import { createInstance, INDEXEDDB } from "localforage";
 import { injectable } from "inversify";
 
 @injectable()
@@ -9,8 +9,8 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
   private readonly db: LocalForage;
 
   constructor() {
-    this.db = localForage.createInstance({
-      driver: localForage.INDEXEDDB,
+    this.db = createInstance({
+      driver: INDEXEDDB,
       name: "buy-list",
       storeName: "product-list",
     });
