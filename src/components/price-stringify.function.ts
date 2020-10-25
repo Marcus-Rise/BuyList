@@ -1,4 +1,4 @@
-const ProductPriceStringify = (val: number): string => {
+const PriceStringify = (val: number): string => {
   let buf = String(val);
   let text = "";
 
@@ -14,4 +14,4 @@ const ProductPriceStringify = (val: number): string => {
   return buf + text;
 };
 
-export { ProductPriceStringify };
+export { PriceStringify };

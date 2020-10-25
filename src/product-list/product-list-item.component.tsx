@@ -2,7 +2,7 @@ import React from "react";
 import type { IProduct } from "../product/product.interface";
 import styles from "./product-list-item.module.scss";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
-import { ProductPrice } from "../product/product-price.component";
+import { Price } from "../components/price.component";
 
 interface IProps extends IProduct {
   onClick?: () => void;
@@ -33,7 +33,7 @@ export const ProductListItem: React.FC<IProps> = (props) => {
       <div className="d-flex align-items-center justify-content-end">
         <p className={`${styles.price} my-0`}>
           <span className={`${styles.priceCount} mr-3`}>
-            <ProductPrice val={props.price} />
+            <Price val={props.price} />
           </span>
         </p>
         {props.children}
