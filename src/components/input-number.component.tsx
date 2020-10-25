@@ -21,7 +21,7 @@ export const InputNumber: React.FC<IProps> = (props) => {
       <input
         id={props.label}
         type="number"
-        value={props.val}
+        value={props.val || ""}
         onChange={(e) => props.onChange(Number(e.target.value))}
         placeholder={props.label}
         required={props.required}
