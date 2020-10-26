@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import type { IProductList } from "../src/product-list/product-list.interface";
 import type { IProduct } from "../src/product/product.interface";
 import { useInject } from "../src/ioc/use-inject.decorator";
 import type { IProductListService } from "../src/product-list/product-list.service-interface";
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
-import { Modal } from "../src/components/modal.component";
-import { ProductForm } from "../src/product/product-form.component";
-import { ProductListItem } from "../src/product-list/product-list-item.component";
-import { ProductList } from "../src/product-list/product-list.component";
 import type { IBudgetService } from "../src/budget/budget.service-interface";
 import { BUDGET_SERVICE_PROVIDER } from "../src/budget/budget.service-interface";
 import type { IBudget } from "../src/budget/budget.interface";
-import { Budget } from "../src/budget/budget.component";
-import { ProductListItemToggleButton } from "../src/product-list/product-list-item-toggle-button.component";
-import { BudgetForm } from "../src/budget/budget-form.component";
 import { ProductPriorityEnum } from "../src/product/product-priority.enum";
-import { ButtonAdd } from "../src/components/button-add.component";
+
+const BudgetForm = lazy(() => import("../src/budget/budget-form.component"));
+const Modal = lazy(() => import("../src/components/modal.component"));
+const ProductForm = lazy(() => import("../src/product/product-form.component"));
+const Budget = lazy(() => import("../src/budget/budget.component"));
+const ButtonAdd = lazy(() => import("../src/components/button-add.component"));
+const ProductListItemToggleButton = lazy(() => import("../src/product-list/product-list-item-toggle-button.component"));
+const ProductList = lazy(() => import("../src/product-list/product-list.component"));
+const ProductListItem = lazy(() => import("../src/product-list/product-list-item.component"));
 
 const Home: React.FC = () => {
-  const productListService = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
   const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
+  const productListService = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
   const [list, setList] = useState<IProductList | null>(null);
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
@@ -64,7 +65,7 @@ const Home: React.FC = () => {
 
   return (
     list && (
-      <React.Fragment>
+      <Suspense fallback={<></>}>
         {editableProduct && (
           <Modal onClose={() => setEditableProduct(null)}>
             <ProductForm {...editableProduct} onSubmit={saveItem} onDelete={onDelete} />
@@ -137,7 +138,7 @@ const Home: React.FC = () => {
             )}
           </div>
         </div>
-      </React.Fragment>
+      </Suspense>
     )
   );
 };
