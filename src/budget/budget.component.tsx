@@ -17,7 +17,7 @@ export const Budget: React.FC<IProps> = (props) => {
         <div className="col-12">
           <ProductList>
             {props.items.map((i, index) => (
-              <ProductListItem className="mb-4" key={i.title} index={index} {...i} />
+              <ProductListItem className="mb-4" key={i.title} index={index} {...i} active={true} />
             ))}
           </ProductList>
         </div>

@@ -1,16 +1,15 @@
-import type { IBudget } from "./budget.interface";
+import type { IBudget, IBudgetProduct } from "./budget.interface";
 import type { IBudgetService } from "./budget.service-interface";
-import type { IProduct } from "../product/product.interface";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { injectable } from "inversify";
 
 @injectable()
 export class BudgetService implements IBudgetService {
-  private bestChoice: IProduct[] | null = null;
+  private bestChoice: IBudgetProduct[] | null = null;
   private bestPrioritySum = 0;
   private bestPriceSum = 0;
 
-  async calculate(items: IProduct[], limit: number): Promise<IBudget> {
+  async calculate(items: IBudgetProduct[], limit: number): Promise<IBudget> {
     const bestItems = this.getBestChoice(items, limit);
 
     return {
@@ -21,19 +20,19 @@ export class BudgetService implements IBudgetService {
     };
   }
 
-  private getBestChoice(products: IProduct[], priceLimit: number): IProduct[] {
+  private getBestChoice(products: IBudgetProduct[], priceLimit: number): IBudgetProduct[] {
     this.bestChoice = null;
     this.bestPrioritySum = 0;
     this.bestPriceSum = priceLimit;
 
-    const buf: IProduct[] = Array.from(products);
+    const buf: IBudgetProduct[] = Array.from(products);
 
     this.makeAllSets(buf);
 
     return this.bestChoice || [];
   }
 
-  private makeAllSets(products: IProduct[]): void {
+  private makeAllSets(products: IBudgetProduct[]): void {
     if (products.length) {
       this.checkSet(products);
     }
@@ -45,14 +44,14 @@ export class BudgetService implements IBudgetService {
     });
   }
 
-  private checkSet(products: IProduct[]): void {
-    const listPrice: number = products.reduce<number>((sum: number, product: IProduct) => {
+  private checkSet(products: IBudgetProduct[]): void {
+    const listPrice: number = products.reduce<number>((sum: number, product: IBudgetProduct) => {
       sum = sum + product.price;
 
       return sum;
     }, 0);
 
-    const listPriority: number = products.reduce<number>((sum: number, product: IProduct) => {
+    const listPriority: number = products.reduce<number>((sum: number, product: IBudgetProduct) => {
       let priorityCost: number;
 
       switch (product.priority) {
