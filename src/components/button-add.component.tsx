@@ -22,3 +22,4 @@ const ButtonAdd: React.FC<IProps> = (props) => {
 };
 
 export { ButtonAdd };
+export default ButtonAdd;

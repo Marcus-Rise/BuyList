@@ -6,7 +6,7 @@ import { Price } from "../components/price.component";
 
 type IProps = IBudget;
 
-export const Budget: React.FC<IProps> = (props) => {
+const Budget: React.FC<IProps> = (props) => {
   return (
     <>
       <h3 style={{ textAlign: "center", maxWidth: "100%" }}>Оптимальный список</h3>
@@ -25,3 +25,6 @@ export const Budget: React.FC<IProps> = (props) => {
     </>
   );
 };
+
+export { Budget };
+export default Budget;

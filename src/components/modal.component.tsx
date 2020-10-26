@@ -5,7 +5,7 @@ interface IProps {
   onClose: () => void;
 }
 
-export const Modal: React.FC<IProps> = (props) => {
+const Modal: React.FC<IProps> = (props) => {
   useEffect(() => {
     document.getElementsByTagName("body")[0].classList.add(styles.body);
 
@@ -24,3 +24,6 @@ export const Modal: React.FC<IProps> = (props) => {
     </React.Fragment>
   );
 };
+
+export { Modal };
+export default Modal;

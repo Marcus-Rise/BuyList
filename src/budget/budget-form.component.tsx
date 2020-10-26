@@ -8,7 +8,7 @@ interface IProps {
   onSubmit: (val: number) => void;
 }
 
-export const BudgetForm: React.FC<IProps> = (props) => {
+const BudgetForm: React.FC<IProps> = (props) => {
   const [value, setValue] = useState<number>(props.value);
 
   const onSubmit = (e: FormEvent) => {
@@ -45,3 +45,6 @@ export const BudgetForm: React.FC<IProps> = (props) => {
     </form>
   );
 };
+
+export { BudgetForm };
+export default BudgetForm;

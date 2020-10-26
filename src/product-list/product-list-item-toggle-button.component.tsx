@@ -8,7 +8,7 @@ interface IProps {
   onClick: () => void;
 }
 
-export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
+const ProductListItemToggleButton: React.FC<IProps> = (props) => {
   return (
     <Button
       className={`${styles.toggleButton} ${props.active ? styles.inActive : styles.active}`}
@@ -23,3 +23,6 @@ export const ProductListItemToggleButton: React.FC<IProps> = (props) => {
     </Button>
   );
 };
+
+export { ProductListItemToggleButton };
+export default ProductListItemToggleButton;

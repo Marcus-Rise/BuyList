@@ -10,7 +10,7 @@ interface IProps extends IProduct {
   className?: string;
 }
 
-export const ProductListItem: React.FC<IProps> = (props) => {
+const ProductListItem: React.FC<IProps> = (props) => {
   const classList: string[] = [props.className ?? "", styles.li, "d-flex align-items-center justify-content-between"];
 
   return (
@@ -30,3 +30,6 @@ export const ProductListItem: React.FC<IProps> = (props) => {
     </li>
   );
 };
+
+export { ProductListItem };
+export default ProductListItem;

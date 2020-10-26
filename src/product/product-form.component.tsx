@@ -13,7 +13,7 @@ interface IProps extends IProduct {
   onDelete: (title: string) => void;
 }
 
-export const ProductForm: React.FC<IProps> = (props) => {
+const ProductForm: React.FC<IProps> = (props) => {
   const [title, setTitle] = useState<string>(props.title);
   const [price, setPrice] = useState<number>(props.price);
   const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
@@ -75,3 +75,6 @@ export const ProductForm: React.FC<IProps> = (props) => {
     </>
   );
 };
+
+export { ProductForm };
+export default ProductForm;
