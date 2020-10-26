@@ -1,7 +1,7 @@
 @use "../styles/typography";
 
 .header {
-  background: url("../assets/img/background.png"), var(--primary);
+  background: url("../assets/img/background.png"), var(--accent);
   background-blend-mode: overlay, normal;
   color: #474747;
 }
