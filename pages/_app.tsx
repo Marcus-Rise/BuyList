@@ -13,7 +13,7 @@ const MyApp = ({ Component, pageProps }) => (
     <Head>
       <title>BuyList</title>
     </Head>
-    <Header />
+    <Header appName={"BuyList"} />
     <main>
       <Component {...pageProps} />
     </main>

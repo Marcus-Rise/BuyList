@@ -4,9 +4,11 @@ import humburger from "../assets/icons/humburger.svg";
 import logo from "../assets/icons/logo.svg";
 import Link from "next/link";
 
-export const Header: React.FC = () => {
-  const title = "BuyList";
+interface IProps {
+  appName: string;
+}
 
+const Header: React.FC<IProps> = ({ appName }) => {
   return (
     <header className={["py-3 px-1", styles.header].join(" ")}>
       <div className="container">
@@ -14,8 +16,8 @@ export const Header: React.FC = () => {
           <div className="col">
             <Link href={"/"}>
               <div className={`${styles.link} d-flex align-items-center justify-content-start`}>
-                <img className={`${styles.menu} mr-2`} src={logo} alt={title} />
-                <h1 className={styles.title}>{title}</h1>
+                <img className={`${styles.menu} mr-2`} src={logo} alt={appName} />
+                <h1 className={styles.title}>{appName}</h1>
               </div>
             </Link>
           </div>
@@ -27,3 +29,5 @@ export const Header: React.FC = () => {
     </header>
   );
 };
+
+export { Header };
