@@ -4,6 +4,7 @@ import { Header } from "../src/components/header.component";
 import { AppProvider } from "../src/store";
 import "typeface-montserrat";
 import Head from "next/head";
+import { Footer } from "../src/components/footer.component";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -17,6 +18,7 @@ const MyApp = ({ Component, pageProps }) => (
     <main>
       <Component {...pageProps} />
     </main>
+    <Footer year={new Date().getFullYear()} author={"Ilya Konstantinov"} authorLink={"https://marcus-rise.dev"} />
   </AppProvider>
 );
 
