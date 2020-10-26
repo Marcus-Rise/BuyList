@@ -5,7 +5,9 @@ FROM base AS dev
 WORKDIR /app
 USER node
 
-CMD npm install && npm run dev
+CMD npx next telemetry --disable \
+    && npm install \
+    && npm run dev
 
 FROM nginx AS web-dev
 
@@ -17,6 +19,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm ci
+RUN npx next telemetry --disable
 
 COPY cache ./cache
 COPY pages ./pages
