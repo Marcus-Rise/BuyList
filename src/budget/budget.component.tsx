@@ -1,6 +1,6 @@
 import React from "react";
 import type { IBudget } from "./budget.interface";
-import { ProductList } from "../product-list/product-list.component";
+import { ProductListUl } from "../product-list/product-list-ul.component";
 import { ProductListItem } from "../product-list/product-list-item.component";
 import { Price } from "../components/price.component";
 
@@ -15,11 +15,11 @@ const Budget: React.FC<IProps> = (props) => {
       </h4>
       <div className="row">
         <div className="col-12">
-          <ProductList>
+          <ProductListUl>
             {props.items.map((i, index) => (
               <ProductListItem className="mb-4" key={i.title} index={index} {...i} active={true} />
             ))}
-          </ProductList>
+          </ProductListUl>
         </div>
       </div>
     </>
