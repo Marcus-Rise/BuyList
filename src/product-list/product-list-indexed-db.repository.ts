@@ -50,9 +50,10 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
     } else {
       const arr = await this.get();
 
-      id = arr.reduce((previousValue, currentValue) => {
-        return previousValue > currentValue.id ? previousValue : currentValue.id;
-      }, 0);
+      id =
+        arr.reduce((previousValue, currentValue) => {
+          return previousValue > currentValue.id ? previousValue : currentValue.id;
+        }, 0) + 1;
     }
 
     return this.db.setItem(String(id), { ...dto, id: id });
