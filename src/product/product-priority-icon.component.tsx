@@ -22,7 +22,7 @@ const ProductPriorityIcon: React.FC<IProps> = (props) => {
       break;
   }
 
-  return <div className={classList.join(" ")} />;
+  return <span className={classList.join(" ")} />;
 };
 
 export { ProductPriorityIcon };
