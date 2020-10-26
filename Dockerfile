@@ -21,7 +21,6 @@ COPY package*.json ./
 RUN npm ci
 RUN npx next telemetry --disable
 
-COPY cache ./cache
 COPY pages ./pages
 COPY public ./public
 COPY src ./src
