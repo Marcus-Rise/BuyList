@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
           <div className="col">
             <Link href={"/"}>
               <div className={`${styles.link} d-flex align-items-center justify-content-start`}>
-                <img className={`${styles.menu} mr-2`} src={logo} alt={title} />
+                <img className={`mr-2`} src={logo} alt={title} />
                 <h1 className={styles.title}>{title}</h1>
               </div>
             </Link>
