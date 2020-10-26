@@ -17,9 +17,9 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
   }
 
   async find(filter?: FindParams): Promise<IProductList | null> {
-    const candidates = await this.get(filter);
+    const [item] = await this.get(filter);
 
-    return candidates[0] ?? null;
+    return item ?? null;
   }
 
   async get(filter?: FindParams): Promise<IProductList[]> {
