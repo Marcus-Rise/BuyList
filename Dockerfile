@@ -5,8 +5,8 @@ FROM base AS dev
 WORKDIR /app
 USER node
 
-CMD npx next telemetry --disable \
-    && npm install \
+CMD npm install \
+    && npx next telemetry --disable \
     && npm run dev
 
 FROM nginx AS web-dev
