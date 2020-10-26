@@ -23,9 +23,10 @@ export class ProductListInMemoryRepository implements IProductListRepository {
     if ("id" in dto) {
       id = dto.id;
     } else {
-      id = this.collection.reduce((previousValue, currentValue) => {
-        return previousValue > currentValue.id ? previousValue : currentValue.id;
-      }, 0);
+      id =
+        this.collection.reduce((previousValue, currentValue) => {
+          return previousValue > currentValue.id ? previousValue : currentValue.id;
+        }, 0) + 1;
     }
 
     const list: IProductList = {
