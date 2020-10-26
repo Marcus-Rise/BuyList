@@ -9,14 +9,10 @@ import { BUDGET_SERVICE_PROVIDER } from "../src/budget/budget.service-interface"
 import type { IBudget } from "../src/budget/budget.interface";
 import { ProductPriorityEnum } from "../src/product/product-priority.enum";
 
-const BudgetForm = lazy(() => import("../src/budget/budget-form.component"));
+const ProductList = lazy(() => import("../src/product-list/product-list.component"));
 const Modal = lazy(() => import("../src/components/modal.component"));
 const ProductForm = lazy(() => import("../src/product/product-form.component"));
 const Budget = lazy(() => import("../src/budget/budget.component"));
-const ButtonAdd = lazy(() => import("../src/components/button-add.component"));
-const ProductListItemToggleButton = lazy(() => import("../src/product-list/product-list-item-toggle-button.component"));
-const ProductList = lazy(() => import("../src/product-list/product-list.component"));
-const ProductListItem = lazy(() => import("../src/product-list/product-list-item.component"));
 
 const Home: React.FC = () => {
   const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
@@ -64,82 +60,40 @@ const Home: React.FC = () => {
   };
 
   return (
-    list && (
-      <Suspense fallback={<></>}>
-        {editableProduct && (
+    <>
+      {editableProduct && (
+        <Suspense fallback={<></>}>
           <Modal onClose={() => setEditableProduct(null)}>
             <ProductForm {...editableProduct} onSubmit={saveItem} onDelete={onDelete} />
           </Modal>
-        )}
-        {budget && (
+        </Suspense>
+      )}
+      {budget && (
+        <Suspense fallback={<></>}>
           <Modal onClose={() => setBudget(null)}>
             <Budget {...budget} />
           </Modal>
-        )}
-        <div className="container pt-3">
-          <div className="row">
-            <div className="col-12 d-flex align-items-center justify-content-center">
-              <h2>{list.title}</h2>
-              <ButtonAdd
-                className="ml-3"
-                onClick={() =>
-                  setEditableProduct({
-                    title: "",
-                    priority: ProductPriorityEnum.middle,
-                    active: true,
-                    price: 0,
-                  })
-                }
-              />
-            </div>
-            <div className="col-12 py-4">
-              <BudgetForm value={0} onSubmit={calculateBudget} />
-            </div>
-            <div className="col-12">
-              <ProductList>
-                {list.items
-                  .filter((i) => i.active)
-                  .map((i, index) => (
-                    <ProductListItem
-                      className="mb-4"
-                      key={i.title}
-                      index={index}
-                      {...i}
-                      onClick={() => setEditableProduct(i)}
-                    >
-                      <ProductListItemToggleButton onClick={() => onItemToggle(i)} active={i.active} />
-                    </ProductListItem>
-                  ))}
-              </ProductList>
-            </div>
-            {!!list.items.filter((i) => !i.active).length && (
-              <>
-                <div className="col-12">
-                  <h2 style={{ textAlign: "center" }}>Купленные</h2>
-                </div>
-                <div className="col-12">
-                  <ProductList>
-                    {list.items
-                      .filter((i) => !i.active)
-                      .map((i, index) => (
-                        <ProductListItem
-                          className="mb-4"
-                          key={i.title}
-                          index={index}
-                          {...i}
-                          onClick={() => setEditableProduct(i)}
-                        >
-                          <ProductListItemToggleButton onClick={() => onItemToggle(i)} active={i.active} />
-                        </ProductListItem>
-                      ))}
-                  </ProductList>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </Suspense>
-    )
+        </Suspense>
+      )}
+      {list && (
+        <Suspense fallback={<></>}>
+          <ProductList
+            {...list}
+            onCalculate={calculateBudget}
+            onToggleItem={onItemToggle}
+            onEditItem={(item) => setEditableProduct(item)}
+            onAddItem={() =>
+              setEditableProduct({
+                title: "",
+                price: 0,
+                priority: ProductPriorityEnum.middle,
+                active: true,
+              })
+            }
+          />
+        </Suspense>
+      )}
+    </>
   );
 };
 

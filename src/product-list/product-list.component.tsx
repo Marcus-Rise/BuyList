@@ -1,7 +1,74 @@
 import React from "react";
+import { IProductList } from "./product-list.interface";
+import ButtonAdd from "../components/button-add.component";
+import BudgetForm from "../budget/budget-form.component";
+import ProductListItem from "./product-list-item.component";
+import ProductListUl from "./product-list-ul.component";
+import ProductListItemToggleButton from "./product-list-item-toggle-button.component";
+import { IProduct } from "../product/product.interface";
 
-const ProductList: React.FC = (props) => {
-  return <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>{props.children}</ul>;
+interface IProps extends IProductList {
+  onAddItem: () => void;
+  onCalculate: (price: number) => void;
+  onEditItem: (item: IProduct) => void;
+  onToggleItem: (item: IProduct) => void;
+}
+
+const ProductList: React.FC<IProps> = (props) => {
+  return (
+    <div className="container pt-3">
+      <div className="row">
+        <div className="col-12 d-flex align-items-center justify-content-center">
+          <h2>{props.title}</h2>
+          <ButtonAdd className="ml-3" onClick={props.onAddItem} />
+        </div>
+        <div className="col-12 py-4">
+          <BudgetForm value={0} onSubmit={props.onCalculate} />
+        </div>
+        <div className="col-12">
+          <ProductListUl>
+            {props.items
+              .filter((i) => i.active)
+              .map((i, index) => (
+                <ProductListItem
+                  className="mb-4"
+                  key={i.title}
+                  index={index}
+                  {...i}
+                  onClick={() => props.onEditItem(i)}
+                >
+                  <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
+                </ProductListItem>
+              ))}
+          </ProductListUl>
+        </div>
+        {!!props.items.filter((i) => !i.active).length && (
+          <>
+            <div className="col-12">
+              <h2 style={{ textAlign: "center" }}>Купленные</h2>
+            </div>
+            <div className="col-12">
+              <ProductListUl>
+                {props.items
+                  .filter((i) => !i.active)
+                  .map((i, index) => (
+                    <ProductListItem
+                      className="mb-4"
+                      key={i.title}
+                      index={index}
+                      {...i}
+                      onClick={() => props.onEditItem(i)}
+                    >
+                      <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
+                    </ProductListItem>
+                  ))}
+              </ProductListUl>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export { ProductList };
