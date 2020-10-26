@@ -18,6 +18,7 @@ COPY package*.json ./
 
 RUN npm ci
 
+COPY cache ./cache
 COPY pages ./pages
 COPY public ./public
 COPY src ./src
