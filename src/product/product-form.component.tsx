@@ -54,7 +54,7 @@ export const ProductForm: React.FC<IProps> = (props) => {
             />
           </div>
           <div className="col-12 d-flex justify-content-center">
-            <Button type={"submit"} color={ButtonColors.accent} styles={{ width: "100%" }}>
+            <Button type={"submit"} color={ButtonColors.primary} styles={{ width: "100%" }}>
               Сохранить
             </Button>
           </div>

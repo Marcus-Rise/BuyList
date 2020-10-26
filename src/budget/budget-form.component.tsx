@@ -37,7 +37,7 @@ export const BudgetForm: React.FC<IProps> = (props) => {
           />
         </div>
         <div className="col-auto">
-          <Button type={"submit"} color={ButtonColors.accent}>
+          <Button type={"submit"} color={ButtonColors.primary}>
             Посчитать
           </Button>
         </div>

@@ -13,7 +13,7 @@ const ButtonAdd: React.FC<IProps> = (props) => {
     <Button
       className={`${props.className} ${styles.button}`}
       rounded
-      color={ButtonColors.accent}
+      color={ButtonColors.primary}
       onClick={props.onClick}
     >
       <img alt={"add"} src={PlusIcon} />

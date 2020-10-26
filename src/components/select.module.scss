@@ -3,8 +3,8 @@
 .select {
   @include typography.light;
 
-  --select-border: var(--accent);
-  --select-focus: var(--accent);
+  --select-border: var(--primary);
+  --select-focus: var(--primary);
   --select-arrow: var(--select-border);
 
   margin-top: 0.5rem;

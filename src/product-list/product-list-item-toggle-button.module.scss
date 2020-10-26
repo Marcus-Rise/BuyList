@@ -1,7 +1,7 @@
 .toggleButton {
   border-radius: 100%;
   background-color: white;
-  color: var(--accent);
+  color: var(--primary);
 
   $size: 2rem;
   width: $size;
@@ -9,7 +9,7 @@
 }
 
 .active {
-  background-color: var(--accent);
+  background-color: var(--primary);
 }
 
 .inActive {
