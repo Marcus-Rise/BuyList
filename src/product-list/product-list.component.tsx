@@ -1,11 +1,10 @@
 import React from "react";
-import { IProductList } from "./product-list.interface";
+import type { IProductList } from "./product-list.interface";
 import ButtonAdd from "../components/button-add.component";
 import BudgetForm from "../budget/budget-form.component";
-import ProductListItem from "./product-list-item.component";
 import ProductListUl from "./product-list-ul.component";
-import ProductListItemToggleButton from "./product-list-item-toggle-button.component";
-import { IProduct } from "../product/product.interface";
+import type { IProduct } from "../product/product.interface";
+import { ProductListItemToggleable } from "./product-list-item-toggleable.component";
 
 interface IProps extends IProductList {
   onAddItem: () => void;
@@ -31,11 +30,12 @@ const ProductList: React.FC<IProps> = (props) => {
         </div>
         <div className="col-12">
           <ProductListUl>
-            {products.map((i, index) => (
-              <ProductListItem className="mb-4" key={i.title} index={index} {...i} onClick={() => props.onEditItem(i)}>
-                <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
-              </ProductListItem>
-            ))}
+            <ProductListItemToggleable
+              items={products}
+              className="mb-4"
+              onItemSelected={props.onEditItem}
+              onToggleItem={props.onToggleItem}
+            />
           </ProductListUl>
         </div>
         {isProductsInActiveExist && (
@@ -45,17 +45,12 @@ const ProductList: React.FC<IProps> = (props) => {
             </div>
             <div className="col-12">
               <ProductListUl>
-                {productsInActive.map((i, index) => (
-                  <ProductListItem
-                    className="mb-4"
-                    key={i.title}
-                    index={index}
-                    {...i}
-                    onClick={() => props.onEditItem(i)}
-                  >
-                    <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
-                  </ProductListItem>
-                ))}
+                <ProductListItemToggleable
+                  items={productsInActive}
+                  className="mb-4"
+                  onItemSelected={props.onEditItem}
+                  onToggleItem={props.onToggleItem}
+                />
               </ProductListUl>
             </div>
           </>
