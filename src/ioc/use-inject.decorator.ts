@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { store } from "../store";
 
 export const useInject = <T>(provider: symbol): T => {
@@ -6,5 +6,5 @@ export const useInject = <T>(provider: symbol): T => {
     state: { container },
   } = useContext(store);
 
-  return container.get<T>(provider);
+  return useMemo(() => container.get<T>(provider), [container, provider]);
 };
