@@ -39,6 +39,18 @@ const ProductForm: React.FC<IProps> = (props) => {
 
   const onDelete = () => props.onDelete(props.title);
 
+  const SelectWrapper = useMemo(
+    () => (
+      <Select
+        onChange={setPriority}
+        label={"Приоритет"}
+        val={priority}
+        items={priorityVariants}
+        styles={{ width: "100%" }}
+      />
+    ),
+    [priority, priorityVariants],
+  );
   const SubmitButton = useMemo(
     () => (
       <Button type={"submit"} color={ButtonColors.primary} styles={{ width: "100%" }}>
@@ -59,15 +71,7 @@ const ProductForm: React.FC<IProps> = (props) => {
           <div className="col-12 d-flex justify-content-center mb-3">
             <InputPrice required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
           </div>
-          <div className="col-12 d-flex justify-content-center mb-3">
-            <Select
-              onChange={setPriority}
-              label={"Приоритет"}
-              val={priority}
-              items={priorityVariants}
-              styles={{ width: "100%" }}
-            />
-          </div>
+          <div className="col-12 d-flex justify-content-center mb-3">{SelectWrapper}</div>
           <div className="col-12 d-flex justify-content-center">{SubmitButton}</div>
           {isEditMode && (
             <div className="col-12 d-flex justify-content-center mt-3">
