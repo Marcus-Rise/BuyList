@@ -39,6 +39,15 @@ const ProductForm: React.FC<IProps> = (props) => {
 
   const onDelete = () => props.onDelete(props.title);
 
+  const SubmitButton = useMemo(
+    () => (
+      <Button type={"submit"} color={ButtonColors.primary} styles={{ width: "100%" }}>
+        Сохранить
+      </Button>
+    ),
+    [],
+  );
+
   return (
     <>
       <h3 style={{ textAlign: "center", maxWidth: "100%" }}>{modalTitle}</h3>
@@ -59,11 +68,7 @@ const ProductForm: React.FC<IProps> = (props) => {
               styles={{ width: "100%" }}
             />
           </div>
-          <div className="col-12 d-flex justify-content-center">
-            <Button type={"submit"} color={ButtonColors.primary} styles={{ width: "100%" }}>
-              Сохранить
-            </Button>
-          </div>
+          <div className="col-12 d-flex justify-content-center">{SubmitButton}</div>
           {isEditMode && (
             <div className="col-12 d-flex justify-content-center mt-3">
               <Button onClick={onDelete} type={"button"} color={ButtonColors.danger} styles={{ width: "100%" }}>
