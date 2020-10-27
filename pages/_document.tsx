@@ -6,6 +6,7 @@ import type { DocumentInitialProps } from "next/dist/next-server/lib/utils";
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
+
     return { ...initialProps };
   }
 
