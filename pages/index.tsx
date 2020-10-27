@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import type { IProductList } from "../src/product-list/product-list.interface";
 import type { IProduct } from "../src/product/product.interface";
 import { useInject } from "../src/ioc/use-inject.decorator";
@@ -14,7 +14,7 @@ const BudgetForm = lazy(() => import("../src/budget/budget-form.component"));
 const ProductList = lazy(() => import("../src/product-list/product-list.component"));
 const Modal = lazy(() => import("../src/components/modal.component"));
 const ProductForm = lazy(() => import("../src/product/product-form.component"));
-const Budget = lazy(() => import("../src/budget/budget.component"));
+const BudgetOptimal = lazy(() => import("../src/budget/budget-optimal.component"));
 
 const Home: React.FC = () => {
   const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
@@ -43,16 +43,12 @@ const Home: React.FC = () => {
     }
   };
 
-  const onBudgetCalculate = (val: number): void => {
-    if (list) {
-      budgetService
-        .calculate(
-          list.items.filter((i) => i.active),
-          val,
-        )
-        .then(setBudget);
-    }
-  };
+  const onBudgetCalculate = useCallback(
+    (val: number): void => {
+      budgetService.calculate(list?.items.filter((i) => i.active) ?? [], val).then(setBudget);
+    },
+    [budgetService, list?.items],
+  );
 
   const onDelete = (title: string): void => {
     const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
@@ -78,6 +74,18 @@ const Home: React.FC = () => {
 
   const onCloseBudgetModal = useCallback(() => setBudget(null), []);
 
+  const ProductListHeader = useMemo(
+    () => (
+      <>
+        <h2>{list?.title}</h2>
+        <ButtonAdd className="ml-3" onClick={onAddItem} />
+      </>
+    ),
+    [list?.title, onAddItem],
+  );
+
+  const BudgetFormWrapper = useMemo(() => <BudgetForm value={0} onSubmit={onBudgetCalculate} />, [onBudgetCalculate]);
+
   return (
     <>
       {editableProduct && (
@@ -90,7 +98,7 @@ const Home: React.FC = () => {
       {budget && (
         <Suspense fallback={<></>}>
           <Modal onClose={onCloseBudgetModal}>
-            <Budget {...budget} />
+            <BudgetOptimal {...budget} />
           </Modal>
         </Suspense>
       )}
@@ -98,13 +106,8 @@ const Home: React.FC = () => {
         <div className="container pt-3">
           <div className="row">
             <Suspense fallback={<></>}>
-              <div className="col-12 d-flex align-items-center justify-content-center">
-                <h2>{list.title}</h2>
-                <ButtonAdd className="ml-3" onClick={onAddItem} />
-              </div>
-              <div className="col-12 py-4">
-                <BudgetForm value={0} onSubmit={onBudgetCalculate} />
-              </div>
+              <div className="col-12 d-flex align-items-center justify-content-center">{ProductListHeader} </div>
+              <div className="col-12 py-4">{BudgetFormWrapper}</div>
               <ProductList items={list.items} onToggleItem={onItemToggle} onEditItem={setEditableProduct} />
             </Suspense>
           </div>
