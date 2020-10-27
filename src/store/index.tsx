@@ -18,7 +18,7 @@ const store = createContext<IAppContext>({
   state: initState,
 });
 
-const reducer: React.Reducer<IAppState, any> = (prevState) => prevState;
+const reducer: React.Reducer<IAppState, unknown> = (prevState) => prevState;
 
 const { Provider } = store;
 

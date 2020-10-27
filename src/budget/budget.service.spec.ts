@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { BudgetService } from "./budget.service";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
-import { IBudgetProduct } from "./budget.interface";
+import type { IBudgetProduct } from "./budget.interface";
 
 describe("BudgetService", () => {
   let service: BudgetService;

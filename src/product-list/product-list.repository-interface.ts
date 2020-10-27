@@ -1,5 +1,5 @@
 import type { IProductList } from "./product-list.interface";
-import { IProductListPostDto } from "./product-list-post.dto";
+import type { IProductListPostDto } from "./product-list-post.dto";
 
 const PRODUCT_LIST_REPOSITORY_PROVIDER = Symbol("IProductListRepository");
 
