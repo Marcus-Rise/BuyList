@@ -15,6 +15,10 @@ interface IProps extends IProductList {
 }
 
 const ProductList: React.FC<IProps> = (props) => {
+  const products = props.items.filter((i) => i.active);
+  const productsInActive = props.items.filter((i) => !i.active);
+  const isProductsInActiveExist = !!props.items.filter((i) => !i.active).length;
+
   return (
     <div className="container pt-3">
       <div className="row">
@@ -27,41 +31,31 @@ const ProductList: React.FC<IProps> = (props) => {
         </div>
         <div className="col-12">
           <ProductListUl>
-            {props.items
-              .filter((i) => i.active)
-              .map((i, index) => (
-                <ProductListItem
-                  className="mb-4"
-                  key={i.title}
-                  index={index}
-                  {...i}
-                  onClick={() => props.onEditItem(i)}
-                >
-                  <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
-                </ProductListItem>
-              ))}
+            {products.map((i, index) => (
+              <ProductListItem className="mb-4" key={i.title} index={index} {...i} onClick={() => props.onEditItem(i)}>
+                <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
+              </ProductListItem>
+            ))}
           </ProductListUl>
         </div>
-        {!!props.items.filter((i) => !i.active).length && (
+        {isProductsInActiveExist && (
           <>
             <div className="col-12">
               <h2 style={{ textAlign: "center" }}>Купленные</h2>
             </div>
             <div className="col-12">
               <ProductListUl>
-                {props.items
-                  .filter((i) => !i.active)
-                  .map((i, index) => (
-                    <ProductListItem
-                      className="mb-4"
-                      key={i.title}
-                      index={index}
-                      {...i}
-                      onClick={() => props.onEditItem(i)}
-                    >
-                      <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
-                    </ProductListItem>
-                  ))}
+                {productsInActive.map((i, index) => (
+                  <ProductListItem
+                    className="mb-4"
+                    key={i.title}
+                    index={index}
+                    {...i}
+                    onClick={() => props.onEditItem(i)}
+                  >
+                    <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
+                  </ProductListItem>
+                ))}
               </ProductListUl>
             </div>
           </>
