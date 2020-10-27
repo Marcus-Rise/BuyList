@@ -37,11 +37,14 @@ const Home: React.FC = () => {
     setEditableProduct(null);
   };
 
-  const onItemToggle = (item: IProduct): void => {
-    if (list) {
-      productListService.toggleItem(list, item.title).then(setList);
-    }
-  };
+  const onItemToggle = useCallback(
+    (item: IProduct): void => {
+      if (list) {
+        productListService.toggleItem(list, item.title).then(setList);
+      }
+    },
+    [productListService, list],
+  );
 
   const onBudgetCalculate = useCallback(
     (val: number): void => {
@@ -86,6 +89,11 @@ const Home: React.FC = () => {
 
   const BudgetFormWrapper = useMemo(() => <BudgetForm value={0} onSubmit={onBudgetCalculate} />, [onBudgetCalculate]);
 
+  const ProductListWrapper = useMemo(
+    () => <ProductList items={list?.items ?? []} onToggleItem={onItemToggle} onEditItem={setEditableProduct} />,
+    [list?.items, onItemToggle],
+  );
+
   return (
     <>
       {editableProduct && (
@@ -108,7 +116,7 @@ const Home: React.FC = () => {
             <Suspense fallback={<></>}>
               <div className="col-12 d-flex align-items-center justify-content-center">{ProductListHeader} </div>
               <div className="col-12 py-4">{BudgetFormWrapper}</div>
-              <ProductList items={list.items} onToggleItem={onItemToggle} onEditItem={setEditableProduct} />
+              {ProductListWrapper}
             </Suspense>
           </div>
         </div>
