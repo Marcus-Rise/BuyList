@@ -27,25 +27,19 @@ const Home: React.FC = () => {
 
   useEffect(getProductList, [getProductList]);
 
-  const onSaveItem = useCallback(
-    (item: IProduct): void => {
-      if (list) {
-        productListService.saveItem(list, item).then(setList);
-      }
+  const onSaveItem = (item: IProduct): void => {
+    if (list) {
+      productListService.saveItem(list, item).then(setList);
+    }
 
-      setEditableProduct(null);
-    },
-    [list, productListService],
-  );
+    setEditableProduct(null);
+  };
 
-  const onItemToggle = useCallback(
-    (item: IProduct): void => {
-      if (list) {
-        productListService.toggleItem(list, item.title).then(setList);
-      }
-    },
-    [list, productListService],
-  );
+  const onItemToggle = (item: IProduct): void => {
+    if (list) {
+      productListService.toggleItem(list, item.title).then(setList);
+    }
+  };
 
   const calculateBudget = useCallback(
     (val: number): void => {
@@ -61,17 +55,14 @@ const Home: React.FC = () => {
     [list, budgetService],
   );
 
-  const onDelete = useCallback(
-    (title: string): void => {
-      const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
+  const onDelete = (title: string): void => {
+    const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
 
-      if (list && isAllow) {
-        setEditableProduct(null);
-        productListService.deleteItem(list, title).then(setList);
-      }
-    },
-    [list, productListService],
-  );
+    if (list && isAllow) {
+      setEditableProduct(null);
+      productListService.deleteItem(list, title).then(setList);
+    }
+  };
 
   const onAddItem = useCallback(
     (): void =>
