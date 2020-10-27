@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import type { IProduct } from "./product.interface";
 import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
@@ -36,7 +36,7 @@ const ProductForm: React.FC<IProps> = (props) => {
     }
   };
 
-  const onDelete = () => props.onDelete(props.title);
+  const onDelete = useCallback(() => props.onDelete(props.title), [props]);
 
   const SelectWrapper = useMemo(
     () => (
@@ -75,6 +75,21 @@ const ProductForm: React.FC<IProps> = (props) => {
     [isEditMode],
   );
 
+  const DeleteButton = useMemo(
+    () => (
+      <>
+        {isEditMode && (
+          <div className="col-12 d-flex justify-content-center mt-3">
+            <Button onClick={onDelete} type={"button"} color={ButtonColors.danger} styles={{ width: "100%" }}>
+              Удалить
+            </Button>
+          </div>
+        )}
+      </>
+    ),
+    [isEditMode, onDelete],
+  );
+
   return (
     <div>
       {Header}
@@ -84,13 +99,7 @@ const ProductForm: React.FC<IProps> = (props) => {
           <div className="col-12 d-flex justify-content-center mb-3">{InputPriceWrapper}</div>
           <div className="col-12 d-flex justify-content-center mb-3">{SelectWrapper}</div>
           <div className="col-12 d-flex justify-content-center">{SubmitButton}</div>
-          {isEditMode && (
-            <div className="col-12 d-flex justify-content-center mt-3">
-              <Button onClick={onDelete} type={"button"} color={ButtonColors.danger} styles={{ width: "100%" }}>
-                Удалить
-              </Button>
-            </div>
-          )}
+          {DeleteButton}
         </div>
       </form>
     </div>
