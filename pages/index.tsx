@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import type { IProductList } from "../src/product-list/product-list.interface";
 import type { IProduct } from "../src/product/product.interface";
 import { useInject } from "../src/ioc/use-inject.decorator";
@@ -9,10 +9,12 @@ import { BUDGET_SERVICE_PROVIDER } from "../src/budget/budget.service-interface"
 import type { IBudget } from "../src/budget/budget.interface";
 import { ProductPriorityEnum } from "../src/product/product-priority.enum";
 
+const ButtonAdd = lazy(() => import("../src/components/button-add.component"));
+const BudgetForm = lazy(() => import("../src/budget/budget-form.component"));
 const ProductList = lazy(() => import("../src/product-list/product-list.component"));
 const Modal = lazy(() => import("../src/components/modal.component"));
 const ProductForm = lazy(() => import("../src/product/product-form.component"));
-const Budget = lazy(() => import("../src/budget/budget.component"));
+const BudgetOptimal = lazy(() => import("../src/budget/budget-optimal.component"));
 
 const Home: React.FC = () => {
   const budgetService = useInject<IBudgetService>(BUDGET_SERVICE_PROVIDER);
@@ -21,9 +23,11 @@ const Home: React.FC = () => {
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
 
-  useEffect(() => {
+  const getProductList = useCallback(() => {
     productListService.getLatest().then(setList);
-  }, []);
+  }, [productListService]);
+
+  useEffect(getProductList, [getProductList]);
 
   const onSaveItem = (item: IProduct): void => {
     if (list) {
@@ -33,22 +37,21 @@ const Home: React.FC = () => {
     setEditableProduct(null);
   };
 
-  const onItemToggle = (item: IProduct): void => {
-    if (list) {
-      productListService.toggleItem(list, item.title).then(setList);
-    }
-  };
+  const onItemToggle = useCallback(
+    (item: IProduct): void => {
+      if (list) {
+        productListService.toggleItem(list, item.title).then(setList);
+      }
+    },
+    [productListService, list],
+  );
 
-  const calculateBudget = (val: number): void => {
-    if (list) {
-      budgetService
-        .calculate(
-          list.items.filter((i) => i.active),
-          val,
-        )
-        .then(setBudget);
-    }
-  };
+  const onBudgetCalculate = useCallback(
+    (val: number): void => {
+      budgetService.calculate(list?.items.filter((i) => i.active) ?? [], val).then(setBudget);
+    },
+    [budgetService, list?.items],
+  );
 
   const onDelete = (title: string): void => {
     const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
@@ -59,40 +62,64 @@ const Home: React.FC = () => {
     }
   };
 
-  const onAddItem = (): void =>
-    setEditableProduct({
-      title: "",
-      price: 0,
-      priority: ProductPriorityEnum.middle,
-      active: true,
-    });
+  const onAddItem = useCallback(
+    (): void =>
+      setEditableProduct({
+        title: "",
+        price: 0,
+        priority: ProductPriorityEnum.middle,
+        active: true,
+      }),
+    [],
+  );
+
+  const onCloseProductFormModal = useCallback(() => setEditableProduct(null), []);
+
+  const onCloseBudgetModal = useCallback(() => setBudget(null), []);
+
+  const ProductListHeader = useMemo(
+    () => (
+      <>
+        <h2>{list?.title}</h2>
+        <ButtonAdd className="ml-3" onClick={onAddItem} />
+      </>
+    ),
+    [list?.title, onAddItem],
+  );
+
+  const BudgetFormWrapper = useMemo(() => <BudgetForm value={0} onSubmit={onBudgetCalculate} />, [onBudgetCalculate]);
+
+  const ProductListWrapper = useMemo(
+    () => <ProductList items={list?.items ?? []} onToggleItem={onItemToggle} onEditItem={setEditableProduct} />,
+    [list?.items, onItemToggle],
+  );
 
   return (
     <>
       {editableProduct && (
         <Suspense fallback={<></>}>
-          <Modal onClose={() => setEditableProduct(null)}>
+          <Modal onClose={onCloseProductFormModal}>
             <ProductForm {...editableProduct} onSubmit={onSaveItem} onDelete={onDelete} />
           </Modal>
         </Suspense>
       )}
       {budget && (
         <Suspense fallback={<></>}>
-          <Modal onClose={() => setBudget(null)}>
-            <Budget {...budget} />
+          <Modal onClose={onCloseBudgetModal}>
+            <BudgetOptimal {...budget} />
           </Modal>
         </Suspense>
       )}
       {list && (
-        <Suspense fallback={<></>}>
-          <ProductList
-            {...list}
-            onCalculate={calculateBudget}
-            onToggleItem={onItemToggle}
-            onEditItem={setEditableProduct}
-            onAddItem={onAddItem}
-          />
-        </Suspense>
+        <div className="container pt-3">
+          <div className="row">
+            <Suspense fallback={<></>}>
+              <div className="col-12 d-flex align-items-center justify-content-center">{ProductListHeader} </div>
+              <div className="col-12 py-4">{BudgetFormWrapper}</div>
+              {ProductListWrapper}
+            </Suspense>
+          </div>
+        </div>
       )}
     </>
   );

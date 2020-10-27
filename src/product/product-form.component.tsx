@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import type { IProduct } from "./product.interface";
 import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
@@ -18,10 +18,15 @@ const ProductForm: React.FC<IProps> = (props) => {
   const [price, setPrice] = useState<number>(props.price);
   const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
 
-  const priorityVariants: SelectOption<string>[] = Object.values(ProductPriorityEnum).map((i) => ({
-    title: i,
-    val: i,
-  }));
+  const isEditMode = useMemo(() => !!props.title, [props.title]);
+  const priorityVariants: SelectOption<string>[] = useMemo(
+    () =>
+      Object.values(ProductPriorityEnum).map((i) => ({
+        title: i,
+        val: i,
+      })),
+    [],
+  );
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -31,48 +36,73 @@ const ProductForm: React.FC<IProps> = (props) => {
     }
   };
 
-  return (
-    <>
+  const onDelete = useCallback(() => props.onDelete(props.title), [props]);
+
+  const SelectWrapper = useMemo(
+    () => (
+      <Select
+        onChange={setPriority}
+        label={"Приоритет"}
+        val={priority}
+        items={priorityVariants}
+        styles={{ width: "100%" }}
+      />
+    ),
+    [priority, priorityVariants],
+  );
+  const SubmitButton = useMemo(
+    () => (
+      <Button type={"submit"} color={ButtonColors.primary} styles={{ width: "100%" }}>
+        Сохранить
+      </Button>
+    ),
+    [],
+  );
+  const InputPriceWrapper = useMemo(
+    () => <InputPrice required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />,
+    [price],
+  );
+  const InputTextWrapper = useMemo(
+    () => <InputText required onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />,
+    [title],
+  );
+  const Header = useMemo(
+    () => (
       <h3 style={{ textAlign: "center", maxWidth: "100%" }}>
-        {props.title ? `Редактирование продукта` : "Добавление продукта"}
+        {isEditMode ? `Редактирование продукта` : "Добавление продукта"}
       </h3>
-      <form onSubmit={onSubmit}>
-        <div className="row">
-          <div className="col-12 d-flex justify-content-center mb-3">
-            <InputText required onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />
-          </div>
-          <div className="col-12 d-flex justify-content-center mb-3">
-            <InputPrice required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
-          </div>
-          <div className="col-12 d-flex justify-content-center mb-3">
-            <Select
-              onChange={setPriority}
-              label={"Приоритет"}
-              val={priority}
-              items={priorityVariants}
-              styles={{ width: "100%" }}
-            />
-          </div>
-          <div className="col-12 d-flex justify-content-center">
-            <Button type={"submit"} color={ButtonColors.primary} styles={{ width: "100%" }}>
-              Сохранить
+    ),
+    [isEditMode],
+  );
+
+  const DeleteButton = useMemo(
+    () => (
+      <>
+        {isEditMode && (
+          <div className="col-12 d-flex justify-content-center mt-3">
+            <Button onClick={onDelete} type={"button"} color={ButtonColors.danger} styles={{ width: "100%" }}>
+              Удалить
             </Button>
           </div>
-          {props.title && (
-            <div className="col-12 d-flex justify-content-center mt-3">
-              <Button
-                onClick={() => props.onDelete(props.title)}
-                type={"button"}
-                color={ButtonColors.danger}
-                styles={{ width: "100%" }}
-              >
-                Удалить
-              </Button>
-            </div>
-          )}
+        )}
+      </>
+    ),
+    [isEditMode, onDelete],
+  );
+
+  return (
+    <div>
+      {Header}
+      <form onSubmit={onSubmit}>
+        <div className="row">
+          <div className="col-12 d-flex justify-content-center mb-3">{InputTextWrapper}</div>
+          <div className="col-12 d-flex justify-content-center mb-3">{InputPriceWrapper}</div>
+          <div className="col-12 d-flex justify-content-center mb-3">{SelectWrapper}</div>
+          <div className="col-12 d-flex justify-content-center">{SubmitButton}</div>
+          {DeleteButton}
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

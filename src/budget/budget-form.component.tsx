@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, ButtonColors } from "../components/button.component";
 import { InputPrice } from "../components/input-price.component";
 
@@ -20,6 +20,15 @@ const BudgetForm: React.FC<IProps> = (props) => {
     }
   };
 
+  const SubmitButton = useMemo(
+    () => (
+      <Button type={"submit"} color={ButtonColors.primary}>
+        Посчитать
+      </Button>
+    ),
+    [],
+  );
+
   return (
     <form onSubmit={onSubmit}>
       <div className="row justify-content-between align-items-center">
@@ -36,11 +45,7 @@ const BudgetForm: React.FC<IProps> = (props) => {
             min={1}
           />
         </div>
-        <div className="col-auto">
-          <Button type={"submit"} color={ButtonColors.primary}>
-            Посчитать
-          </Button>
-        </div>
+        <div className="col-auto">{SubmitButton}</div>
       </div>
     </form>
   );

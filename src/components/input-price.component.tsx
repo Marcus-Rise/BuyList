@@ -16,6 +16,8 @@ interface IProps {
 }
 
 export const InputPrice: React.FC<IProps> = (props) => {
+  const onChange = (val?: string) => props.onChange(Number(val));
+
   return (
     <div className={styles.input} style={{ ...props.styles, fontSize: props.size }}>
       {!props.noLabel && <label htmlFor={props.label}>{props.label}</label>}
@@ -28,7 +30,7 @@ export const InputPrice: React.FC<IProps> = (props) => {
         defaultValue={1000}
         allowDecimals={true}
         decimalsLimit={2}
-        onChange={(val) => props.onChange(Number(val))}
+        onChange={onChange}
         min={props.min}
         max={props.max}
         required={props.required}
