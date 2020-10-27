@@ -25,7 +25,7 @@ const Home: React.FC = () => {
     productListService.getLatest().then(setList);
   }, []);
 
-  const saveItem = (item: IProduct): void => {
+  const onSaveItem = (item: IProduct): void => {
     if (list) {
       productListService.saveItem(list, item).then(setList);
     }
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const calculateBudget = (val: number) => {
+  const calculateBudget = (val: number): void => {
     if (list) {
       budgetService
         .calculate(
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const onDelete = (title: string) => {
+  const onDelete = (title: string): void => {
     const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
 
     if (list && isAllow) {
@@ -59,12 +59,20 @@ const Home: React.FC = () => {
     }
   };
 
+  const onAddItem = (): void =>
+    setEditableProduct({
+      title: "",
+      price: 0,
+      priority: ProductPriorityEnum.middle,
+      active: true,
+    });
+
   return (
     <>
       {editableProduct && (
         <Suspense fallback={<></>}>
           <Modal onClose={() => setEditableProduct(null)}>
-            <ProductForm {...editableProduct} onSubmit={saveItem} onDelete={onDelete} />
+            <ProductForm {...editableProduct} onSubmit={onSaveItem} onDelete={onDelete} />
           </Modal>
         </Suspense>
       )}
@@ -81,15 +89,8 @@ const Home: React.FC = () => {
             {...list}
             onCalculate={calculateBudget}
             onToggleItem={onItemToggle}
-            onEditItem={(item) => setEditableProduct(item)}
-            onAddItem={() =>
-              setEditableProduct({
-                title: "",
-                price: 0,
-                priority: ProductPriorityEnum.middle,
-                active: true,
-              })
-            }
+            onEditItem={setEditableProduct}
+            onAddItem={onAddItem}
           />
         </Suspense>
       )}
