@@ -18,6 +18,8 @@ const ProductForm: React.FC<IProps> = (props) => {
   const [price, setPrice] = useState<number>(props.price);
   const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
 
+  const isEditMode = !!props.title;
+  const modalTitle = isEditMode ? `Редактирование продукта` : "Добавление продукта";
   const priorityVariants: SelectOption<string>[] = useMemo(
     () =>
       Object.values(ProductPriorityEnum).map((i) => ({
@@ -34,10 +36,6 @@ const ProductForm: React.FC<IProps> = (props) => {
       props.onSubmit({ active: props.active, title, priority, price });
     }
   };
-
-  const isEditMode = useMemo(() => !!props.title, [props.title]);
-
-  const modalTitle = useMemo(() => (isEditMode ? `Редактирование продукта` : "Добавление продукта"), [isEditMode]);
 
   const onDelete = () => props.onDelete(props.title);
 
