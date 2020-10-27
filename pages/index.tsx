@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import type { IProductList } from "../src/product-list/product-list.interface";
 import type { IProduct } from "../src/product/product.interface";
 import { useInject } from "../src/ioc/use-inject.decorator";
@@ -21,64 +21,85 @@ const Home: React.FC = () => {
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
 
-  useEffect(() => {
+  const getProductList = useCallback(() => {
     productListService.getLatest().then(setList);
-  }, []);
+  }, [productListService]);
 
-  const onSaveItem = (item: IProduct): void => {
-    if (list) {
-      productListService.saveItem(list, item).then(setList);
-    }
+  useEffect(getProductList, [getProductList]);
 
-    setEditableProduct(null);
-  };
+  const onSaveItem = useCallback(
+    (item: IProduct): void => {
+      if (list) {
+        productListService.saveItem(list, item).then(setList);
+      }
 
-  const onItemToggle = (item: IProduct): void => {
-    if (list) {
-      productListService.toggleItem(list, item.title).then(setList);
-    }
-  };
-
-  const calculateBudget = (val: number): void => {
-    if (list) {
-      budgetService
-        .calculate(
-          list.items.filter((i) => i.active),
-          val,
-        )
-        .then(setBudget);
-    }
-  };
-
-  const onDelete = (title: string): void => {
-    const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
-
-    if (list && isAllow) {
       setEditableProduct(null);
-      productListService.deleteItem(list, title).then(setList);
-    }
-  };
+    },
+    [list, productListService],
+  );
 
-  const onAddItem = (): void =>
-    setEditableProduct({
-      title: "",
-      price: 0,
-      priority: ProductPriorityEnum.middle,
-      active: true,
-    });
+  const onItemToggle = useCallback(
+    (item: IProduct): void => {
+      if (list) {
+        productListService.toggleItem(list, item.title).then(setList);
+      }
+    },
+    [list, productListService],
+  );
+
+  const calculateBudget = useCallback(
+    (val: number): void => {
+      if (list) {
+        budgetService
+          .calculate(
+            list.items.filter((i) => i.active),
+            val,
+          )
+          .then(setBudget);
+      }
+    },
+    [list, budgetService],
+  );
+
+  const onDelete = useCallback(
+    (title: string): void => {
+      const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
+
+      if (list && isAllow) {
+        setEditableProduct(null);
+        productListService.deleteItem(list, title).then(setList);
+      }
+    },
+    [list, productListService],
+  );
+
+  const onAddItem = useCallback(
+    (): void =>
+      setEditableProduct({
+        title: "",
+        price: 0,
+        priority: ProductPriorityEnum.middle,
+        active: true,
+      }),
+    [],
+  );
+
+  const onCloseProductFormModal = useCallback(() => setEditableProduct(null), []);
+
+  const onCloseBudgetModal = useCallback(() => setBudget(null), []);
 
   return (
     <>
       {editableProduct && (
         <Suspense fallback={<></>}>
-          <Modal onClose={() => setEditableProduct(null)}>
+          <Modal onClose={onCloseProductFormModal}>
             <ProductForm {...editableProduct} onSubmit={onSaveItem} onDelete={onDelete} />
           </Modal>
         </Suspense>
       )}
       {budget && (
         <Suspense fallback={<></>}>
-          <Modal onClose={() => setBudget(null)}>
+          <Modal onClose={onCloseBudgetModal}>
             <Budget {...budget} />
           </Modal>
         </Suspense>
