@@ -43,19 +43,16 @@ const Home: React.FC = () => {
     }
   };
 
-  const onBudgetCalculate = useCallback(
-    (val: number): void => {
-      if (list) {
-        budgetService
-          .calculate(
-            list.items.filter((i) => i.active),
-            val,
-          )
-          .then(setBudget);
-      }
-    },
-    [list, budgetService],
-  );
+  const onBudgetCalculate = (val: number): void => {
+    if (list) {
+      budgetService
+        .calculate(
+          list.items.filter((i) => i.active),
+          val,
+        )
+        .then(setBudget);
+    }
+  };
 
   const onDelete = (title: string): void => {
     const isAllow = confirm(`Вы уверены, что хотите удалить продукт "${title}"?`);
