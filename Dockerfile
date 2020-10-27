@@ -26,6 +26,7 @@ COPY public ./public
 COPY src ./src
 COPY ./*.js* ./
 
+RUN npm run lint
 RUN npm run test
 RUN npm run build
 RUN npm run export

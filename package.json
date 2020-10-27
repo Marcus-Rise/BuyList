@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' 'pages/**/*.{js,ts,tsx}'",
+    "lint:fix": "npm run lint --fix",
     "test": "jest",
     "build": "next build",
     "start": "next start",
