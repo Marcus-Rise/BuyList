@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import type { IProduct } from "./product.interface";
 import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
@@ -27,22 +27,19 @@ const ProductForm: React.FC<IProps> = (props) => {
     [],
   );
 
-  const onSubmit = useCallback(
-    (e: FormEvent) => {
-      e.preventDefault();
+  const onSubmit = (e: FormEvent) => {
+    e.preventDefault();
 
-      if (title && Number(price) > 0) {
-        props.onSubmit({ active: props.active, title, priority, price });
-      }
-    },
-    [props, title, priority, price],
-  );
+    if (title && Number(price) > 0) {
+      props.onSubmit({ active: props.active, title, priority, price });
+    }
+  };
 
   const isEditMode = useMemo(() => !!props.title, [props.title]);
 
   const modalTitle = useMemo(() => (isEditMode ? `Редактирование продукта` : "Добавление продукта"), [isEditMode]);
 
-  const onDelete = useCallback(() => props.onDelete(props.title), [props]);
+  const onDelete = () => props.onDelete(props.title);
 
   return (
     <>
