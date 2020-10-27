@@ -60,6 +60,11 @@ const ProductForm: React.FC<IProps> = (props) => {
     [],
   );
 
+  const InputPriceWrapper = useMemo(
+    () => <InputPrice required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />,
+    [price],
+  );
+
   return (
     <>
       <h3 style={{ textAlign: "center", maxWidth: "100%" }}>{modalTitle}</h3>
@@ -68,9 +73,7 @@ const ProductForm: React.FC<IProps> = (props) => {
           <div className="col-12 d-flex justify-content-center mb-3">
             <InputText required onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />
           </div>
-          <div className="col-12 d-flex justify-content-center mb-3">
-            <InputPrice required min={1} onChange={setPrice} label={"Цена"} val={price} styles={{ width: "100%" }} />
-          </div>
+          <div className="col-12 d-flex justify-content-center mb-3">{InputPriceWrapper}</div>
           <div className="col-12 d-flex justify-content-center mb-3">{SelectWrapper}</div>
           <div className="col-12 d-flex justify-content-center">{SubmitButton}</div>
           {isEditMode && (
