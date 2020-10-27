@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import ProductListUl from "./product-list-ul.component";
 import type { IProduct } from "../product/product.interface";
 import { ProductListItemToggleable } from "./product-list-item-toggleable.component";
@@ -12,7 +12,7 @@ interface IProps {
 const ProductList: React.FC<IProps> = (props) => {
   const products = props.items.filter((i) => i.active);
   const productsInActive = props.items.filter((i) => !i.active);
-  const isProductsInActiveExist = useMemo(() => !!productsInActive.length, [productsInActive.length]);
+  const isProductsInActiveExist = !!productsInActive.length;
 
   return (
     <>
