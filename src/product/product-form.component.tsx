@@ -18,8 +18,7 @@ const ProductForm: React.FC<IProps> = (props) => {
   const [price, setPrice] = useState<number>(props.price);
   const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
 
-  const isEditMode = !!props.title;
-  const modalTitle = isEditMode ? `Редактирование продукта` : "Добавление продукта";
+  const isEditMode = useMemo(() => !!props.title, [props.title]);
   const priorityVariants: SelectOption<string>[] = useMemo(
     () =>
       Object.values(ProductPriorityEnum).map((i) => ({
@@ -67,10 +66,18 @@ const ProductForm: React.FC<IProps> = (props) => {
     () => <InputText required onChange={setTitle} val={title} label={"Название"} styles={{ width: "100%" }} />,
     [title],
   );
+  const Header = useMemo(
+    () => (
+      <h3 style={{ textAlign: "center", maxWidth: "100%" }}>
+        {isEditMode ? `Редактирование продукта` : "Добавление продукта"}
+      </h3>
+    ),
+    [isEditMode],
+  );
 
   return (
-    <>
-      <h3 style={{ textAlign: "center", maxWidth: "100%" }}>{modalTitle}</h3>
+    <div>
+      {Header}
       <form onSubmit={onSubmit}>
         <div className="row">
           <div className="col-12 d-flex justify-content-center mb-3">{InputTextWrapper}</div>
@@ -86,7 +93,7 @@ const ProductForm: React.FC<IProps> = (props) => {
           )}
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
