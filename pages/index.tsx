@@ -9,6 +9,8 @@ import { BUDGET_SERVICE_PROVIDER } from "../src/budget/budget.service-interface"
 import type { IBudget } from "../src/budget/budget.interface";
 import { ProductPriorityEnum } from "../src/product/product-priority.enum";
 
+const ButtonAdd = lazy(() => import("../src/components/button-add.component"));
+const BudgetForm = lazy(() => import("../src/budget/budget-form.component"));
 const ProductList = lazy(() => import("../src/product-list/product-list.component"));
 const Modal = lazy(() => import("../src/components/modal.component"));
 const ProductForm = lazy(() => import("../src/product/product-form.component"));
@@ -41,7 +43,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const calculateBudget = useCallback(
+  const onBudgetCalculate = useCallback(
     (val: number): void => {
       if (list) {
         budgetService
@@ -96,15 +98,20 @@ const Home: React.FC = () => {
         </Suspense>
       )}
       {list && (
-        <Suspense fallback={<></>}>
-          <ProductList
-            {...list}
-            onCalculate={calculateBudget}
-            onToggleItem={onItemToggle}
-            onEditItem={setEditableProduct}
-            onAddItem={onAddItem}
-          />
-        </Suspense>
+        <div className="container pt-3">
+          <div className="row">
+            <Suspense fallback={<></>}>
+              <div className="col-12 d-flex align-items-center justify-content-center">
+                <h2>{list.title}</h2>
+                <ButtonAdd className="ml-3" onClick={onAddItem} />
+              </div>
+              <div className="col-12 py-4">
+                <BudgetForm value={0} onSubmit={onBudgetCalculate} />
+              </div>
+              <ProductList items={list.items} onToggleItem={onItemToggle} onEditItem={setEditableProduct} />
+            </Suspense>
+          </div>
+        </div>
       )}
     </>
   );
