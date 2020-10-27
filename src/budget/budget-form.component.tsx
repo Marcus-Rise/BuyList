@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button, ButtonColors } from "../components/button.component";
 import { InputPrice } from "../components/input-price.component";
 
@@ -11,14 +11,17 @@ interface IProps {
 const BudgetForm: React.FC<IProps> = (props) => {
   const [value, setValue] = useState<number>(props.value);
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const number = Number(value);
+  const onSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      const number = Number(value);
 
-    if (number > 0) {
-      props.onSubmit(number);
-    }
-  };
+      if (number > 0) {
+        props.onSubmit(number);
+      }
+    },
+    [value, props],
+  );
 
   return (
     <form onSubmit={onSubmit}>
