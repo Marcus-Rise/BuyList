@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import type { IProduct } from "./product.interface";
 import { ProductPriorityEnum } from "./product-priority.enum";
 import { InputText } from "../components/input-text.component";
@@ -18,24 +18,35 @@ const ProductForm: React.FC<IProps> = (props) => {
   const [price, setPrice] = useState<number>(props.price);
   const [priority, setPriority] = useState<ProductPriorityEnum | string>(props.priority ?? ProductPriorityEnum.middle);
 
-  const priorityVariants: SelectOption<string>[] = Object.values(ProductPriorityEnum).map((i) => ({
-    title: i,
-    val: i,
-  }));
+  const priorityVariants: SelectOption<string>[] = useMemo(
+    () =>
+      Object.values(ProductPriorityEnum).map((i) => ({
+        title: i,
+        val: i,
+      })),
+    [],
+  );
 
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
 
-    if (title && Number(price) > 0) {
-      props.onSubmit({ active: props.active, title, priority, price });
-    }
-  };
+      if (title && Number(price) > 0) {
+        props.onSubmit({ active: props.active, title, priority, price });
+      }
+    },
+    [props, title, priority, price],
+  );
+
+  const isEditMode = useMemo(() => !!props.title, [props.title]);
+
+  const modalTitle = useMemo(() => (isEditMode ? `Редактирование продукта` : "Добавление продукта"), [isEditMode]);
+
+  const onDelete = useCallback(() => props.onDelete(props.title), [props]);
 
   return (
     <>
-      <h3 style={{ textAlign: "center", maxWidth: "100%" }}>
-        {props.title ? `Редактирование продукта` : "Добавление продукта"}
-      </h3>
+      <h3 style={{ textAlign: "center", maxWidth: "100%" }}>{modalTitle}</h3>
       <form onSubmit={onSubmit}>
         <div className="row">
           <div className="col-12 d-flex justify-content-center mb-3">
@@ -58,14 +69,9 @@ const ProductForm: React.FC<IProps> = (props) => {
               Сохранить
             </Button>
           </div>
-          {props.title && (
+          {isEditMode && (
             <div className="col-12 d-flex justify-content-center mt-3">
-              <Button
-                onClick={() => props.onDelete(props.title)}
-                type={"button"}
-                color={ButtonColors.danger}
-                styles={{ width: "100%" }}
-              >
+              <Button onClick={onDelete} type={"button"} color={ButtonColors.danger} styles={{ width: "100%" }}>
                 Удалить
               </Button>
             </div>
