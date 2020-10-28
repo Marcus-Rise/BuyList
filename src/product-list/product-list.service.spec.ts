@@ -4,6 +4,7 @@ import type { IProductListRepository } from "./product-list.repository-interface
 import { mock } from "jest-mock-extended";
 import { ProductPriorityEnum } from "../product/product-priority.enum";
 import { container } from "../ioc/container";
+import type { IBudgetService } from "../budget/budget.service-interface";
 
 describe("ProductListService", () => {
   let service: ProductListService;
@@ -22,6 +23,7 @@ describe("ProductListService", () => {
         mock<IProductListRepository>({
           save: (dto) => Promise.resolve({ ...dto, id: 1 }),
         }),
+        mock<IBudgetService>(),
       );
 
       const list = { title: "", id: 1, items: [] };
@@ -39,6 +41,7 @@ describe("ProductListService", () => {
           find: () => Promise.resolve(null),
           save: (dto) => Promise.resolve({ ...dto, id: 1 }),
         }),
+        mock<IBudgetService>(),
       );
 
       const item = await service.getLatest();
