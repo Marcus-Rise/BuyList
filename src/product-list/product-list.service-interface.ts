@@ -1,5 +1,6 @@
 import type { IProductList } from "./product-list.interface";
 import type { IProduct } from "../product/product.interface";
+import type { IBudget } from "../budget/budget.interface";
 
 const PRODUCT_LIST_SERVICE_PROVIDER = Symbol("IProductListService");
 
@@ -19,6 +20,8 @@ interface IProductListService {
   toggleItemById(listId: number, title: string): Promise<IProductList>;
 
   deleteItemById(listId: number, title: string): Promise<IProductList>;
+
+  calculateBudgetById(listId: number, limit: number): Promise<IBudget>;
 }
 
 export { PRODUCT_LIST_SERVICE_PROVIDER };

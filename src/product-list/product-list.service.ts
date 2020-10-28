@@ -6,12 +6,17 @@ import { ProductPriorityEnum } from "../product/product-priority.enum";
 import type { IProductListPostDto } from "./product-list-post.dto";
 import type { IProductListRepository } from "./product-list.repository-interface";
 import { PRODUCT_LIST_REPOSITORY_PROVIDER } from "./product-list.repository-interface";
+import type { IBudget } from "../budget/budget.interface";
+import type { IBudgetService } from "../budget/budget.service-interface";
+import { BUDGET_SERVICE_PROVIDER } from "../budget/budget.service-interface";
 
 @injectable()
 export class ProductListService implements IProductListService {
   constructor(
     @inject(PRODUCT_LIST_REPOSITORY_PROVIDER)
     private readonly repo: IProductListRepository,
+    @inject(BUDGET_SERVICE_PROVIDER)
+    private readonly budgetService: IBudgetService,
   ) {}
 
   async getById(id: number): Promise<IProductList | null> {
@@ -124,5 +129,18 @@ export class ProductListService implements IProductListService {
       ...item,
       active: !item.active,
     });
+  }
+
+  async calculateBudgetById(listId: number, limit: number): Promise<IBudget> {
+    const list = await this.getById(listId);
+
+    if (!list) {
+      throw new Error();
+    }
+
+    return this.budgetService.calculate(
+      list.items.filter((i) => i.active),
+      limit,
+    );
   }
 }

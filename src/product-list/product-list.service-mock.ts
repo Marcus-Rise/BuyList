@@ -1,9 +1,14 @@
 import type { IProductListService } from "./product-list.service-interface";
 import type { IProductList } from "./product-list.interface";
 import { injectable } from "inversify";
+import type { IBudget } from "../budget/budget.interface";
 
 @injectable()
 export class ProductListServiceMock implements IProductListService {
+  calculateBudgetById(): Promise<IBudget> {
+    throw new Error("Method not implemented.");
+  }
+
   private readonly list = {
     id: 1,
     title: "",
