@@ -14,6 +14,40 @@ export class ProductListService implements IProductListService {
     private readonly repo: IProductListRepository,
   ) {}
 
+  async getById(id: number): Promise<IProductList | null> {
+    return this.repo.find({ id });
+  }
+
+  async saveItemById(listId: number, item: IProduct): Promise<IProductList> {
+    const list = await this.getById(listId);
+
+    if (!list) {
+      throw new Error();
+    }
+
+    return this.saveItem(list, item);
+  }
+
+  async toggleItemById(listId: number, title: string): Promise<IProductList> {
+    const list = await this.getById(listId);
+
+    if (!list) {
+      throw new Error();
+    }
+
+    return this.toggleItem(list, title);
+  }
+
+  async deleteItemById(listId: number, title: string): Promise<IProductList> {
+    const list = await this.getById(listId);
+
+    if (!list) {
+      throw new Error();
+    }
+
+    return this.deleteItem(list, title);
+  }
+
   async saveItem(list: IProductList, item: IProduct): Promise<IProductList> {
     let newArr: IProduct[];
 
