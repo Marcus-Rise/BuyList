@@ -29,22 +29,27 @@ const BudgetForm: React.FC<IProps> = (props) => {
     [],
   );
 
+  const InputPriceWrapper = useMemo(
+    () => (
+      <InputPrice
+        val={value}
+        label={"Сумма бюджета"}
+        onChange={setValue}
+        styles={{
+          textAlign: "center",
+        }}
+        noLabel
+        required
+        min={1}
+      />
+    ),
+    [value],
+  );
+
   return (
     <form onSubmit={onSubmit}>
       <div className="row justify-content-between align-items-center">
-        <div className="col-7">
-          <InputPrice
-            val={value}
-            label={"Сумма бюджета"}
-            onChange={setValue}
-            styles={{
-              textAlign: "center",
-            }}
-            noLabel
-            required
-            min={1}
-          />
-        </div>
+        <div className="col-7">{InputPriceWrapper}</div>
         <div className="col-auto">{SubmitButton}</div>
       </div>
     </form>
