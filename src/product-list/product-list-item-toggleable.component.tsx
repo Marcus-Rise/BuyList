@@ -6,7 +6,7 @@ import ProductListItemToggleButton from "./product-list-item-toggle-button.compo
 
 interface IProps {
   items: IProduct[];
-  onToggleItem: (i: IProduct) => void;
+  onToggleItem: (title: string) => void;
   className?: string;
   onItemSelected: (i: IProduct) => void;
 }
@@ -14,17 +14,17 @@ interface IProps {
 const ProductListItemToggleable: FC<IProps> = (props) => {
   return (
     <>
-      {props.items.map((i, index) => (
-        <ProductListItem
-          className={props.className}
-          key={i.title}
-          index={index}
-          {...i}
-          onClick={() => props.onItemSelected(i)}
-        >
-          <ProductListItemToggleButton onClick={() => props.onToggleItem(i)} active={i.active} />
-        </ProductListItem>
-      ))}
+      {props.items.map((i, index) => {
+        const onToggle = () => props.onToggleItem(i.title);
+
+        const onSelect = () => props.onItemSelected(i);
+
+        return (
+          <ProductListItem className={props.className} key={i.title} index={index} {...i} onClick={onSelect}>
+            <ProductListItemToggleButton onClick={onToggle} active={i.active} />
+          </ProductListItem>
+        );
+      })}
     </>
   );
 };

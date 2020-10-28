@@ -6,7 +6,7 @@ import { ProductListItemToggleable } from "./product-list-item-toggleable.compon
 interface IProps {
   items: IProduct[];
   onEditItem: (item: IProduct) => void;
-  onToggleItem: (item: IProduct) => void;
+  onToggleItem: (itemTitle: string) => void;
 }
 
 const ProductList: React.FC<IProps> = (props) => {
