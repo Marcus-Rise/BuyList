@@ -4,6 +4,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = withBundleAnalyzer({
+  images: {
+    deviceSizes: [320, 420, 768, 1024, 1200],
+  },
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
