@@ -18,10 +18,10 @@
     "inversify": "^5.0.1",
     "jest-mock-extended": "^1.0.10",
     "localforage": "^1.9.0",
-    "next": "^9.5.5",
-    "react": "^16.14.0",
+    "next": "^10.0.0",
+    "react": "^17.0.1",
     "react-currency-input-field": "^2.3.5",
-    "react-dom": "^16.14.0",
+    "react-dom": "^17.0.1",
     "react-icons": "^3.11.0",
     "reflect-metadata": "^0.1.13",
     "typeface-montserrat": "^1.1.13"
