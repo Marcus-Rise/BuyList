@@ -7,12 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-
-  build:
-
+  check:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v2
+      - name: Linting & testing
+        run: docker build --target check --tag my-image-name:$(date +%s) .

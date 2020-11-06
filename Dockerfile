@@ -12,7 +12,7 @@ FROM nginx AS web-dev
 
 EXPOSE 80
 
-FROM node:${NODE_VERSION}-alpine AS build
+FROM node:${NODE_VERSION}-alpine AS check
 WORKDIR /app
 
 COPY package*.json ./
@@ -27,12 +27,16 @@ COPY ./*.js* ./
 
 RUN npm run lint
 RUN npm run test
+
+FROM check AS build
+WORKDIR /app
+
 RUN npm run build
 RUN npm run export
 RUN cp -r .next/analyze out/analyze
 RUN find out -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
 
-FROM nginx AS web
+FROM nginx:alpine AS web
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/out /app
