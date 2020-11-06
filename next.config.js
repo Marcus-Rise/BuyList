@@ -1,7 +1,7 @@
 /* eslint-disable */
-const withOffline = require("next-offline");
+const withPWA = require("next-pwa");
 
-module.exports = withOffline({
+module.exports = withPWA({
   crossOrigin: "anonymous",
   images: {
     deviceSizes: [320, 420, 768, 1024, 1200],
