@@ -2,6 +2,9 @@
 const withPWA = require("next-pwa");
 
 module.exports = withPWA({
+  pwa: {
+    dest: "public",
+  },
   crossOrigin: "anonymous",
   images: {
     deviceSizes: [320, 420, 768, 1024, 1200],
