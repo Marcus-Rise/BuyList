@@ -1,7 +1,6 @@
-FROM node:14 AS base
-WORKDIR /app
+ARG NODE_VERSION=14
 
-FROM base AS dev
+FROM node:${NODE_VERSION} AS dev
 WORKDIR /app
 USER node
 
@@ -13,7 +12,7 @@ FROM nginx AS web-dev
 
 EXPOSE 80
 
-FROM base AS build
+FROM node:${NODE_VERSION}-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
