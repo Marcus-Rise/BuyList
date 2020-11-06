@@ -33,7 +33,6 @@ WORKDIR /app
 
 RUN npm run build
 RUN npm run export
-RUN cp -r .next/analyze out/analyze
 RUN find out -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
 
 FROM nginx:alpine AS web
