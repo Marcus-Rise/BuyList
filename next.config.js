@@ -6,7 +6,7 @@ const withOffline = require("next-offline");
 
 module.exports = withOffline(
   withBundleAnalyzer({
-    workboxOpts: { swDest: "_next/service-worker.js" },
+    workboxOpts: { swDest: "_next/static/service-worker.js" },
     crossOrigin: "anonymous",
     images: {
       deviceSizes: [320, 420, 768, 1024, 1200],
