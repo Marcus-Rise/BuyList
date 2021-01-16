@@ -1,6 +1,6 @@
 import "../src/styles/globals.scss";
 import React from "react";
-import { Header } from "../src/components/header.component";
+import { Header } from "../src/components";
 import "typeface-montserrat";
 import Head from "next/head";
 import { Footer } from "../src/components/footer.component";
