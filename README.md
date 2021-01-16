@@ -3,7 +3,6 @@
 ### Конфигурации
 
 -  `dev` режим разработки через `docker-compose.yml`
--  `demo` режим предпросмотра продуктовой сборки под nginx через `docker-compose.demo.yml`
 
 По умолчанию смотреть на http://localhost:8080
 
