@@ -12,7 +12,7 @@ import ButtonAdd from "../../src/components/button-add.component";
 import BudgetForm from "../../src/budget/budget-form.component";
 import ProductList from "../../src/product-list/product-list.component";
 
-const Modal = lazy(() => import("../../src/components/modal.component"));
+const Modal = lazy(() => import("../../src/components/modal"));
 const ProductForm = lazy(() => import("../../src/product/product-form.component"));
 const BudgetOptimal = lazy(() => import("../../src/budget/budget-optimal.component"));
 
