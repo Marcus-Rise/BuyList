@@ -7,9 +7,19 @@
   padding: 1rem .25rem;
 }
 
+.content {
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  align-items: center;
+}
+
 .link {
   text-decoration: none !important;
   color: inherit !important;
+  display: grid;
+  align-items: center;
+  grid-template-columns: min-content min-content;
+  gap: .5rem;
 }
 
 .title {
