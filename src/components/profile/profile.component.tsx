@@ -10,7 +10,7 @@ import classNames from "classnames";
 import { Avatar } from "../avatar";
 
 const Profile: FC = () => {
-  const [session] = useSession();
+  const [session, loading] = useSession();
 
   const profileIcon = <FontAwesomeIcon icon={ProfileIcon} size={"2x"} className={styles.icon} />;
 
@@ -19,7 +19,7 @@ const Profile: FC = () => {
 
   return (
     <div className={styles.root}>
-      {!session && (
+      {!loading && !session && (
         <Link href={AUTH_SIGNIN_URL}>
           <a className={classNames(linkStyles.link, styles.content)}>
             {profileIcon}
@@ -27,7 +27,7 @@ const Profile: FC = () => {
           </a>
         </Link>
       )}
-      {session && (
+      {!loading && session && (
         <div className={classNames(styles.content)}>
           {session.user.image ? (
             <Avatar src={session.user.image} alt={session.user.name ?? "user"} size={"32px"} />
