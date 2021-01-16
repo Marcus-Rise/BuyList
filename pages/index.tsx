@@ -4,9 +4,10 @@ import type { IProductListService } from "../src/product-list/product-list.servi
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
 import { useRouter } from "next/router";
 
-const Home: React.FC = () => {
+const Home: React.FC<{
+  service: IProductListService;
+}> = ({ service }) => {
   const route = useRouter();
-  const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
 
   const getLatestProductList = useCallback(() => {
     service.getLatest().then(({ id }) => route.replace(`/productList/${id}`));
@@ -17,4 +18,6 @@ const Home: React.FC = () => {
   return <></>;
 };
 
-export default Home;
+const InjectedHome: React.FC = () => <Home service={useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER)} />;
+
+export default InjectedHome;
