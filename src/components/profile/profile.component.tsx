@@ -4,10 +4,12 @@ import Link from "next/link";
 import styles from "./profile.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle as ProfileIcon } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt as SignOutIcon } from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/client";
 import linkStyles from "../../styles/link.module.scss";
 import classNames from "classnames";
 import { Avatar } from "../avatar";
+import { Button } from "../button";
 
 const Profile: FC = () => {
   const [session] = useSession();
@@ -32,6 +34,11 @@ const Profile: FC = () => {
             profileIcon
           )}
           <span>{session.user.name ?? session.user.email}</span>
+          <Link href="/api/auth/signout">
+            <a className={linkStyles.link} title={"Signout"}>
+              <FontAwesomeIcon icon={SignOutIcon} size={"lg"} />
+            </a>
+          </Link>
         </div>
       )}
     </div>

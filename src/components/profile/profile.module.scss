@@ -6,8 +6,8 @@
 
 .content {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: .25rem;
+  grid-template-columns: 1fr auto auto;
+  gap: .5rem;
   align-items: center;
 }
 
