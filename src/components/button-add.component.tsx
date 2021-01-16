@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ButtonColors } from "./button.component";
+import { Button, ButtonColors } from "./button";
 import PlusIcon from "../assets/icons/plus_icon.svg";
 import styles from "./button-add.module.scss";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./product-list-item-toggle-button.module.scss";
 import InActiveIcon from "../assets/icons/in_active.svg";
-import { Button } from "../components/button.component";
+import { Button } from "../components";
 
 interface IProps {
   active: boolean;
