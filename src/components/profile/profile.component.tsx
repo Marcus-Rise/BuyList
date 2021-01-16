@@ -7,6 +7,7 @@ import { faUserCircle as ProfileIcon } from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/client";
 import linkStyles from "../../styles/link.module.scss";
 import classNames from "classnames";
+import { Avatar } from "../avatar";
 
 const Profile: FC = () => {
   const [session] = useSession();
@@ -14,22 +15,26 @@ const Profile: FC = () => {
   const profileIcon = <FontAwesomeIcon icon={ProfileIcon} size={"2x"} className={styles.icon} />;
 
   return (
-    <>
+    <div className={styles.root}>
       {!session && (
         <Link href="/api/auth/signin">
           <a className={classNames(linkStyles.link, styles.content)}>
             {profileIcon}
-            <span className={styles.label}>Sign in</span>
+            <span>Sign in</span>
           </a>
         </Link>
       )}
       {session && (
         <div className={classNames(styles.content)}>
-          {session.user.image ? <img src={session.user.image} alt={session.user.name ?? "user"} /> : profileIcon}
-          <span className={styles.label}>{session.user.name ?? session.user.email}</span>
+          {session.user.image ? (
+            <Avatar src={session.user.image} alt={session.user.name ?? "user"} size={"32px"} />
+          ) : (
+            profileIcon
+          )}
+          <span>{session.user.name ?? session.user.email}</span>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
