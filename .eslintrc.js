@@ -34,5 +34,6 @@ module.exports = {
     // "@typescript-eslint/no-explicit-any": "off",
     "newline-before-return": "error",
     "@typescript-eslint/consistent-type-imports": "error",
+    "object-shorthand": "error",
   },
 };
