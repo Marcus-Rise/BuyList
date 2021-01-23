@@ -9,15 +9,20 @@ const TestHandler: NextApiHandler = async (req, res) => {
     res.status(401);
   }
 
+  const accessToken = session?.accessToken;
+  const refreshToken = session?.refreshToken;
+  const apiKey = String(process.env.GOOGLE_API_KEY);
+  const scopes = ["https://www.googleapis.com/auth/drive.appdata"];
+
   const auth = new google.auth.OAuth2({
     clientId: String(process.env.GOOGLE_CLIENT_ID),
     clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
   });
-  auth.apiKey = String(process.env.GOOGLE_API_KEY);
+  auth.apiKey = apiKey;
   auth.setCredentials({
-    access_token: session?.accessToken,
-    refresh_token: session?.refreshToken,
-    scope: "https://www.googleapis.com/auth/drive.appdata",
+    access_token: accessToken,
+    refresh_token: refreshToken,
+    scope: scopes.join(" "),
   });
 
   const drive = google.drive({ auth, version: "v3" });
