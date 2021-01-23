@@ -15,6 +15,7 @@ const TestHandler: NextApiHandler = async (req, res) => {
     clientId: String(process.env.GOOGLE_CLIENT_ID),
     clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
   });
+  auth.apiKey = String(process.env.GOOGLE_API_KEY);
   auth.setCredentials({
     access_token: session?.accessToken,
     refresh_token: session?.refreshToken,
