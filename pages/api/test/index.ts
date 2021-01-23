@@ -12,12 +12,14 @@ const TestHandler: NextApiHandler = async (req, res) => {
   const accessToken = session?.accessToken;
   const refreshToken = session?.refreshToken;
   const apiKey = String(process.env.GOOGLE_API_KEY);
+  const projectId = String(process.env.GOOGLE_PROJECT_ID);
   const scopes = ["https://www.googleapis.com/auth/drive.appdata"];
 
   const auth = new google.auth.OAuth2({
     clientId: String(process.env.GOOGLE_CLIENT_ID),
     clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
   });
+  auth.projectId = projectId;
   auth.apiKey = apiKey;
   auth.setCredentials({
     access_token: accessToken,
