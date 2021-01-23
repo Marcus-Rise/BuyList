@@ -9,8 +9,6 @@ const TestHandler: NextApiHandler = async (req, res) => {
     res.status(401);
   }
 
-  console.debug(session);
-  /*
   const auth = new google.auth.OAuth2({
     clientId: String(process.env.GOOGLE_CLIENT_ID),
     clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
@@ -20,12 +18,12 @@ const TestHandler: NextApiHandler = async (req, res) => {
     access_token: session?.accessToken,
     refresh_token: session?.refreshToken,
     scope: "https://www.googleapis.com/auth/drive.appdata",
-  });*/
+  });
 
-  const drive = google.drive({ version: "v3" });
+  const drive = google.drive({ auth, version: "v3" });
 
   await drive.files
-    .list({ oauth_token: session?.accessToken })
+    .list()
     .then((data) => {
       console.debug(data.data);
       res.json(data.data);
