@@ -4,12 +4,16 @@ import Providers from "next-auth/providers";
 import type { NextApiHandler } from "next";
 import type { GenericObject, SessionBase } from "next-auth/_utils";
 
-const JWT_SECRET = String(process.env.NEXT_AUTH_JWT_SECRET);
+const scopes = [
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/userinfo.profile",
+  "https://www.googleapis.com/auth/drive.appdata",
+];
+const JWT_SECRET = String(process.env.NEXTAUTH_JWT_SECRET);
 const authorizationUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
 authorizationUrl.searchParams.set("prompt", "consent");
 authorizationUrl.searchParams.set("access_type", "offline");
 authorizationUrl.searchParams.set("response_type", "code");
-// authorizationUrl.searchParams.set("scope", "https://www.googleapis.com/auth/drive.appdata");
 
 const options: InitOptions = {
   providers: [
@@ -17,6 +21,7 @@ const options: InitOptions = {
       clientId: String(process.env.GOOGLE_CLIENT_ID),
       clientSecret: String(process.env.GOOGLE_CLIENT_SECRET),
       authorizationUrl: authorizationUrl.toString(),
+      scope: scopes.join(" "),
     }),
   ],
   secret: JWT_SECRET,
