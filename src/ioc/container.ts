@@ -9,8 +9,11 @@ import type { IProductListRepository } from "../product-list/product-list.reposi
 import { PRODUCT_LIST_REPOSITORY_PROVIDER } from "../product-list/product-list.repository-interface";
 import { ProductListService } from "../product-list/product-list.service";
 import { ProductListIndexedDbRepository } from "../product-list/product-list-indexed-db.repository";
+import { GoogleModule } from "../google";
 
 const container = new Container();
+
+container.load(GoogleModule);
 
 container
   .bind<IProductListRepository>(PRODUCT_LIST_REPOSITORY_PROVIDER)

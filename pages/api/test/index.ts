@@ -1,22 +1,23 @@
 import type { NextApiHandler } from "next";
 import { getSession } from "next-auth/client";
 import { google } from "googleapis";
+import { inject } from "../../../src/ioc";
+import type { IGoogleConfig } from "../../../src/google";
+import { GOOGLE_CONFIG } from "../../../src/google";
 
-const TestHandler: NextApiHandler = async (req, res) => {
+const TestHandler: NextApiHandler = async (req, res, googleConfig = inject<IGoogleConfig>(GOOGLE_CONFIG)) => {
   const session = await getSession({ req });
 
   if (!session) {
     res.status(401);
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const accessToken = session?.accessToken;
   const refreshToken = session?.refreshToken;
 
   const auth = new google.auth.OAuth2({
-    clientId,
-    clientSecret,
+    clientId: googleConfig.clientId,
+    clientSecret: googleConfig.clientSecret,
   });
   auth.setCredentials({
     access_token: accessToken,
