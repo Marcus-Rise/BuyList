@@ -3,9 +3,9 @@ import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
 import type { NextApiHandler } from "next";
 import type { GenericObject, SessionBase } from "next-auth/_utils";
-import type { IGoogleConfig } from "../../../src/google";
-import { GOOGLE_CONFIG } from "../../../src/google";
-import { inject } from "../../../src/ioc";
+import type { IGoogleConfig } from "../../../src/server/google";
+import { GOOGLE_CONFIG } from "../../../src/server/google";
+import { inject } from "../../../src/server/ioc";
 
 const AuthHandler: NextApiHandler = (req, res, googleConfig = inject<IGoogleConfig>(GOOGLE_CONFIG)) => {
   const scopes = [

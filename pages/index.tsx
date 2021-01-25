@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { useInject } from "../src/ioc/use-inject.decorator";
+import { useInject } from "../src/ioc";
 import type { IProductListService } from "../src/product-list/product-list.service-interface";
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
 import { useRouter } from "next/router";

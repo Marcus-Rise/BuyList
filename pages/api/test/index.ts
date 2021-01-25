@@ -1,33 +1,18 @@
 import type { NextApiHandler } from "next";
-import { getSession } from "next-auth/client";
-import { google } from "googleapis";
-import { inject } from "../../../src/ioc";
-import type { IGoogleConfig } from "../../../src/google";
-import { GOOGLE_CONFIG } from "../../../src/google";
+import { inject } from "../../../src/server/ioc";
+import type { IGoogleDriveService } from "../../../src/server/google";
+import { GOOGLE_DRIVE_SERVICE } from "../../../src/server/google";
+import { AuthMiddleware } from "../../../src/server/auth/auth.middleware";
 
-const TestHandler: NextApiHandler = async (req, res, googleConfig = inject<IGoogleConfig>(GOOGLE_CONFIG)) => {
-  const session = await getSession({ req });
+const TestHandler: NextApiHandler = async (
+  req,
+  res,
+  googleDrive = inject<IGoogleDriveService>(GOOGLE_DRIVE_SERVICE),
+) => {
+  await AuthMiddleware(req, res);
 
-  if (!session) {
-    res.status(401);
-  }
-
-  const accessToken = session?.accessToken;
-  const refreshToken = session?.refreshToken;
-
-  const auth = new google.auth.OAuth2({
-    clientId: googleConfig.clientId,
-    clientSecret: googleConfig.clientSecret,
-  });
-  auth.setCredentials({
-    access_token: accessToken,
-    refresh_token: refreshToken,
-  });
-
-  const drive = google.drive({ auth, version: "v3" });
-
-  await drive.files
-    .list({ spaces: "appDataFolder" })
+  await googleDrive
+    .createJsonFile("test.json", { foo: "bar" })
     .then((data) => {
       console.debug(data.data);
       res.json(data.data);

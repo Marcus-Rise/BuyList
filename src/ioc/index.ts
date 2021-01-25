@@ -1,1 +1,1 @@
-export { inject } from "./inject.decorator";
+export { useInject } from "./use-inject.decorator";
