@@ -1,8 +1,7 @@
-import type { IGoogleDriveService, JsonData } from "./google-drive.service.interface";
+import type { IError, IFileInfo, IGoogleDriveService } from "./google-drive.service.interface";
 import type { IGoogleConfig } from "./google.config.interface";
 import type { drive_v3 } from "googleapis";
 import { google } from "googleapis";
-import type { GaxiosResponse } from "gaxios";
 import type { IAuthConfig } from "../auth";
 import { AUTH_CONFIG } from "../auth";
 import { inject, injectable } from "inversify";
@@ -23,21 +22,96 @@ class GoogleDriveService implements IGoogleDriveService {
     auth.forceRefreshOnFailure = true;
     auth.setCredentials({
       access_token: this.authConfig.accessToken,
-      refresh_token: this.authConfig.refreshToken,
     });
 
     return google.drive({ auth, version: "v3" });
   }
 
-  async createJsonFile(name: string, data: JsonData): Promise<GaxiosResponse> {
-    return this.drive.files.create({
-      requestBody: { name },
-      media: { mimeType: "application/json", body: JSON.stringify(data) },
-    });
+  private static parseError(e: any): IError {
+    const error = e?.stack ?? e?.response?.data?.error;
+
+    return { code: error?.code ?? 500, text: String(error ?? e) };
   }
 
-  async getJsonData(name: string): Promise<JsonData> {
-    return {};
+  async createFile(name: string, mimeType: string, data: string): Promise<IFileInfo | IError> {
+    let res: IFileInfo | IError = { code: 500, text: "Unexpected error" };
+
+    await this.drive.files
+      .create(
+        {
+          requestBody: {
+            name,
+            //todo return
+            /*parents: ["appDataFolder"]*/
+          },
+          media: { mimeType, body: data },
+        },
+        {},
+      )
+      .then((data) => {
+        console.debug(data.data);
+
+        if (data.data.id && data.data.name) {
+          res = {
+            id: data.data.id,
+            name: data.data.name,
+          };
+        } else {
+          res = {
+            code: 500,
+            text: "No file id",
+          };
+        }
+      })
+      .catch((e) => {
+        res = GoogleDriveService.parseError(e);
+      });
+
+    return res;
+  }
+
+  async getFile(id: string): Promise<IFileInfo | IError> {
+    let res: IFileInfo | IError = { code: 500, text: "Unexpected error" };
+
+    await this.drive.files
+      .get({
+        fileId: id,
+        fields: "*",
+      })
+      .then((data) => {
+        const file = data.data;
+        console.debug(file);
+      })
+      .catch((e) => {
+        res = GoogleDriveService.parseError(e);
+      });
+
+    return res;
+  }
+
+  async getFileList(): Promise<IFileInfo[] | IError> {
+    let res: IFileInfo[] | IError = [];
+
+    await this.drive.files
+      .list()
+      .then((data) => {
+        const content = data.data;
+        res = content.files
+          ?.map<IFileInfo>((i) => ({ id: i.id ?? "", name: i.name ?? "" }))
+          ?.filter((i) => i.id && i.name) ?? {
+          code: 500,
+          text: "No files",
+        };
+      })
+      .catch((e) => {
+        res = GoogleDriveService.parseError(e);
+      });
+
+    return res;
+  }
+
+  isError(obj: IFileInfo | IFileInfo[] | IError): obj is IError {
+    return "code" in obj && "text" in obj;
   }
 }
 
