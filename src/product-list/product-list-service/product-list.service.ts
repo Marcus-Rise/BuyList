@@ -1,14 +1,14 @@
-import type { IProductList } from "./product-list.interface";
-import type { IProduct } from "../product/product.interface";
+import type { IProductList } from "../product-list.interface";
+import type { IProduct } from "../../product/product.interface";
 import type { IProductListService } from "./product-list.service-interface";
 import { inject, injectable } from "inversify";
-import { ProductPriorityEnum } from "../product/product-priority.enum";
-import type { IProductListPostDto } from "./product-list-post.dto";
-import type { IProductListRepository } from "./product-list.repository-interface";
-import { PRODUCT_LIST_REPOSITORY_PROVIDER } from "./product-list.repository-interface";
-import type { IBudget } from "../budget/budget.interface";
-import type { IBudgetService } from "../budget/budget.service-interface";
-import { BUDGET_SERVICE_PROVIDER } from "../budget/budget.service-interface";
+import { ProductPriorityEnum } from "../../product/product-priority.enum";
+import type { IProductListPostDto } from "../product-list-post.dto";
+import type { IProductListRepository } from "../product-list-repository";
+import { PRODUCT_LIST_REPOSITORY_PROVIDER } from "../product-list-repository";
+import type { IBudget } from "../../budget/budget.interface";
+import type { IBudgetService } from "../../budget/budget.service-interface";
+import { BUDGET_SERVICE_PROVIDER } from "../../budget/budget.service-interface";
 
 @injectable()
 export class ProductListService implements IProductListService {

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useInject } from "../src/ioc";
-import type { IProductListService } from "../src/product-list/product-list.service-interface";
-import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list/product-list.service-interface";
+import type { IProductListService } from "../src/product-list";
+import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list";
 import { useRouter } from "next/router";
 
 const Home: React.FC<{

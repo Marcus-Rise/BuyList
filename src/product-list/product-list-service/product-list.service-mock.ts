@@ -1,7 +1,7 @@
 import type { IProductListService } from "./product-list.service-interface";
-import type { IProductList } from "./product-list.interface";
+import type { IProductList } from "../product-list.interface";
 import { injectable } from "inversify";
-import type { IBudget } from "../budget/budget.interface";
+import type { IBudget } from "../../budget/budget.interface";
 
 @injectable()
 export class ProductListServiceMock implements IProductListService {
