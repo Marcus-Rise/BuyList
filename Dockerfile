@@ -19,7 +19,7 @@ RUN npx next telemetry --disable
 COPY pages ./pages
 COPY src ./src
 COPY ./*.js* ./
-COPY ./*.ts ./
+COPY ./*.ts* ./
 
 RUN npm run lint
 RUN npm run test
