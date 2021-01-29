@@ -10,6 +10,7 @@ import path from "path";
 import * as os from "os";
 import * as fs from "fs";
 import * as uuid from "uuid";
+import type { GaxiosError } from "gaxios";
 
 @injectable()
 class GoogleDriveService implements IGoogleDriveService {
@@ -31,7 +32,7 @@ class GoogleDriveService implements IGoogleDriveService {
     return google.drive({ auth, version: "v3" });
   }
 
-  private static parseError(e: any): IError {
+  private static parseError(e: GaxiosError): IError {
     const error = e?.stack ?? e?.response?.data?.error;
 
     return { code: error?.code ?? 500, text: String(error ?? e) };
