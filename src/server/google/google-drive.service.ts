@@ -6,6 +6,10 @@ import type { IAuthConfig } from "../auth";
 import { AUTH_CONFIG } from "../auth";
 import { inject, injectable } from "inversify";
 import { GOOGLE_CONFIG } from "./google.module-keys";
+import path from "path";
+import * as os from "os";
+import * as fs from "fs";
+import * as uuid from "uuid";
 
 @injectable()
 class GoogleDriveService implements IGoogleDriveService {
@@ -108,6 +112,35 @@ class GoogleDriveService implements IGoogleDriveService {
       });
 
     return res;
+  }
+
+  async readFile(id: string): Promise<IError | string> {
+    const file = await this.drive.files.get({ fileId: id, alt: "media" }, { responseType: "stream" });
+
+    return new Promise<string>((resolve, reject) => {
+      const filePath = path.join(os.tmpdir(), uuid.v4());
+      console.log(`writing to ${filePath}`);
+      const dest = fs.createWriteStream(filePath);
+
+      file.data
+        .on("end", () => {
+          console.log("Done downloading file.");
+
+          fs.readFile(filePath, "utf8", (err, data) => {
+            if (err) {
+              const error: IError = { code: err.code ? Number(err.code) : 500, text: err.message };
+              reject(error);
+            } else {
+              resolve(data);
+            }
+          });
+        })
+        .on("error", (err) => {
+          const error: IError = { code: 500, text: err.message };
+          reject(error);
+        })
+        .pipe(dest);
+    });
   }
 
   isError(obj: IFileInfo | IFileInfo[] | IError): obj is IError {

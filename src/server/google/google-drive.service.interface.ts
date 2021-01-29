@@ -16,6 +16,8 @@ interface IGoogleDriveService {
   getFileList(): Promise<IFileInfo[] | IError>;
 
   isError(obj: IFileInfo | IFileInfo[] | IError): obj is IError;
+
+  readFile(id: string): Promise<IError | string>;
 }
 
 export type { IGoogleDriveService, IError, IFileInfo };
