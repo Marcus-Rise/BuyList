@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./product-list-item-toggle-button.module.scss";
-import InActiveIcon from "../assets/icons/in_active.svg";
-import { Button } from "../components";
+import InActiveIcon from "../../assets/icons/in_active.svg";
+import { Button } from "../../components";
 
 interface IProps {
   active: boolean;
@@ -27,4 +27,3 @@ const ProductListItemToggleButton: React.FC<IProps> = (props) => {
 };
 
 export { ProductListItemToggleButton };
-export default ProductListItemToggleButton;
