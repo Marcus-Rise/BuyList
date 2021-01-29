@@ -1,26 +1,19 @@
 import type { NextApiHandler } from "next";
 import { inject } from "../../../src/server/ioc";
-import type { IGoogleDriveService } from "../../../src/server/google";
-import { GOOGLE_DRIVE_SERVICE } from "../../../src/server/google";
 import { AuthMiddleware } from "../../../src/server/auth/auth.middleware";
+import type { IProductListService } from "../../../src/server/product-list";
+import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../../src/server/product-list";
 
 const TestHandler: NextApiHandler = async (
   req,
   res,
-  googleDrive = inject<IGoogleDriveService>(GOOGLE_DRIVE_SERVICE),
+  productListService = inject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER),
 ) => {
   await AuthMiddleware(req, res);
 
-  await googleDrive
-    .createJsonFile("test.json", { foo: "bar" })
-    .then((data) => {
-      console.debug(data.data);
-      res.json(data.data);
-    })
-    .catch((e) => {
-      const error = e?.stack ?? e?.response?.data?.error;
-      res.status(error?.code ?? 500).json(error ?? e);
-    });
+  const result = await productListService.initStorage();
+
+  res.json(result);
 };
 
 export default TestHandler;
