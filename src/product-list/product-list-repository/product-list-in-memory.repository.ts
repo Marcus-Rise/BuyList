@@ -1,5 +1,5 @@
-import type { IProductList } from "./product-list.interface";
-import type { IProductListPostDto } from "./product-list-post.dto";
+import type { IProductList } from "../product-list.interface";
+import type { IProductListPostDto } from "../product-list-post.dto";
 import type { IProductListRepository } from "./product-list.repository-interface";
 import { injectable } from "inversify";
 

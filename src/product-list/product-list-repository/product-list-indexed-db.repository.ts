@@ -1,5 +1,5 @@
-import type { IProductList } from "./product-list.interface";
-import type { IProductListPostDto } from "./product-list-post.dto";
+import type { IProductList } from "../product-list.interface";
+import type { IProductListPostDto } from "../product-list-post.dto";
 import type { FindParams, IProductListRepository } from "./product-list.repository-interface";
 import { createInstance, INDEXEDDB } from "localforage";
 import { injectable } from "inversify";

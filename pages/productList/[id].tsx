@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { useInject } from "../../src/ioc/use-inject.decorator";
-import type { IProductListService } from "../../src/product-list/product-list.service-interface";
-import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../src/product-list/product-list.service-interface";
+import { useInject } from "../../src/ioc";
+import type { IProductListService } from "../../src/product-list";
+import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../src/product-list";
 import type { IProductList } from "../../src/product-list/product-list.interface";
 import type { IProduct } from "../../src/product/product.interface";
 import type { IBudget } from "../../src/budget/budget.interface";

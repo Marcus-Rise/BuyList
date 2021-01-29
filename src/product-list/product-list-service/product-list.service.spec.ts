@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { ProductListService } from "./product-list.service";
-import type { IProductListRepository } from "./product-list.repository-interface";
+import type { IProductListRepository } from "../product-list-repository";
 import { mock } from "jest-mock-extended";
-import { ProductPriorityEnum } from "../product/product-priority.enum";
-import { container } from "../ioc/container";
-import type { IBudgetService } from "../budget/budget.service-interface";
+import { ProductPriorityEnum } from "../../product/product-priority.enum";
+import { container } from "../../ioc/container";
+import type { IBudgetService } from "../../budget/budget.service-interface";
 
 describe("ProductListService", () => {
   let service: ProductListService;
