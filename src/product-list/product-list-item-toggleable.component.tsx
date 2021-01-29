@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import React from "react";
 import type { IProduct } from "../product/product.interface";
-import ProductListItem from "./product-list-item.component";
-import ProductListItemToggleButton from "./product-list-item-toggle-button.component";
+import { ProductListItem } from "./product-list-item";
+import { ProductListItemToggleButton } from "./product-list-item-toggle-button.component";
 
 interface IProps {
   items: IProduct[];
