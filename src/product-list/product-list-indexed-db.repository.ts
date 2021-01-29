@@ -56,6 +56,6 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
         }, 0) + 1;
     }
 
-    return this.db.setItem(String(id), { ...dto, id: id });
+    return this.db.setItem(String(id), { ...dto, id });
   }
 }

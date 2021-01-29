@@ -41,7 +41,7 @@ export class ProductListServiceMock implements IProductListService {
   async getById(id: number): Promise<IProductList | null> {
     return {
       ...this.list,
-      id: id,
+      id,
     };
   }
 
