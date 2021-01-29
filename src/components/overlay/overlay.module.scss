@@ -1,0 +1,19 @@
+.root {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 900;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(#58585a, 0.5);
+}
+
+.body {
+  max-height: 100vh;
+  overflow-y: hidden;
+}

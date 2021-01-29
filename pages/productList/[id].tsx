@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useInject } from "../../src/ioc/use-inject.decorator";
 import type { IProductListService } from "../../src/product-list/product-list.service-interface";
@@ -11,14 +12,15 @@ import ButtonAdd from "../../src/components/button-add.component";
 import BudgetForm from "../../src/budget/budget-form.component";
 import ProductList from "../../src/product-list/product-list.component";
 
-const Modal = lazy(() => import("../../src/components/modal.component"));
+const Modal = lazy(() => import("../../src/components/modal"));
 const ProductForm = lazy(() => import("../../src/product/product-form.component"));
 const BudgetOptimal = lazy(() => import("../../src/budget/budget-optimal.component"));
 
-const ProductListDashboard: React.FC = () => {
+const ProductListDashboard: FC<{
+  service: IProductListService;
+}> = ({ service }) => {
   const router = useRouter();
   const id = useMemo(() => Number(router.query.id), [router.query.id]);
-  const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
   const [list, setList] = useState<IProductList | null>(null);
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
@@ -127,5 +129,8 @@ const ProductListDashboard: React.FC = () => {
   );
 };
 
-export { ProductListDashboard };
-export default ProductListDashboard;
+const InjectedProductListDashboard: FC = () => (
+  <ProductListDashboard service={useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER)} />
+);
+
+export default InjectedProductListDashboard;

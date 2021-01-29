@@ -1,16 +1,14 @@
 import "../src/styles/globals.scss";
 import React from "react";
-import { Header } from "../src/components/header.component";
-import { AppProvider } from "../src/store";
+import { Header } from "../src/components";
 import "typeface-montserrat";
 import Head from "next/head";
 import { Footer } from "../src/components/footer.component";
+import type { AppComponent } from "next/dist/next-server/lib/router/router";
+import { Provider } from "next-auth/client";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const MyApp = ({ Component, pageProps }) => (
-  <AppProvider>
+const MyApp: AppComponent = ({ Component, pageProps }) => (
+  <Provider session={pageProps.session}>
     <Head>
       <title>BuyList</title>
     </Head>
@@ -19,7 +17,7 @@ const MyApp = ({ Component, pageProps }) => (
       <Component {...pageProps} />
     </main>
     <Footer year={new Date().getFullYear()} author={"Ilya Konstantinov"} authorLink={"https://marcus-rise.dev"} />
-  </AppProvider>
+  </Provider>
 );
 
 export default MyApp;

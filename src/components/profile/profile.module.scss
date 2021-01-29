@@ -1,0 +1,17 @@
+.root {
+  background-color: white;
+  padding: .5rem 1rem;
+  border-radius: 1.5rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: .5rem;
+  align-items: center;
+}
+
+.icon {
+  color: var(--primary);
+  cursor: pointer;
+}

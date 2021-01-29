@@ -1,0 +1,29 @@
+@use "../../styles/typography";
+
+.root {
+  background: url("../../assets/img/background.png"), var(--accent);
+  background-blend-mode: overlay, normal;
+  color: #474747;
+  padding: 1rem .25rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.logo {
+  display: grid;
+  align-items: center;
+  grid-template-columns: min-content min-content;
+  gap: .5rem;
+}
+
+.title {
+  @include typography.black;
+
+  font-size: 1.2rem;
+  margin: 0;
+  color: #333333;
+}

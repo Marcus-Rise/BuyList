@@ -1,6 +1,6 @@
 import type { FormEvent } from "react";
 import React, { useMemo, useState } from "react";
-import { Button, ButtonColors } from "../components/button.component";
+import { Button, ButtonColors } from "../components";
 import { InputPrice } from "../components/input-price.component";
 
 interface IProps {
