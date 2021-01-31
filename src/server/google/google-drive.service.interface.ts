@@ -9,13 +9,11 @@ interface IFileInfo {
 }
 
 interface IGoogleDriveService {
-  createFile(name: string, mimeType: string, data: string): Promise<IFileInfo | IError>;
-
-  getFile(id: string): Promise<IFileInfo | IError>;
+  writeFile(name: string, mimeType: string, data: string, update?: boolean): Promise<IFileInfo | IError>;
 
   getFileList(): Promise<IFileInfo[] | IError>;
 
-  isError(obj: IFileInfo | IFileInfo[] | IError): obj is IError;
+  isError(obj: unknown): obj is IError;
 
   readFile(id: string): Promise<IError | string>;
 }

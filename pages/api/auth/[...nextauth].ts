@@ -7,10 +7,6 @@ import type { IGoogleConfig } from "../../../src/server/google";
 import { GOOGLE_CONFIG } from "../../../src/server/google";
 import { inject } from "../../../src/server/ioc";
 import type { AuthPayload } from "../../../src/server/auth/auth-payload.interface";
-import type { IProductListService } from "../../../src/server/product-list";
-import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../../src/server/product-list";
-import type { IAuthConfig } from "../../../src/server/auth";
-import { AUTH_CONFIG } from "../../../src/server/auth";
 
 /**
  * Takes a token, and returns a new token with updated
@@ -62,13 +58,7 @@ const refreshAccessToken = async (
   }
 };
 
-const AuthHandler: NextApiHandler = (
-  req,
-  res,
-  googleConfig = inject<IGoogleConfig>(GOOGLE_CONFIG),
-  authConfig = inject<IAuthConfig>(AUTH_CONFIG),
-  productListService = inject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER),
-) => {
+const AuthHandler: NextApiHandler = (req, res, googleConfig = inject<IGoogleConfig>(GOOGLE_CONFIG)) => {
   const scopes = [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
@@ -106,11 +96,8 @@ const AuthHandler: NextApiHandler = (
         if (account && user) {
           const accessToken = account.accessToken;
           const refreshToken = account.refreshToken;
-          authConfig.accessToken = accessToken;
-          const storageId = await productListService.initStorage();
 
           res = {
-            storageId,
             accessToken,
             accessTokenExpires: account.accessTokenExpires,
             refreshToken,
