@@ -6,9 +6,8 @@ import { ProductPriorityEnum } from "../../product/product-priority.enum";
 import type { IProductListPostDto } from "../product-list-post.dto";
 import type { IProductListRepository } from "../product-list-repository";
 import { PRODUCT_LIST_REPOSITORY_PROVIDER } from "../product-list-repository";
-import type { IBudget } from "../../budget/budget.interface";
-import type { IBudgetService } from "../../budget/budget.service-interface";
-import { BUDGET_SERVICE_PROVIDER } from "../../budget/budget.service-interface";
+import type { IBudget, IBudgetService } from "../../budget";
+import { BUDGET_SERVICE_PROVIDER } from "../../budget";
 
 @injectable()
 export class ProductListService implements IProductListService {
@@ -18,6 +17,38 @@ export class ProductListService implements IProductListService {
     @inject(BUDGET_SERVICE_PROVIDER)
     private readonly budgetService: IBudgetService,
   ) {}
+
+  private static generateList(): IProductListPostDto {
+    return {
+      title: "Ваш первый список",
+      items: [
+        {
+          title: "Пальто",
+          price: 15000,
+          priority: ProductPriorityEnum.middle,
+          active: true,
+        },
+        {
+          title: "Обувь",
+          price: 8000,
+          priority: ProductPriorityEnum.high,
+          active: true,
+        },
+        {
+          title: "Скатерть",
+          price: 2000,
+          priority: ProductPriorityEnum.low,
+          active: false,
+        },
+        {
+          title: "Подгузники",
+          price: 1000,
+          priority: ProductPriorityEnum.middle,
+          active: false,
+        },
+      ],
+    };
+  }
 
   async getById(id: number): Promise<IProductList | null> {
     return this.repo.find({ id });
@@ -66,38 +97,6 @@ export class ProductListService implements IProductListService {
     }
 
     return this.repo.save({ ...list, items: newArr });
-  }
-
-  private static generateList(): IProductListPostDto {
-    return {
-      title: "Ваш первый список",
-      items: [
-        {
-          title: "Пальто",
-          price: 15000,
-          priority: ProductPriorityEnum.middle,
-          active: true,
-        },
-        {
-          title: "Обувь",
-          price: 8000,
-          priority: ProductPriorityEnum.high,
-          active: true,
-        },
-        {
-          title: "Скатерть",
-          price: 2000,
-          priority: ProductPriorityEnum.low,
-          active: false,
-        },
-        {
-          title: "Подгузники",
-          price: 1000,
-          priority: ProductPriorityEnum.middle,
-          active: false,
-        },
-      ],
-    };
   }
 
   async getLatest(): Promise<IProductList> {
