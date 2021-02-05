@@ -1,11 +1,10 @@
 import type { FC } from "react";
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useInject } from "../../src/ioc";
-import type { IProductListService } from "../../src/product-list";
+import type { IProductList, IProductListService } from "../../src/product-list";
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../src/product-list";
-import type { IProductList } from "../../src/product-list/product-list.interface";
 import type { IProduct } from "../../src/product/product.interface";
-import type { IBudget } from "../../src/budget/budget.interface";
+import type { IBudget } from "../../src/budget";
 import { ProductPriorityEnum } from "../../src/product/product-priority.enum";
 import { useRouter } from "next/router";
 import ButtonAdd from "../../src/components/button-add.component";
