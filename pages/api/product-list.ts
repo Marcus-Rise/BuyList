@@ -31,7 +31,7 @@ const ProductListHandler: NextApiHandler = async (
 
     res.json(data);
   } else {
-    await productListService.saveData(req.body);
+    await productListService.saveData(JSON.parse(req.body));
 
     res.status(201).json("updated");
   }
