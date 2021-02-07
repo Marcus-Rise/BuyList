@@ -1,10 +1,12 @@
 import type { IProductList } from "../product-list.interface";
 import type { IProduct } from "../../product/product.interface";
-import type { IBudget } from "../../budget/budget.interface";
+import type { IBudget } from "../../budget";
 
 const PRODUCT_LIST_SERVICE_PROVIDER = Symbol("IProductListService");
 
 interface IProductListService {
+  sync(): Promise<void>;
+
   getLatest(): Promise<IProductList>;
 
   getById(id: number): Promise<IProductList | null>;

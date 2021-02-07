@@ -50,6 +50,17 @@ export class ProductListService implements IProductListService {
     };
   }
 
+  async sync(): Promise<void> {
+    const list = await this.repo.get();
+
+    await fetch("/api/product-list", {
+      method: "PUT",
+      credentials: "same-origin",
+      keepalive: true,
+      body: JSON.stringify(list),
+    });
+  }
+
   async getById(id: number): Promise<IProductList | null> {
     return this.repo.find({ id });
   }

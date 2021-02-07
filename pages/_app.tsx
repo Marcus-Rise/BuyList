@@ -5,17 +5,22 @@ import "typeface-montserrat";
 import Head from "next/head";
 import { Footer } from "../src/components/footer.component";
 import type { AppComponent } from "next/dist/next-server/lib/router/router";
-import { Provider } from "next-auth/client";
+import { Provider, useSession } from "next-auth/client";
 import { useInject } from "../src/ioc";
-import type { IAuthService } from "../src/auth";
-import { AUTH_SERVICE_PROVIDER } from "../src/auth";
+import type { IProductListService } from "../src/product-list";
+import { PRODUCT_LIST_SERVICE_PROVIDER } from "../src/product-list";
 
 const MyApp: AppComponent = ({ Component, pageProps }) => {
-  const authService = useInject<IAuthService>(AUTH_SERVICE_PROVIDER);
+  const [, isAuthed] = useSession();
+  const service = useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER);
 
   useEffect(() => {
-    authService.session = pageProps.session;
-  }, [authService, pageProps.session]);
+    console.debug(isAuthed);
+
+    if (isAuthed) {
+      service.sync();
+    }
+  }, [isAuthed, service]);
 
   return (
     <Provider session={pageProps.session}>
