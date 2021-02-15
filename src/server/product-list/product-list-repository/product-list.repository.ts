@@ -26,6 +26,8 @@ class ProductListRepository implements IProductListRepository {
 
     if (this.googleDrive.isError(fileCreated)) {
       this.logger.error(fileCreated, ProductListRepository.name);
+
+      throw new Error(fileCreated.text);
     }
   }
 
@@ -43,10 +45,12 @@ class ProductListRepository implements IProductListRepository {
           res = JSON.parse(content);
         } else {
           this.logger.error(content, ProductListRepository.name);
+          throw new Error(content.text);
         }
       }
     } else {
       this.logger.error(fileList, ProductListRepository.name);
+      throw new Error(fileList.text);
     }
 
     return res;
