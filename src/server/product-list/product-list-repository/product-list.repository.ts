@@ -5,21 +5,21 @@ import type { IGoogleDriveService } from "../../google";
 import { GOOGLE_DRIVE_SERVICE } from "../../google";
 import type { ILogger } from "../../logger";
 import { LOGGER } from "../../logger";
+import type { IProductListConfig } from "../product-list-config";
+import { PRODUCT_LIST_CONFIG_PROVIDER } from "../product-list-config";
 
 @injectable()
 class ProductListRepository implements IProductListRepository {
-  private static readonly FILE_NAME = "buylist.json";
-  private static readonly MIME_TYPE = "application/json";
-
   constructor(
-    @inject(LOGGER) private readonly logger: ILogger,
+    @inject(PRODUCT_LIST_CONFIG_PROVIDER) private readonly config: IProductListConfig,
     @inject(GOOGLE_DRIVE_SERVICE) private readonly googleDrive: IGoogleDriveService,
+    @inject(LOGGER) private readonly logger: ILogger,
   ) {}
 
   async save(dto: IProductList[]): Promise<void> {
     const fileCreated = await this.googleDrive.writeFile(
-      ProductListRepository.FILE_NAME,
-      ProductListRepository.MIME_TYPE,
+      this.config.fileName,
+      this.config.fileExtension,
       JSON.stringify(dto),
       true,
     );
@@ -34,7 +34,7 @@ class ProductListRepository implements IProductListRepository {
     const fileList = await this.googleDrive.getFileList();
 
     if (!this.googleDrive.isError(fileList)) {
-      const file = fileList.find((i) => i.name === ProductListRepository.FILE_NAME);
+      const file = fileList.find((i) => i.name === this.config.fileName);
 
       if (file) {
         const content = await this.googleDrive.readFile(file.id);
