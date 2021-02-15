@@ -1,6 +1,6 @@
 import React from "react";
 import ProductListUl from "./product-list-ul.component";
-import type { IProduct } from "../product/product.interface";
+import type { IProduct } from "../product";
 import { ProductListItemToggleable } from "./product-list-item-toggleable.component";
 
 interface IProps {

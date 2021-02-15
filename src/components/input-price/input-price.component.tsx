@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import React from "react";
-import styles from "./input-number.module.scss";
+import styles from "./input-price.module.scss";
 import CurrencyInput from "react-currency-input-field";
 
 interface IProps {

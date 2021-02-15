@@ -1,4 +1,4 @@
-@use "../styles/typography";
+@use "../../styles/typography";
 
 .input {
   @include typography.light;
@@ -7,15 +7,15 @@
     @include typography.regular;
 
     width: 100%;
-    box-sizing: border-box;
+    display: block;
     padding-left: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   input {
     @include typography.light;
 
     width: 100%;
-    margin-top: 0.5rem;
     border-radius: 100px;
 
     border: 2px solid var(--primary);

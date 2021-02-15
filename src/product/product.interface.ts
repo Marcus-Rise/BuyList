@@ -1,4 +1,4 @@
-import type { ProductPriorityEnum } from "./product-priority.enum";
+import type { ProductPriorityEnum } from "./product-priority-icon";
 
 interface IProduct {
   title: string;
