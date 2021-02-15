@@ -30,8 +30,6 @@ export class ProductListService implements IProductListService {
       } else {
         this.selectedList = list;
       }
-
-      this.sync();
     });
   }
 
