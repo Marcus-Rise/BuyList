@@ -1,7 +1,6 @@
 import type { FormEvent } from "react";
 import React, { useMemo, useState } from "react";
-import { Button, ButtonColors } from "../components";
-import { InputPrice } from "../components/input-price.component";
+import { Button, ButtonColors, InputPrice } from "../components";
 
 interface IProps {
   value: number;

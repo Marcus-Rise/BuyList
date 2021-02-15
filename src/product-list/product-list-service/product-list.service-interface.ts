@@ -1,27 +1,20 @@
 import type { IProductList } from "../product-list.interface";
-import type { IProduct } from "../../product/product.interface";
-import type { IBudget } from "../../budget/budget.interface";
+import type { IProduct } from "../../product";
+import type { IBudget } from "../../budget";
+import type { IProductListRepositoryFindParams } from "../product-list-repository";
 
 const PRODUCT_LIST_SERVICE_PROVIDER = Symbol("IProductListService");
 
 interface IProductListService {
-  getLatest(): Promise<IProductList>;
+  selectedList: IProductList | null;
 
-  getById(id: number): Promise<IProductList | null>;
+  toggleProduct(listQueryParams: IProductListRepositoryFindParams, productTitle: string): Promise<void>;
 
-  saveItem(list: IProductList, item: IProduct): Promise<IProductList>;
+  deleteProduct(listQueryParams: IProductListRepositoryFindParams, productTitle: string): Promise<void>;
 
-  toggleItem(list: IProductList, title: string): Promise<IProductList>;
+  saveProduct(listQueryParams: IProductListRepositoryFindParams, product: IProduct): Promise<void>;
 
-  deleteItem(list: IProductList, title: string): Promise<IProductList>;
-
-  saveItemById(listId: number, item: IProduct): Promise<IProductList>;
-
-  toggleItemById(listId: number, title: string): Promise<IProductList>;
-
-  deleteItemById(listId: number, title: string): Promise<IProductList>;
-
-  calculateBudgetById(listId: number, limit: number): Promise<IBudget>;
+  calculateListBudget(listQueryParams: IProductListRepositoryFindParams, limit: number): Promise<IBudget | null>;
 }
 
 export { PRODUCT_LIST_SERVICE_PROVIDER };

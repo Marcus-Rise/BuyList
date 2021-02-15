@@ -1,57 +1,46 @@
 import type { FC } from "react";
-import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useCallback, useMemo, useState } from "react";
 import { useInject } from "../../src/ioc";
 import type { IProductListService } from "../../src/product-list";
-import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../src/product-list";
-import type { IProductList } from "../../src/product-list/product-list.interface";
-import type { IProduct } from "../../src/product/product.interface";
-import type { IBudget } from "../../src/budget/budget.interface";
-import { ProductPriorityEnum } from "../../src/product/product-priority.enum";
-import { useRouter } from "next/router";
-import ButtonAdd from "../../src/components/button-add.component";
-import BudgetForm from "../../src/budget/budget-form.component";
-import ProductList from "../../src/product-list/product-list.component";
+import { PRODUCT_LIST_SERVICE_PROVIDER, ProductList } from "../../src/product-list";
+import type { IProduct } from "../../src/product";
+import { ProductPriorityEnum } from "../../src/product";
+import type { IBudget } from "../../src/budget";
+import { BudgetForm } from "../../src/budget";
+import { ButtonAdd } from "../../src/components";
+import { observer } from "mobx-react";
 
 const Modal = lazy(() => import("../../src/components/modal"));
-const ProductForm = lazy(() => import("../../src/product/product-form.component"));
+const ProductForm = lazy(() => import("../../src/product/product-form/product-form.component"));
 const BudgetOptimal = lazy(() => import("../../src/budget/budget-optimal.component"));
 
 const ProductListDashboard: FC<{
   service: IProductListService;
 }> = ({ service }) => {
-  const router = useRouter();
-  const id = useMemo(() => Number(router.query.id), [router.query.id]);
-  const [list, setList] = useState<IProductList | null>(null);
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
 
-  const getProductList = useCallback(() => {
-    service.getById(id).then(setList);
-  }, [id, service]);
-
-  useEffect(getProductList, [getProductList]);
-
   const onSaveItem = useCallback(
     (item: IProduct): void => {
-      service.saveItemById(id, item).then(setList);
+      service.saveProduct({ id: service.selectedList?.id }, item);
 
       setEditableProduct(null);
     },
-    [id, service],
+    [service],
   );
 
   const onItemToggle = useCallback(
     (itemTitle: string): void => {
-      service.toggleItemById(id, itemTitle).then(setList);
+      service.toggleProduct({ id: service.selectedList?.id }, itemTitle);
     },
-    [service, id],
+    [service],
   );
 
   const onBudgetCalculate = useCallback(
     (val: number): void => {
-      service.calculateBudgetById(id, val).then(setBudget);
+      service.calculateListBudget({ id: service.selectedList?.id }, val).then(setBudget);
     },
-    [service, id],
+    [service],
   );
 
   const onDelete = useCallback(
@@ -60,10 +49,10 @@ const ProductListDashboard: FC<{
 
       if (isAllow) {
         setEditableProduct(null);
-        service.deleteItemById(id, title).then(setList);
+        service.deleteProduct({ id: service.selectedList?.id }, title);
       }
     },
-    [service, id],
+    [service],
   );
 
   const onAddItem = useCallback(
@@ -84,18 +73,24 @@ const ProductListDashboard: FC<{
   const ProductListHeader = useMemo(
     () => (
       <>
-        <h2>{list?.title}</h2>
+        <h2>{service.selectedList?.title}</h2>
         <ButtonAdd className="ml-3" onClick={onAddItem} />
       </>
     ),
-    [list?.title, onAddItem],
+    [service.selectedList?.title, onAddItem],
   );
 
   const BudgetFormWrapper = useMemo(() => <BudgetForm value={0} onSubmit={onBudgetCalculate} />, [onBudgetCalculate]);
 
   const ProductListWrapper = useMemo(
-    () => <ProductList items={list?.items ?? []} onToggleItem={onItemToggle} onEditItem={setEditableProduct} />,
-    [list?.items, onItemToggle],
+    () => (
+      <ProductList
+        items={service.selectedList?.items ?? []}
+        onToggleItem={onItemToggle}
+        onEditItem={setEditableProduct}
+      />
+    ),
+    [service.selectedList?.items, onItemToggle],
   );
 
   return (
@@ -114,7 +109,7 @@ const ProductListDashboard: FC<{
           </Modal>
         </Suspense>
       )}
-      {list && (
+      {service.selectedList && (
         <div className="container pt-3">
           <div className="row">
             <Suspense fallback={<></>}>
@@ -129,8 +124,10 @@ const ProductListDashboard: FC<{
   );
 };
 
+const ObservedProductListDashboard = observer(ProductListDashboard);
+
 const InjectedProductListDashboard: FC = () => (
-  <ProductListDashboard service={useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER)} />
+  <ObservedProductListDashboard service={useInject<IProductListService>(PRODUCT_LIST_SERVICE_PROVIDER)} />
 );
 
 export default InjectedProductListDashboard;

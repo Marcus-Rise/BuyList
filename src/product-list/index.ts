@@ -5,3 +5,4 @@ export { ProductListItem } from "./product-list-item";
 export { ProductListItemToggleButton } from "./product-list-item-toggle-button";
 export type { IProductList } from "./product-list.interface";
 export type { IProductListPostDto } from "./product-list-post.dto";
+export { ProductList } from "./product-list.component";

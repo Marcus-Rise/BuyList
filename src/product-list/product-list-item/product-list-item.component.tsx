@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
-import type { IProduct } from "../../product/product.interface";
+import type { IProduct } from "../../product";
+import { ProductPriorityIcon } from "../../product";
 import styles from "./product-list-item.module.scss";
-import { Price } from "../../components/price.component";
-import { ProductPriorityIcon } from "../../product/product-priority-icon.component";
+import { Price } from "../../components";
 
 interface IProps extends IProduct {
   onClick?: () => void;

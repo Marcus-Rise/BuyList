@@ -1,6 +1,6 @@
 import type { IBudget, IBudgetProduct } from "./budget.interface";
 import type { IBudgetService } from "./budget.service-interface";
-import { ProductPriorityEnum } from "../product/product-priority.enum";
+import { ProductPriorityEnum } from "../product";
 import { injectable } from "inversify";
 
 @injectable()

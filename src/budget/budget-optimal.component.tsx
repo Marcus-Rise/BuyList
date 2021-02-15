@@ -2,7 +2,7 @@ import React from "react";
 import type { IBudget } from "./budget.interface";
 import { ProductListUl } from "../product-list/product-list-ul.component";
 import { ProductListItem } from "../product-list";
-import { Price } from "../components/price.component";
+import { Price } from "../components";
 
 type IProps = IBudget;
 

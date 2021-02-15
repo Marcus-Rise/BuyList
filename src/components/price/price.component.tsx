@@ -1,5 +1,5 @@
 import React from "react";
-import { PriceStringify } from "./price-stringify.function";
+import { PriceStringify } from "../../utils";
 
 interface IProps {
   val: number;

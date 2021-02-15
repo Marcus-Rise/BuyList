@@ -1,12 +1,9 @@
 import type { FormEvent } from "react";
 import React, { useCallback, useMemo, useState } from "react";
-import type { IProduct } from "./product.interface";
-import { ProductPriorityEnum } from "./product-priority.enum";
-import { InputText } from "../components/input-text.component";
-import { Button, ButtonColors } from "../components";
-import type { SelectOption } from "../components/select.component";
-import { Select } from "../components/select.component";
-import { InputPrice } from "../components/input-price.component";
+import type { IProduct } from "../product.interface";
+import { ProductPriorityEnum } from "../product-priority-icon";
+import type { SelectOption } from "../../components";
+import { Button, ButtonColors, InputPrice, InputText, Select } from "../../components";
 
 interface IProps extends IProduct {
   onSubmit: (val: IProduct) => void;

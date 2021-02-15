@@ -63,6 +63,7 @@ const AuthHandler: NextApiHandler = (req, res, googleConfig = inject<IGoogleConf
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     "https://www.googleapis.com/auth/drive.appdata",
+    // TODO remove
     "https://www.googleapis.com/auth/drive.file",
   ];
   const JWT_SECRET = String(process.env.NEXTAUTH_JWT_SECRET);
@@ -103,7 +104,7 @@ const AuthHandler: NextApiHandler = (req, res, googleConfig = inject<IGoogleConf
             refreshToken,
             user,
           };
-        } else if (payload.accessTokenExpires === null || now < payload.accessTokenExpires) {
+        } else if (now < payload.accessTokenExpires) {
           // Subsequent use of JWT, the user has been logged in before
           // access token has not expired yet
           res = payload;
