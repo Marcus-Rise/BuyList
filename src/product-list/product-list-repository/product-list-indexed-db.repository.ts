@@ -1,31 +1,44 @@
-import type { IProductList } from "../product-list.interface";
 import type { IProductListPostDto } from "../product-list-post.dto";
-import type { FindParams, IProductListRepository } from "./product-list.repository-interface";
+import type { IProductListRepository, IProductListRepositoryFindParams } from "./product-list.repository-interface";
 import { createInstance, INDEXEDDB } from "localforage";
 import { injectable } from "inversify";
+import { ProductListModel } from "../product-list.model";
+import type { IProductListIndexedDbRepositoryDto } from "./product-list-indexed-db.repository.dto";
+import { ProductListIndexedDbRepositoryDto } from "./product-list-indexed-db.repository.dto";
+import { ProductListModelFactory } from "../product-list.model.factory";
 
 @injectable()
 export class ProductListIndexedDbRepository implements IProductListRepository {
-  private readonly db: LocalForage;
+  private readonly db: LocalForage | null;
 
   constructor() {
-    this.db = createInstance({
-      driver: INDEXEDDB,
-      name: "buy-list",
-      storeName: "product-list",
-    });
+    try {
+      if (window) {
+        this.db = createInstance({
+          driver: INDEXEDDB,
+          name: "buy-list",
+          storeName: "product-list",
+        });
+      } else {
+        this.db = null;
+      }
+    } catch {
+      this.db = null;
+    }
   }
 
-  async find(filter?: FindParams): Promise<IProductList | null> {
+  async find(filter?: IProductListRepositoryFindParams): Promise<ProductListModel | null> {
     const [item] = await this.get(filter);
 
     return item ?? null;
   }
 
-  async get(filter?: FindParams): Promise<IProductList[]> {
-    const arr: IProductList[] = [];
+  async get(filter?: IProductListRepositoryFindParams): Promise<ProductListModel[]> {
+    const arr: ProductListModel[] = [];
 
-    await this.db.iterate((item) => arr.push(<IProductList>item));
+    await this.db?.iterate<IProductListIndexedDbRepositoryDto, void>((item) =>
+      arr.push(ProductListModelFactory.fromProductListIndexedDbRepositoryDto(item)),
+    );
 
     return arr.filter((i) => {
       let res = true;
@@ -42,11 +55,18 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
     });
   }
 
-  async save(dto: IProductListPostDto | IProductList): Promise<IProductList> {
+  async save(dtoOrModel: IProductListPostDto | ProductListModel): Promise<ProductListModel | null> {
     let id: number;
 
-    if ("id" in dto) {
-      id = dto.id;
+    dtoOrModel.lastEditedDate = new Date();
+
+    if (dtoOrModel instanceof ProductListModel) {
+      id = dtoOrModel.id;
+
+      await this.db?.setItem<IProductListIndexedDbRepositoryDto>(
+        String(dtoOrModel.id),
+        new ProductListIndexedDbRepositoryDto(dtoOrModel),
+      );
     } else {
       const arr = await this.get();
 
@@ -54,8 +74,10 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
         arr.reduce((previousValue, currentValue) => {
           return previousValue > currentValue.id ? previousValue : currentValue.id;
         }, 0) + 1;
+
+      await this.db?.setItem(String(id), { ...dtoOrModel, id });
     }
 
-    return this.db.setItem(String(id), { ...dto, id });
+    return this.find({ id });
   }
 }
