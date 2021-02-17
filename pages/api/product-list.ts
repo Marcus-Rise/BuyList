@@ -26,18 +26,16 @@ const ProductListHandler: NextApiHandler = async (
     }),
   );
 
-  try {
-    if (req.method === ProductListHandlerAllowedMethodsEnum.GET) {
-      const data = await productListService.getData();
-
-      res.json(data);
-    } else {
-      await productListService.saveData(JSON.parse(req.body));
-
-      res.status(201).json("updated");
-    }
-  } catch (e) {
-    res.status(500).json(e);
+  if (req.method === ProductListHandlerAllowedMethodsEnum.GET) {
+    await productListService
+      .getData()
+      .then(res.json)
+      .catch((e) => res.status(500).json(e));
+  } else {
+    await productListService
+      .saveData(JSON.parse(req.body))
+      .then(() => res.status(201).json("updated"))
+      .catch((e) => res.status(500).json(e));
   }
 };
 
