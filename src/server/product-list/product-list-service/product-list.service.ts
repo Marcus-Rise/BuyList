@@ -19,7 +19,7 @@ class ProductListService implements IProductListService {
 
       if (doubles.length > 1) {
         const latestItem = doubles.reduce((previous, current) => {
-          if (isAfter(previous.lastEditedDate, current.lastEditedDate)) {
+          if (isAfter(new Date(previous.lastEditedDate), new Date(current.lastEditedDate))) {
             return previous;
           } else {
             return current;
