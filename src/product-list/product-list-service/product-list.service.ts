@@ -37,6 +37,7 @@ export class ProductListService implements IProductListService {
   }
 
   async selectList(listQueryParams?: IProductListRepositoryFindParams): Promise<void> {
+    await this.sync();
     const list = await this.repo.find(listQueryParams);
 
     if (!list) {
