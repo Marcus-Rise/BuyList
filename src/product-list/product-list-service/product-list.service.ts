@@ -117,8 +117,9 @@ export class ProductListService implements IProductListService {
         this.lastSyncDay = new Date();
         localStorage.setItem(ProductListService.LAST_SYNC_DATE_STORAGE_KEY, this.lastSyncDay.toISOString());
       })
-      .catch(() => signIn())
-      .finally(() => (this.isSyncInProgress = false));
+      .catch(() => signIn());
+
+    this.isSyncInProgress = false;
   }
 
   private static generateList(): ProductListModel {
