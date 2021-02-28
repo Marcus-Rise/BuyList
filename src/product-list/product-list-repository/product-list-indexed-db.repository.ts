@@ -9,23 +9,13 @@ import { ProductListModelFactory } from "../product-list.model.factory";
 
 @injectable()
 export class ProductListIndexedDbRepository implements IProductListRepository {
-  private readonly db: LocalForage | null;
-
-  constructor() {
-    try {
-      if (window) {
-        this.db = createInstance({
-          driver: INDEXEDDB,
-          name: "buy-list",
-          storeName: "product-list",
-        });
-      } else {
-        this.db = null;
-      }
-    } catch {
-      this.db = null;
-    }
-  }
+  constructor(
+    private readonly db = createInstance({
+      driver: INDEXEDDB,
+      name: "buy-list",
+      storeName: "product-list",
+    }),
+  ) {}
 
   async find(filter?: IProductListRepositoryFindParams): Promise<ProductListModel | null> {
     const [item] = await this.get(filter);
@@ -36,7 +26,7 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
   async get(filter?: IProductListRepositoryFindParams): Promise<ProductListModel[]> {
     const arr: ProductListModel[] = [];
 
-    await this.db?.iterate<IProductListIndexedDbRepositoryDto, void>((item) =>
+    await this.db.iterate<IProductListIndexedDbRepositoryDto, void>((item) =>
       arr.push(ProductListModelFactory.fromProductListIndexedDbRepositoryDto(item)),
     );
 
@@ -63,7 +53,7 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
     if (dtoOrModel instanceof ProductListModel) {
       id = dtoOrModel.id;
 
-      await this.db?.setItem<IProductListIndexedDbRepositoryDto>(
+      await this.db.setItem<IProductListIndexedDbRepositoryDto>(
         String(dtoOrModel.id),
         new ProductListIndexedDbRepositoryDto(dtoOrModel),
       );
@@ -75,7 +65,7 @@ export class ProductListIndexedDbRepository implements IProductListRepository {
           return previousValue > currentValue.id ? previousValue : currentValue.id;
         }, 0) + 1;
 
-      await this.db?.setItem(String(id), { ...dtoOrModel, id });
+      await this.db.setItem(String(id), { ...dtoOrModel, id });
     }
 
     return this.find({ id });
