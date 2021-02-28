@@ -44,6 +44,45 @@ export class ProductListService implements IProductListService {
     this.sync();
   }
 
+  static mergeProductList(first: ProductListModel[], second: ProductListModel[]): ProductListModel[] {
+    const arrayToMerge: ProductListModel[] = [...first, ...second];
+    const synced: ProductListModel[] = [];
+
+    arrayToMerge.forEach((item, index, self) => {
+      const doubles = self.filter((i) => item.id === i.id);
+
+      if (doubles.length > 1) {
+        const latestItem = doubles.reduce((previous, current) => {
+          if (previous.lastEditedDate.getMilliseconds() > current.lastEditedDate.getMilliseconds()) {
+            return previous;
+          } else {
+            return current;
+          }
+        });
+
+        synced.push(latestItem);
+
+        doubles.forEach((i) => {
+          const index = self.indexOf(i);
+
+          if (index > -1) {
+            self.splice(index, 1);
+          }
+        });
+      } else {
+        synced.push(item);
+
+        const index = self.indexOf(item);
+
+        if (index > -1) {
+          self.splice(index, 1);
+        }
+      }
+    });
+
+    return synced;
+  }
+
   private static generateList(): ProductListModel {
     return new ProductListModel(
       "Ваш первый список",
@@ -151,40 +190,7 @@ export class ProductListService implements IProductListService {
   private async sync(): Promise<void> {
     const fromLocal = await this.repo.get();
     const fromCloud = await this.getFromCloud();
-    const arrayToMerge: ProductListModel[] = [...fromCloud, ...fromLocal];
-    const synced: ProductListModel[] = [];
-
-    arrayToMerge.forEach((item, index, self) => {
-      const doubles = self.filter((i) => item.id === i.id);
-
-      if (doubles.length > 1) {
-        const latestItem = doubles.reduce((previous, current) => {
-          if (previous.lastEditedDate.getMilliseconds() > current.lastEditedDate.getMilliseconds()) {
-            return previous;
-          } else {
-            return current;
-          }
-        });
-
-        synced.push(latestItem);
-
-        doubles.forEach((i) => {
-          const index = self.indexOf(i);
-
-          if (index > -1) {
-            self.splice(index, 1);
-          }
-        });
-      } else {
-        synced.push(item);
-
-        const index = self.indexOf(item);
-
-        if (index > -1) {
-          self.splice(index, 1);
-        }
-      }
-    });
+    const synced: ProductListModel[] = ProductListService.mergeProductList(fromCloud, fromLocal);
 
     await fetch("/api/product-list", {
       method: "PUT",
