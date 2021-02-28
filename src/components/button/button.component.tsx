@@ -4,14 +4,14 @@ import styles from "./button.module.scss";
 import classNames from "classnames";
 
 enum ButtonColors {
-  primary,
-  accent,
-  danger,
+  primary = "primary",
+  accent = "accent",
+  danger = "danger",
 }
 
 type IButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-interface IProps {
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ButtonColors;
   rounded?: boolean;
   flat?: boolean;
