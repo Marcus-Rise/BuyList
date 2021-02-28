@@ -12,7 +12,7 @@ const AuthMiddleware = async (
 ): Promise<void> => {
   const session = await getSession({ req });
 
-  if (restrict && !session) {
+  if (restrict && !session?.accessToken) {
     res.status(401);
   }
 
