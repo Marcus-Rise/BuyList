@@ -9,16 +9,17 @@ enum ButtonColors {
   danger,
 }
 
-const Button: FC<{
-  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+type IButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+
+interface IProps {
   color?: ButtonColors;
   rounded?: boolean;
-  className?: string;
-  size?: string | number;
-  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
-  styles?: CSSProperties;
   flat?: boolean;
-}> = (props) => {
+  size?: string | number;
+  styles?: CSSProperties;
+}
+
+const Button: FC<IButtonProps & IProps> = (props) => {
   return (
     <button
       type={props.type ?? "button"}
@@ -31,6 +32,7 @@ const Button: FC<{
       })}
       onClick={props.onClick}
       style={{ ...props.styles, fontSize: props.size }}
+      title={props.title}
     >
       {props.children}
     </button>
