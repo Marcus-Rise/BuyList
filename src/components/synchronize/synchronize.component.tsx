@@ -25,7 +25,7 @@ const Synchronize: FC<{ service: IProductListService }> = (props) => {
 
   return (
     <div>
-      <Button onClick={props.service.sync} title={"Синхронизировать"}>
+      <Button onClick={() => props.service.sync()} title={"Синхронизировать"}>
         <Icon icon={syncIcon} />
       </Button>
       {label}
