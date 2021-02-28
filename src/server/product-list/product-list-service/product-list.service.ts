@@ -4,6 +4,7 @@ import type { IProductListRepository } from "../product-list-repository";
 import { PRODUCT_LIST_REPOSITORY } from "../product-list-repository";
 import type { IProductList } from "../../../product-list";
 import type { ProductListModel } from "../../../product-list/product-list.model";
+import { isAfter } from "date-fns";
 
 @injectable()
 class ProductListService implements IProductListService {
@@ -18,7 +19,7 @@ class ProductListService implements IProductListService {
 
       if (doubles.length > 1) {
         const latestItem = doubles.reduce((previous, current) => {
-          if (previous.lastEditedDate.getMilliseconds() > current.lastEditedDate.getMilliseconds()) {
+          if (isAfter(previous.lastEditedDate, current.lastEditedDate)) {
             return previous;
           } else {
             return current;
