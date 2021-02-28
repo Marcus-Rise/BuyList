@@ -14,31 +14,7 @@ import { signIn } from "next-auth/client";
 
 @injectable()
 export class ProductListService implements IProductListService {
-  get isSyncInProgress(): boolean {
-    return this._isSyncInProgress;
-  }
-
-  set isSyncInProgress(value: boolean) {
-    this._isSyncInProgress = value;
-  }
-  get lastSyncDay(): Date | null {
-    return this._lastSyncDay;
-  }
-
-  set lastSyncDay(value: Date | null) {
-    this._lastSyncDay = value;
-  }
-  get listArray(): ProductListModel[] {
-    return this._listArray;
-  }
-
-  set listArray(value: ProductListModel[]) {
-    this._listArray = value;
-  }
-
-  private _lastSyncDay: Date | null = null;
-
-  private _isSyncInProgress = false;
+  private static readonly LAST_SYNC_DATE_STORAGE_KEY = "last-sync-date";
 
   constructor(
     @inject(PRODUCT_LIST_REPOSITORY_PROVIDER)
@@ -61,10 +37,36 @@ export class ProductListService implements IProductListService {
     } catch {}
   }
 
-  private static readonly LAST_SYNC_DATE_STORAGE_KEY = "last-sync-date";
+  get listArray(): ProductListModel[] {
+    return this._listArray;
+  }
+
+  set listArray(value: ProductListModel[]) {
+    this._listArray = value;
+  }
+
+  private _isSyncInProgress = false;
+
+  get isSyncInProgress(): boolean {
+    return this._isSyncInProgress;
+  }
+
+  set isSyncInProgress(value: boolean) {
+    this._isSyncInProgress = value;
+  }
+
+  private _lastSyncDay: Date | null = null;
 
   private _selectedList: ProductListModel | null = null;
   private _listArray: ProductListModel[] = [];
+
+  get lastSyncDay(): Date | null {
+    return this._lastSyncDay;
+  }
+
+  set lastSyncDay(value: Date | null) {
+    this._lastSyncDay = value;
+  }
 
   get selectedList(): ProductListModel | null {
     return this._selectedList;
