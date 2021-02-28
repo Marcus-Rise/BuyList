@@ -8,6 +8,8 @@ const PRODUCT_LIST_SERVICE_PROVIDER = Symbol("IProductListService");
 interface IProductListService {
   selectedList: IProductList | null;
 
+  selectList(listQueryParams?: IProductListRepositoryFindParams): Promise<void>;
+
   toggleProduct(listQueryParams: IProductListRepositoryFindParams, productTitle: string): Promise<void>;
 
   deleteProduct(listQueryParams: IProductListRepositoryFindParams, productTitle: string): Promise<void>;

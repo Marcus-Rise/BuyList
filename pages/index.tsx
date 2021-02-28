@@ -12,10 +12,12 @@ const Home: React.FC<{
   const route = useRouter();
 
   useEffect(() => {
-    if (service.selectedList?.id) {
-      route.replace(`/product-list/${service.selectedList.id}`);
-    }
-  }, [service.selectedList?.id, route]);
+    service.selectList().then(() => {
+      if (service.selectedList?.id) {
+        route.replace(`/product-list?id=${service.selectedList.id}`);
+      }
+    });
+  }, [service.selectedList?.id, route, service]);
 
   return <></>;
 };

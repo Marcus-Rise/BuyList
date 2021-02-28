@@ -21,16 +21,6 @@ export class ProductListService implements IProductListService {
     private readonly budgetService: IBudgetService,
   ) {
     makeAutoObservable(this);
-
-    this.repo.find().then((list) => {
-      if (!list) {
-        this.repo.save(ProductListService.generateList()).then((generatedList) => {
-          this.selectedList = generatedList;
-        });
-      } else {
-        this.selectedList = list;
-      }
-    });
   }
 
   private _selectedList: IProductList | null = null;
@@ -42,6 +32,16 @@ export class ProductListService implements IProductListService {
   set selectedList(value: IProductList | null) {
     this._selectedList = value;
     this.sync();
+  }
+
+  async selectList(listQueryParams?: IProductListRepositoryFindParams): Promise<void> {
+    const list = await this.repo.find(listQueryParams);
+
+    if (!list) {
+      this.selectedList = await this.repo.save(ProductListService.generateList());
+    } else {
+      this.selectedList = list;
+    }
   }
 
   static mergeProductList(first: ProductListModel[], second: ProductListModel[]): ProductListModel[] {
@@ -184,7 +184,9 @@ export class ProductListService implements IProductListService {
     });
     const data = (await res.json()) as IProductListServerDto[];
 
-    return data.map<ProductListModel>((i) => ProductListModelFactory.fromProductListServerDto(i));
+    return Array.isArray(data)
+      ? data.map<ProductListModel>((i) => ProductListModelFactory.fromProductListServerDto(i))
+      : [];
   }
 
   private async sync(): Promise<void> {
@@ -198,5 +200,9 @@ export class ProductListService implements IProductListService {
       keepalive: true,
       body: JSON.stringify(synced),
     });
+
+    for (const list of synced) {
+      await this.repo.save(list);
+    }
   }
 }

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { lazy, Suspense, useCallback, useMemo, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useInject } from "../../src/ioc";
 import type { IProductListService } from "../../src/product-list";
 import { PRODUCT_LIST_SERVICE_PROVIDER, ProductList } from "../../src/product-list";
@@ -9,6 +9,7 @@ import type { IBudget } from "../../src/budget";
 import { BudgetForm } from "../../src/budget";
 import { ButtonAdd } from "../../src/components";
 import { observer } from "mobx-react";
+import { useRouter } from "next/router";
 
 const Modal = lazy(() => import("../../src/components/modal"));
 const ProductForm = lazy(() => import("../../src/product/product-form/product-form.component"));
@@ -17,8 +18,21 @@ const BudgetOptimal = lazy(() => import("../../src/budget/budget-optimal.compone
 const ProductListDashboard: FC<{
   service: IProductListService;
 }> = ({ service }) => {
+  const router = useRouter();
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
+
+  useEffect(() => {
+    const id = router.query.id;
+
+    if (typeof id === "string" && Number(id) !== service.selectedList?.id) {
+      service.selectList({ id: Number(id) });
+    } else if (typeof id !== "string") {
+      service.selectList().then(() => {
+        router.replace(`/product-list?id=${service.selectedList?.id}`);
+      });
+    }
+  }, [router, router.query.id, service]);
 
   const onSaveItem = useCallback(
     (item: IProduct): void => {
