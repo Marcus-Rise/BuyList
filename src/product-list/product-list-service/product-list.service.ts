@@ -26,6 +26,10 @@ export class ProductListService implements IProductListService {
 
     this.repo.get().then((array) => {
       this.listArray = array;
+
+      if (!this.listArray.length) {
+        this.selectList();
+      }
     });
 
     try {
@@ -81,6 +85,10 @@ export class ProductListService implements IProductListService {
 
     if (!list) {
       this.selectedList = await this.repo.save(ProductListService.generateList());
+
+      if (this.selectedList) {
+        this.listArray = [this.selectedList];
+      }
     } else {
       this.selectedList = list;
     }
