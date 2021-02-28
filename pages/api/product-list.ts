@@ -5,10 +5,12 @@ import type { IProductListService } from "../../src/server/product-list";
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../src/server/product-list";
 import { runMiddleware } from "../../src/server/run-middleware";
 import Cors from "cors";
+import type { IProductListServerDto } from "../../src/product-list/product-list.server.dto";
+import { ProductListModelFactory } from "../../src/product-list/product-list.model.factory";
 
 enum ProductListHandlerAllowedMethodsEnum {
   GET = "GET",
-  PUT = "PUT",
+  POST = "POST",
 }
 
 const ProductListHandler: NextApiHandler = async (
@@ -22,7 +24,7 @@ const ProductListHandler: NextApiHandler = async (
     req,
     res,
     Cors({
-      methods: [ProductListHandlerAllowedMethodsEnum.GET, ProductListHandlerAllowedMethodsEnum.PUT],
+      methods: [ProductListHandlerAllowedMethodsEnum.GET, ProductListHandlerAllowedMethodsEnum.POST],
     }),
   );
 
@@ -32,9 +34,14 @@ const ProductListHandler: NextApiHandler = async (
       .then(res.json)
       .catch((e) => res.status(500).json(e));
   } else {
+    const listDtoArray = (JSON.parse(req.body) as IProductListServerDto[]).map((i) =>
+      ProductListModelFactory.fromProductListServerDto(i),
+    );
+    const synced = await productListService.sync(listDtoArray);
+
     await productListService
-      .saveData(JSON.parse(req.body))
-      .then(() => res.status(201).json("updated"))
+      .saveData(synced)
+      .then(() => res.status(200).json(synced))
       .catch((e) => res.status(500).json(e));
   }
 };

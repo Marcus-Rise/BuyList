@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { ProductListService } from "./product-list.service";
-import { ProductListModel } from "../product-list.model";
-import { ProductPriorityEnum } from "../../product";
+import { ProductListModel } from "../../../product-list/product-list.model";
+import { ProductPriorityEnum } from "../../../product";
 
 describe("ProductListService", () => {
   describe("mergeProductList", () => {

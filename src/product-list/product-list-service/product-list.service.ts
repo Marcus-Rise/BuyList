@@ -58,58 +58,25 @@ export class ProductListService implements IProductListService {
 
   async sync(): Promise<void> {
     const fromLocal = await this.repo.get();
-    const fromCloud: ProductListModel[] = await this.getFromCloud();
-    const synced: ProductListModel[] = ProductListService.mergeProductList(fromCloud || [], fromLocal);
 
     await fetch("/api/product-list", {
-      method: "PUT",
+      method: "POST",
       credentials: "same-origin",
       keepalive: true,
-      body: JSON.stringify(synced),
-    }).catch(console.error);
+      body: JSON.stringify(fromLocal),
+    })
+      .then((res) => res.json())
+      .then(async (res: IProductListServerDto[]) => {
+        const listArray = res.map((i) => ProductListModelFactory.fromProductListServerDto(i));
 
-    for (const list of synced) {
-      await this.repo.save(list);
-    }
-  }
-
-  static mergeProductList(first: ProductListModel[], second: ProductListModel[]): ProductListModel[] {
-    const arrayToMerge: ProductListModel[] = [...first, ...second];
-    const synced: ProductListModel[] = [];
-
-    arrayToMerge.forEach((item, index, self) => {
-      const doubles = self.filter((i) => item.id === i.id);
-
-      if (doubles.length > 1) {
-        const latestItem = doubles.reduce((previous, current) => {
-          if (previous.lastEditedDate.getMilliseconds() > current.lastEditedDate.getMilliseconds()) {
-            return previous;
-          } else {
-            return current;
-          }
-        });
-
-        synced.push(latestItem);
-
-        doubles.forEach((i) => {
-          const index = self.indexOf(i);
-
-          if (index > -1) {
-            self.splice(index, 1);
-          }
-        });
-      } else {
-        synced.push(item);
-
-        const index = self.indexOf(item);
-
-        if (index > -1) {
-          self.splice(index, 1);
+        for (const list of listArray) {
+          await this.repo.save(list);
         }
-      }
-    });
 
-    return synced;
+        this.listArray = await this.repo.get();
+        this.selectedList = this.listArray.find((i) => i.id === this.selectedList?.id) ?? null;
+      })
+      .catch(() => signIn());
   }
 
   private static generateList(): ProductListModel {
@@ -204,22 +171,5 @@ export class ProductListService implements IProductListService {
     }
 
     return budget;
-  }
-
-  private async getFromCloud(): Promise<ProductListModel[]> {
-    const res = await fetch("/api/product-list", {
-      method: "GET",
-      credentials: "same-origin",
-    });
-
-    if (res.status !== 200) {
-      await signIn();
-    }
-
-    const data = (await res.json()) as IProductListServerDto[];
-
-    return Array.isArray(data)
-      ? data.map<ProductListModel>((i) => ProductListModelFactory.fromProductListServerDto(i))
-      : [];
   }
 }
