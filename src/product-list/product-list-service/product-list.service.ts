@@ -194,15 +194,15 @@ export class ProductListService implements IProductListService {
 
   private async sync(): Promise<void> {
     const fromLocal = await this.repo.get();
-    const fromCloud = await this.getFromCloud();
-    const synced: ProductListModel[] = ProductListService.mergeProductList(fromCloud, fromLocal);
+    const fromCloud = await this.getFromCloud().catch(console.error);
+    const synced: ProductListModel[] = ProductListService.mergeProductList(fromCloud || [], fromLocal);
 
     await fetch("/api/product-list", {
       method: "PUT",
       credentials: "same-origin",
       keepalive: true,
       body: JSON.stringify(synced),
-    });
+    }).catch(console.error);
 
     for (const list of synced) {
       await this.repo.save(list);
