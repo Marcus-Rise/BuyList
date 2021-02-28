@@ -7,12 +7,15 @@ import Link from "next/link";
 import classNames from "classnames";
 import { Profile } from "../profile";
 import { Synchronize } from "../synchronize";
+import { useSession } from "next-auth/client";
 
 interface IProps {
   appName: string;
 }
 
 const Header: React.FC<IProps> = (props) => {
+  const [session] = useSession();
+
   return (
     <header className={classNames(styles.root)}>
       <div className={classNames(gridStyles.container, styles.content)}>
@@ -23,7 +26,7 @@ const Header: React.FC<IProps> = (props) => {
           </a>
         </Link>
         <Profile />
-        <Synchronize />
+        {session && <Synchronize />}
       </div>
     </header>
   );
