@@ -7,8 +7,8 @@ class ProductListConfig implements IProductListConfig {
   readonly fileExtension: string;
 
   constructor() {
-    this.fileName = process.env.CLOUD_FILE_NAME ?? "buylist.json";
-    this.fileExtension = process.env.CLOUD_FILE_EXTENSION ?? "application/json";
+    this.fileName = process.env.CLOUD_FILE_NAME || "buylist.json";
+    this.fileExtension = process.env.CLOUD_FILE_EXTENSION || "application/json";
   }
 }
 
