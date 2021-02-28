@@ -10,6 +10,10 @@ interface IProductListService {
 
   readonly listArray: ProductListModel[];
 
+  readonly lastSyncDay: Date | null;
+
+  readonly isSyncInProgress: boolean;
+
   sync(): Promise<void>;
 
   selectList(listQueryParams?: IProductListRepositoryFindParams): Promise<void>;

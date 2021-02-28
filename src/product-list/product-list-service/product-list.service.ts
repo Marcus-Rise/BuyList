@@ -14,6 +14,20 @@ import { signIn } from "next-auth/client";
 
 @injectable()
 export class ProductListService implements IProductListService {
+  get isSyncInProgress(): boolean {
+    return this._isSyncInProgress;
+  }
+
+  set isSyncInProgress(value: boolean) {
+    this._isSyncInProgress = value;
+  }
+  get lastSyncDay(): Date | null {
+    return this._lastSyncDay;
+  }
+
+  set lastSyncDay(value: Date | null) {
+    this._lastSyncDay = value;
+  }
   get listArray(): ProductListModel[] {
     return this._listArray;
   }
@@ -21,6 +35,10 @@ export class ProductListService implements IProductListService {
   set listArray(value: ProductListModel[]) {
     this._listArray = value;
   }
+
+  private _lastSyncDay: Date | null = null;
+
+  private _isSyncInProgress = false;
 
   constructor(
     @inject(PRODUCT_LIST_REPOSITORY_PROVIDER)
@@ -33,7 +51,17 @@ export class ProductListService implements IProductListService {
     this.repo.get().then((array) => {
       this.listArray = array;
     });
+
+    try {
+      const dateFromStorage = localStorage.getItem(ProductListService.LAST_SYNC_DATE_STORAGE_KEY);
+
+      if (dateFromStorage) {
+        this.lastSyncDay = new Date(dateFromStorage);
+      }
+    } catch {}
   }
+
+  private static readonly LAST_SYNC_DATE_STORAGE_KEY = "last-sync-date";
 
   private _selectedList: ProductListModel | null = null;
   private _listArray: ProductListModel[] = [];
@@ -57,6 +85,7 @@ export class ProductListService implements IProductListService {
   }
 
   async sync(): Promise<void> {
+    this.isSyncInProgress = true;
     const fromLocal = await this.repo.get();
 
     await fetch("/api/product-list", {
@@ -75,8 +104,11 @@ export class ProductListService implements IProductListService {
 
         this.listArray = await this.repo.get();
         this.selectedList = this.listArray.find((i) => i.id === this.selectedList?.id) ?? null;
+        this.lastSyncDay = new Date();
+        localStorage.setItem(ProductListService.LAST_SYNC_DATE_STORAGE_KEY, this.lastSyncDay.toISOString());
       })
-      .catch(() => signIn());
+      .catch(() => signIn())
+      .finally(() => (this.isSyncInProgress = false));
   }
 
   private static generateList(): ProductListModel {
