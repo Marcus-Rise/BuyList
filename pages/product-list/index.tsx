@@ -22,17 +22,21 @@ const ProductListDashboard: FC<{
   const [editableProduct, setEditableProduct] = useState<IProduct | null>(null);
   const [budget, setBudget] = useState<IBudget | null>(null);
 
-  useEffect(() => {
+  const load = useCallback(async () => {
     const id = router.query.id;
 
     if (typeof id === "string" && Number(id) !== service.selectedList?.id) {
-      service.selectList({ id: Number(id) });
+      await service.selectList({ id: Number(id) });
     } else if (typeof id !== "string") {
-      service.selectList().then(() => {
-        router.replace(`/product-list?id=${service.selectedList?.id}`);
-      });
+      await service.selectList();
+
+      await router.replace(`/product-list?id=${service.selectedList?.id}`);
     }
-  }, [router, router.query.id, service]);
+  }, [router, service]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const onSaveItem = useCallback(
     (item: IProduct): void => {

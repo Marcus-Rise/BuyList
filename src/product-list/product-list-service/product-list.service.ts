@@ -21,6 +21,8 @@ export class ProductListService implements IProductListService {
     private readonly budgetService: IBudgetService,
   ) {
     makeAutoObservable(this);
+
+    this.sync();
   }
 
   private _selectedList: IProductList | null = null;
