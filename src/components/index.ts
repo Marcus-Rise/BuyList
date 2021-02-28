@@ -12,3 +12,4 @@ export { InputText } from "./input-text";
 export { Price } from "./price";
 export { Select } from "./select";
 export type { SelectOption } from "./select";
+export { Synchronize } from "./synchronize";

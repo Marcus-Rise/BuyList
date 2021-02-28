@@ -6,8 +6,13 @@ import { ReactComponent as Logo } from "../../assets/icons/logo.svg";
 import Link from "next/link";
 import classNames from "classnames";
 import { Profile } from "../profile";
+import { Synchronize } from "../synchronize";
 
-const Header: React.FC<{ appName: string }> = (props) => {
+interface IProps {
+  appName: string;
+}
+
+const Header: React.FC<IProps> = (props) => {
   return (
     <header className={classNames(styles.root)}>
       <div className={classNames(gridStyles.container, styles.content)}>
@@ -18,6 +23,7 @@ const Header: React.FC<{ appName: string }> = (props) => {
           </a>
         </Link>
         <Profile />
+        <Synchronize />
       </div>
     </header>
   );
