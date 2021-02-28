@@ -1,12 +1,16 @@
-import type { IProductList } from "../product-list.interface";
 import type { IProduct } from "../../product";
 import type { IBudget } from "../../budget";
 import type { IProductListRepositoryFindParams } from "../product-list-repository";
+import type { ProductListModel } from "../product-list.model";
 
 const PRODUCT_LIST_SERVICE_PROVIDER = Symbol("IProductListService");
 
 interface IProductListService {
-  selectedList: IProductList | null;
+  readonly selectedList: ProductListModel | null;
+
+  readonly listArray: ProductListModel[];
+
+  sync(): Promise<void>;
 
   selectList(listQueryParams?: IProductListRepositoryFindParams): Promise<void>;
 

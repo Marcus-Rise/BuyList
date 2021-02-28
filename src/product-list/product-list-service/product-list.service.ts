@@ -1,4 +1,3 @@
-import type { IProductList } from "../product-list.interface";
 import type { IProduct } from "../../product";
 import { ProductPriorityEnum } from "../../product";
 import type { IProductListService } from "./product-list.service-interface";
@@ -11,9 +10,18 @@ import { makeAutoObservable } from "mobx";
 import { ProductListModel } from "../product-list.model";
 import type { IProductListServerDto } from "../product-list.server.dto";
 import { ProductListModelFactory } from "../product-list.model.factory";
+import { signIn } from "next-auth/client";
 
 @injectable()
 export class ProductListService implements IProductListService {
+  get listArray(): ProductListModel[] {
+    return this._listArray;
+  }
+
+  set listArray(value: ProductListModel[]) {
+    this._listArray = value;
+  }
+
   constructor(
     @inject(PRODUCT_LIST_REPOSITORY_PROVIDER)
     private readonly repo: IProductListRepository,
@@ -22,28 +30,46 @@ export class ProductListService implements IProductListService {
   ) {
     makeAutoObservable(this);
 
-    this.sync();
+    this.repo.get().then((array) => {
+      this.listArray = array;
+    });
   }
 
-  private _selectedList: IProductList | null = null;
+  private _selectedList: ProductListModel | null = null;
+  private _listArray: ProductListModel[] = [];
 
-  get selectedList(): IProductList | null {
+  get selectedList(): ProductListModel | null {
     return this._selectedList;
   }
 
-  set selectedList(value: IProductList | null) {
+  set selectedList(value: ProductListModel | null) {
     this._selectedList = value;
-    this.sync();
   }
 
   async selectList(listQueryParams?: IProductListRepositoryFindParams): Promise<void> {
-    await this.sync();
     const list = await this.repo.find(listQueryParams);
 
     if (!list) {
       this.selectedList = await this.repo.save(ProductListService.generateList());
     } else {
       this.selectedList = list;
+    }
+  }
+
+  async sync(): Promise<void> {
+    const fromLocal = await this.repo.get();
+    const fromCloud: ProductListModel[] = await this.getFromCloud();
+    const synced: ProductListModel[] = ProductListService.mergeProductList(fromCloud || [], fromLocal);
+
+    await fetch("/api/product-list", {
+      method: "PUT",
+      credentials: "same-origin",
+      keepalive: true,
+      body: JSON.stringify(synced),
+    }).catch(console.error);
+
+    for (const list of synced) {
+      await this.repo.save(list);
     }
   }
 
@@ -185,27 +211,15 @@ export class ProductListService implements IProductListService {
       method: "GET",
       credentials: "same-origin",
     });
+
+    if (res.status !== 200) {
+      await signIn();
+    }
+
     const data = (await res.json()) as IProductListServerDto[];
 
     return Array.isArray(data)
       ? data.map<ProductListModel>((i) => ProductListModelFactory.fromProductListServerDto(i))
       : [];
-  }
-
-  private async sync(): Promise<void> {
-    const fromLocal = await this.repo.get();
-    const fromCloud = await this.getFromCloud().catch(console.error);
-    const synced: ProductListModel[] = ProductListService.mergeProductList(fromCloud || [], fromLocal);
-
-    await fetch("/api/product-list", {
-      method: "PUT",
-      credentials: "same-origin",
-      keepalive: true,
-      body: JSON.stringify(synced),
-    }).catch(console.error);
-
-    for (const list of synced) {
-      await this.repo.save(list);
-    }
   }
 }
