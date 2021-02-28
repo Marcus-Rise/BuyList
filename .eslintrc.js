@@ -35,5 +35,6 @@ module.exports = {
     "newline-before-return": "error",
     "@typescript-eslint/consistent-type-imports": "error",
     "object-shorthand": "error",
+    "react/react-in-jsx-scope": "off",
   },
 };
