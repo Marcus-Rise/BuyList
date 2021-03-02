@@ -4,26 +4,45 @@
   background: url("../../assets/img/background.png"), var(--accent);
   background-blend-mode: overlay, normal;
   color: #474747;
-  padding: 1rem .25rem;
-}
+  padding: 1em 1.5em;
 
-.content {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
+  grid-template-columns: min-content auto;
+  justify-content: space-between;
+  grid-template-areas:
+          "logo profile"
+          "sync sync";
+
+  row-gap: 1em;
 }
 
 .logo {
   display: grid;
   align-items: center;
+  align-content: center;
   grid-template-columns: min-content min-content;
   gap: .5rem;
+
+  text-decoration: none;
+
+  grid-area: logo;
 }
 
 .title {
   @include typography.black;
 
-  font-size: 1.2rem;
+  font-size: 1.2em;
   margin: 0;
   color: #333333;
+}
+
+.profile {
+  grid-area: profile;
+  justify-self: end;
+}
+
+.sync {
+  grid-area: sync;
+  justify-self: end;
+  text-align: right;
 }
