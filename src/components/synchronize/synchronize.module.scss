@@ -1,0 +1,15 @@
+@use "src/styles/typography" as t;
+
+.button {
+  @include t.regular;
+
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  font-size: .85em;
+
+  display: grid;
+  grid-template-columns: min-content auto;
+  column-gap: .25em;
+}

@@ -3,14 +3,19 @@ import type { FC } from "react";
 import React, { useMemo } from "react";
 import { faSyncAlt as syncIcon } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { Button } from "../button";
 import { format } from "date-fns";
 import type { IProductListService } from "../../product-list";
 import { PRODUCT_LIST_SERVICE_PROVIDER } from "../../product-list";
 import { observer } from "mobx-react";
 import { useInject } from "../../ioc";
+import styles from "./synchronize.module.scss";
+import classNames from "classnames";
 
-const Synchronize: FC<{ service: IProductListService }> = (props) => {
+interface IProps {
+  className?: string;
+}
+
+const Synchronize: FC<IProps & { service: IProductListService }> = (props) => {
   const label = useMemo(
     () =>
       props.service.isSyncInProgress ? (
@@ -24,16 +29,20 @@ const Synchronize: FC<{ service: IProductListService }> = (props) => {
   );
 
   return (
-    <div>
-      <Button onClick={() => props.service.sync()} title={"Синхронизировать"}>
-        <Icon icon={syncIcon} />
-      </Button>
+    <button
+      className={classNames(props.className, styles.button)}
+      onClick={() => props.service.sync()}
+      title={"Синхронизировать"}
+    >
+      <Icon icon={syncIcon} />
       {label}
-    </div>
+    </button>
   );
 };
 
 const ObservableSynchronize = observer(Synchronize);
-const InjectedSynchronize: FC = () => <ObservableSynchronize service={useInject(PRODUCT_LIST_SERVICE_PROVIDER)} />;
+const InjectedSynchronize: FC<IProps> = (props) => (
+  <ObservableSynchronize service={useInject(PRODUCT_LIST_SERVICE_PROVIDER)} {...props} />
+);
 
 export { ObservableSynchronize, InjectedSynchronize, Synchronize };
