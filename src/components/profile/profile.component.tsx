@@ -1,48 +1,39 @@
 import type { FC } from "react";
 import React from "react";
-import Link from "next/link";
 import styles from "./profile.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt as SignOutIcon, faUserCircle as ProfileIcon } from "@fortawesome/free-solid-svg-icons";
-import { useSession } from "next-auth/client";
-import linkStyles from "../../styles/link.module.scss";
+import { signIn, signOut, useSession } from "next-auth/client";
 import classNames from "classnames";
 import { Avatar } from "../avatar";
 
-const Profile: FC = () => {
-  const [session, loading] = useSession();
+const Profile: FC<{
+  className?: string;
+}> = (props) => {
+  const [session] = useSession();
 
-  const profileIcon = <FontAwesomeIcon icon={ProfileIcon} size={"2x"} className={styles.icon} />;
-
-  const AUTH_SIGNIN_URL = "/api/auth/signin";
-  const AUTH_SIGNOUT_URL = "/api/auth/signout";
+  const profileIcon = <FontAwesomeIcon icon={ProfileIcon} className={classNames(styles.icon, styles.avatar)} />;
 
   return (
-    <div className={styles.root}>
-      {!loading && !session && (
-        <Link href={AUTH_SIGNIN_URL}>
-          <a className={classNames(linkStyles.link, styles.content)}>
-            {profileIcon}
-            <span>Sign in</span>
-          </a>
-        </Link>
+    <>
+      {!session?.user && (
+        <button onClick={() => signIn()} className={classNames(styles.root, props.className)}>
+          {profileIcon}
+          <span className={styles.text}>Sign in</span>
+        </button>
       )}
-      {!loading && session && (
-        <div className={classNames(styles.content)}>
+      {session?.user && (
+        <button onClick={() => signOut()} className={classNames(styles.root, props.className)}>
           {session.user.image ? (
-            <Avatar src={session.user.image} alt={session.user.name ?? "user"} size={"32px"} />
+            <Avatar className={styles.avatar} src={session.user.image} alt={session.user.name ?? "user"} />
           ) : (
             profileIcon
           )}
-          <span>{session.user.name ?? session.user.email}</span>
-          <Link href={AUTH_SIGNOUT_URL}>
-            <a className={linkStyles.link} title={"Signout"}>
-              <FontAwesomeIcon icon={SignOutIcon} size={"lg"} />
-            </a>
-          </Link>
-        </div>
+          <span className={styles.text}>{session.user.name ?? session.user.email}</span>
+          <FontAwesomeIcon icon={SignOutIcon} size={"lg"} />
+        </button>
       )}
-    </div>
+    </>
   );
 };
 

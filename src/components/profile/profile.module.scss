@@ -1,17 +1,31 @@
+@use "src/styles/typography" as t;
+
 .root {
   background-color: white;
-  padding: .5rem 1rem;
-  border-radius: 1.5rem;
-}
+  padding: .5em .75em;
+  border-radius: 1.5em;
 
-.content {
+  border: none;
+  cursor: pointer;
+
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: .5rem;
+  gap: .5em;
   align-items: center;
+  align-content: center;
 }
 
 .icon {
   color: var(--primary);
   cursor: pointer;
+}
+
+.avatar {
+  $size: 2.25em;
+  width: $size !important;
+  height: $size !important;
+}
+
+.text {
+  @include t.regular;
 }
