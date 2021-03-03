@@ -17,11 +17,19 @@
     width: 100%;
     margin-top: 0.5rem;
     border-radius: 100px;
-
-    border: 2px solid var(--primary);
+    color: var(--color-text-primary);
+    border: 2px solid var(--color-primary);
     padding: 1rem;
     box-sizing: border-box;
     max-width: 100%;
+
+    &::placeholder {
+      color: var(--color-text-primary);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-primary);
+    }
 
     &:focus {
       outline: none;

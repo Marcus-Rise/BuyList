@@ -2,24 +2,37 @@
 $primary: #63809a,
 $secondary: #6c757d,
 );
-@use "./typography";
-@use "./variables";
+@use "./typography" as t;
+@use "./variables" as v;
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
 
 :root {
-  --primary: #{variables.$primary};
-  --secondary: #{variables.$secondary};
-  --accent: #{variables.$accent};
-  --danger: #{variables.$danger};
+  --color-primary: #{v.$color-primary};
+  --color-accent: #{v.$color-accent};
+  --color-text-primary: #{v.$color-text-primary};
+  --color-secondary: #{v.$color-secondary};
+  --color-danger: #{v.$color-danger};
+
+  @media (prefers-color-scheme: dark) {
+    --color-primary: #{v.$color-primary-dark};
+    --color-accent: #{v.$color-accent-dark};
+    --color-text-primary: #{v.$color-text-primary-dark};
+    --color-secondary: #{v.$color-secondary-dark};
+    --color-danger: #{v.$color-danger-dark};
+  }
 }
 
 html, body {
-  @include typography.font-family;
+  @include t.font-family;
   line-height: 1rem;
 }
 
 body {
   margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: black;
+  }
 }
 
 #__next {
@@ -29,18 +42,3 @@ body {
 main {
   min-height: 90vh;
 }
-
-/*
-@media (prefers-color-scheme: light) {
-  body {
-    background-color: var(--light);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--dark);
-    color: var(--light);
-  }
-}
-*/

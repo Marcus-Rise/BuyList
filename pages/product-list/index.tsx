@@ -2,7 +2,7 @@ import type { FC } from "react";
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useInject } from "../../src/ioc";
 import type { IProductListService } from "../../src/product-list";
-import { PRODUCT_LIST_SERVICE_PROVIDER, ProductList } from "../../src/product-list";
+import { PRODUCT_LIST_SERVICE_PROVIDER, ProductList, ProductListPageTitle } from "../../src/product-list";
 import type { IProduct } from "../../src/product";
 import { ProductPriorityEnum } from "../../src/product";
 import type { IBudget } from "../../src/budget";
@@ -91,7 +91,7 @@ const ProductListDashboard: FC<{
   const ProductListHeader = useMemo(
     () => (
       <>
-        <h2>{service.selectedList?.title}</h2>
+        <ProductListPageTitle>{service.selectedList?.title}</ProductListPageTitle>
         <ButtonAdd className="ml-3" onClick={onAddItem} />
       </>
     ),

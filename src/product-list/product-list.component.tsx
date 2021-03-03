@@ -2,6 +2,7 @@ import React from "react";
 import ProductListUl from "./product-list-ul.component";
 import type { IProduct } from "../product";
 import { ProductListItemToggleable } from "./product-list-item-toggleable.component";
+import styles from "./product-list.module.scss";
 
 interface IProps {
   items: IProduct[];
@@ -29,7 +30,7 @@ const ProductList: React.FC<IProps> = (props) => {
       {isProductsInActiveExist && (
         <>
           <div className="col-12">
-            <h2 style={{ textAlign: "center" }}>Купленные</h2>
+            <h2 className={styles.title}>Купленные</h2>
           </div>
           <div className="col-12">
             <ProductListUl>

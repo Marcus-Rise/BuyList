@@ -1,7 +1,8 @@
 @use "src/styles/typography" as t;
 
 .root {
-  background-color: white;
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
   padding: .5em .75em;
   border-radius: 1.5em;
 
@@ -16,7 +17,7 @@
 }
 
 .icon {
-  color: var(--primary);
+  color: var(--color-primary);
   cursor: pointer;
 }
 

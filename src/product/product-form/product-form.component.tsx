@@ -4,6 +4,7 @@ import type { IProduct } from "../product.interface";
 import { ProductPriorityEnum } from "../product-priority-icon";
 import type { SelectOption } from "../../components";
 import { Button, ButtonColors, InputPrice, InputText, Select } from "../../components";
+import styles from "./product-form.module.scss";
 
 interface IProps extends IProduct {
   onSubmit: (val: IProduct) => void;
@@ -64,11 +65,7 @@ const ProductForm: React.FC<IProps> = (props) => {
     [title],
   );
   const Header = useMemo(
-    () => (
-      <h3 style={{ textAlign: "center", maxWidth: "100%" }}>
-        {isEditMode ? `Редактирование продукта` : "Добавление продукта"}
-      </h3>
-    ),
+    () => <h3 className={styles.title}>{isEditMode ? `Редактирование продукта` : "Добавление продукта"}</h3>,
     [isEditMode],
   );
 

@@ -4,6 +4,10 @@
   padding: 1.5rem;
   box-sizing: border-box;
   max-width: 80vw;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: black;
+  }
 }
 
 .splash {

@@ -1,9 +1,10 @@
 @use "src/styles/typography";
 
 .root {
-  background: url("../../assets/img/background.png"), var(--accent);
+  background: /*url("../../assets/img/background.png"),*/
+          var(--color-primary);
   background-blend-mode: overlay, normal;
-  color: #474747;
+  color: var(--color-text-primary);
   padding: 1em 1.5em;
 
   display: grid;
@@ -16,7 +17,7 @@
   row-gap: 1em;
 }
 
-.logo {
+.mainPageLink {
   display: grid;
   align-items: center;
   align-content: center;
@@ -28,12 +29,25 @@
   grid-area: logo;
 }
 
+.logoContainer {
+  $size: 2.5em;
+  width: $size;
+  height: $size;
+  display: grid;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border-radius: 100%;
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
 .title {
   @include typography.black;
 
   font-size: 1.2em;
   margin: 0;
-  color: #333333;
+  color: var(--color-text-primary);
 }
 
 .profile {
